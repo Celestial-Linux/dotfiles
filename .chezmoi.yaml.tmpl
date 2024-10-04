@@ -1,4 +1,5 @@
 {{- $interactive := stdinIsATTY -}}
+{{- $codespaces:= env "CODESPACES" | not | not -}}
 
 {{- $name := "Celeste Peláez" -}}
 {{- if hasKey . "name" -}}
