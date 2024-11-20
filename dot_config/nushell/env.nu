@@ -92,5 +92,7 @@ path add ($env.HOME | path join ".local" "bin")
 path add ($env.HOME | path join ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
+$env.EDITOR = nano
+
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
