@@ -85,14 +85,14 @@ $env.NU_LIB_DIRS = [
 $env.NU_PLUGIN_DIRS = [
     ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
 ]
+$env.CARGO_HOME = ($env.HOME | path join ".cargo")
+$env.EDITOR = "nano"
 
 use std "path add"
 path add ($env.CARGO_HOME | path join "bin")
 path add ($env.HOME | path join ".local" "bin")
 path add ($env.HOME | path join ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
-
-$env.EDITOR = nano
 
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
