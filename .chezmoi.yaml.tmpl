@@ -15,6 +15,13 @@
 {{-   $email = promptString "email" $email -}}
 {{- end -}}
 
+{{- $signingkey := "" -}}
+{{- if hasKey . "signingkey" -}}
+{{-   $signingkey = .signingkey -}}
+{{- else if $interactive -}}
+{{-   $signingkey = promptString "signingkey" $signingkey -}}
+{{- end -}}
+
 {{- if $interactive -}}
 {{-   writeToStdout "💡 Tip: you can re-enter your name and email with `chezmoi init --data=false`.\n" -}}
 {{- end -}}
