@@ -1,0 +1,79 @@
+{
+  "theme.matugen": true,
+  "wallpaper.image": "/home/celeste/Pictures/Wallpapers/pastel_lilac/pastel_lilac_3.png",
+  "theme.bar.menus.monochrome": false,
+  "wallpaper.enable": true,
+  "theme.matugen_settings.mode": "light",
+  "theme.matugen_settings.scheme_type": "rainbow",
+  "theme.matugen_settings.variation": "vivid_1",
+  "theme.matugen_settings.contrast": 0,
+  "theme.bar.menus.opacity": 100,
+  "bar.workspaces.show_numbered": false,
+  "bar.workspaces.workspaceMask": false,
+  "bar.workspaces.numbered_active_indicator": "underline",
+  "bar.workspaces.ignored": "-\\d+",
+  "bar.workspaces.show_icons": false,
+  "bar.workspaces.showWsIcons": false,
+  "bar.workspaces.showApplicationIcons": false,
+  "bar.workspaces.applicationIconEmptyWorkspace": "",
+  "theme.bar.buttons.workspaces.enableBorder": false,
+  "bar.launcher.icon": "󰉊",
+  "terminal": "$TERM",
+  "theme.bar.menus.enableShadow": false,
+  "bar.launcher.autoDetectIcon": false,
+  "menus.clock.time.military": false,
+  "menus.clock.time.hideSeconds": false,
+  "menus.clock.weather.location": "Los Angeles",
+  "menus.dashboard.powermenu.avatar.image": "/home/celeste/Pictures/768146f55a0c262656ea026cfe8d0f22.jpg",
+  "theme.bar.transparent": true,
+  "bar.layouts": {
+    "0": {
+      "left": [
+        "dashboard",
+        "windowtitle",
+        "media"
+      ],
+      "middle": [
+        "workspaces"
+      ],
+      "right": [
+        "network",
+        "bluetooth",
+        "systray",
+        "clock"
+      ]
+    },
+    "1": {
+      "left": [
+        "dashboard",
+        "windowtitle",
+        "media"
+      ],
+      "middle": [
+        "workspaces"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    }
+  },
+  "wallpaper.pywal": true,
+  "theme.bar.border.location": "none",
+  "theme.bar.enableShadow": false,
+  "bar.workspaces.applicationIconOncePerWorkspace": false,
+  "bar.workspaces.showAllActive": true,
+  "theme.bar.buttons.workspaces.smartHighlight": true,
+  "bar.windowtitle.custom_title": true,
+  "theme.bar.buttons.volume.enableBorder": false,
+  "bar.clock.format": "%a %b %d  %I:%M %p",
+  "theme.bar.floating": false,
+  "menus.dashboard.shortcuts.enabled": true,
+  "menus.dashboard.directories.enabled": false,
+  "bar.customModules.netstat.networkInterface": "enp37s0",
+  "theme.bar.buttons.opacity": 100,
+  "theme.bar.buttons.background_opacity": 50,
+  "theme.bar.opacity": 40,
+  "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)"
+}
