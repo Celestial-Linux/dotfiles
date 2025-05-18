@@ -4,7 +4,7 @@
   "theme.bar.menus.monochrome": false,
   "wallpaper.enable": true,
   "theme.matugen_settings.mode": "light",
-  "theme.matugen_settings.scheme_type": "rainbow",
+  "theme.matugen_settings.scheme_type": "tonal-spot",
   "theme.matugen_settings.variation": "vivid_1",
   "theme.matugen_settings.contrast": 0,
   "theme.bar.menus.opacity": 100,
@@ -13,9 +13,9 @@
   "bar.workspaces.numbered_active_indicator": "underline",
   "bar.workspaces.ignored": "-\\d+",
   "bar.workspaces.show_icons": false,
-  "bar.workspaces.showWsIcons": false,
-  "bar.workspaces.showApplicationIcons": false,
-  "bar.workspaces.applicationIconEmptyWorkspace": "",
+  "bar.workspaces.showWsIcons": true,
+  "bar.workspaces.showApplicationIcons": true,
+  "bar.workspaces.applicationIconEmptyWorkspace": "",
   "theme.bar.buttons.workspaces.enableBorder": false,
   "bar.launcher.icon": "󰉊",
   "terminal": "$TERM",
@@ -23,24 +23,24 @@
   "bar.launcher.autoDetectIcon": false,
   "menus.clock.time.military": false,
   "menus.clock.time.hideSeconds": false,
-  "menus.clock.weather.location": "Los Angeles",
+  "menus.clock.weather.location": "Bogotá",
   "menus.dashboard.powermenu.avatar.image": "/home/celeste/Pictures/768146f55a0c262656ea026cfe8d0f22.jpg",
   "theme.bar.transparent": true,
   "bar.layouts": {
     "0": {
       "left": [
-        "dashboard",
         "windowtitle",
-        "media"
+        "cpu",
+        "cputemp"
       ],
       "middle": [
         "workspaces"
       ],
       "right": [
+        "netstat",
         "network",
         "bluetooth",
-        "systray",
-        "clock"
+        "systray"
       ]
     },
     "1": {
@@ -62,7 +62,7 @@
   "wallpaper.pywal": true,
   "theme.bar.border.location": "none",
   "theme.bar.enableShadow": false,
-  "bar.workspaces.applicationIconOncePerWorkspace": false,
+  "bar.workspaces.applicationIconOncePerWorkspace": true,
   "bar.workspaces.showAllActive": true,
   "theme.bar.buttons.workspaces.smartHighlight": true,
   "bar.windowtitle.custom_title": true,
@@ -75,5 +75,15 @@
   "theme.bar.buttons.opacity": 100,
   "theme.bar.buttons.background_opacity": 50,
   "theme.bar.opacity": 40,
-  "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)"
+  "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)",
+  "bar.workspaces.spacing": 1,
+  "theme.bar.buttons.workspaces.fontSize": "1.2em",
+  "bar.workspaces.workspaceIconMap": {},
+  "bar.workspaces.applicationIconMap": {
+    "class:dev.zed.Zed$": "󰅱",
+    "class:com.obsproject.Studio$": "󱜠",
+    "class:gjs$": "",
+    "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default": ""
+  },
+  "bar.customModules.cpuTemp.sensor": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input"
 }
