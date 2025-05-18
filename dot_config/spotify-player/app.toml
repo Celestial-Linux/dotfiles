@@ -18,6 +18,8 @@ progress_bar_type = "Rectangle"
 enable_cover_image_cache = true
 default_device = "spotify-player"
 seek_duration_secs = 5
+notify_streaming_only = true
+#enable_streaming = "DaemonOnly"
 
 [layout]
 playback_window_position = "Top"

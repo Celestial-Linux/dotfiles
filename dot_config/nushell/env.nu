@@ -93,7 +93,9 @@ path add ($env.CARGO_HOME | path join "bin")
 path add ($env.HOME | path join ".local" "bin")
 path add ($env.HOME | path join ".bun" "bin")
 path add "/home/linuxbrew/.linuxbrew/bin"
+path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
+/usr/libexec/ublue-motd
