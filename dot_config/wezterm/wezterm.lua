@@ -3,7 +3,8 @@ local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
 config.color_scheme = 'Catppuccin Macchiato'
-config.front_end = "WebGpu"
+config.front_end = "OpenGL"
+config.enable_wayland = true
 config.font = wezterm.font('Agave Nerd Font')
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.window_background_opacity = 0.80
