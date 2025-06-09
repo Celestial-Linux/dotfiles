@@ -7,7 +7,7 @@ config.front_end = "OpenGL"
 config.enable_wayland = true
 config.font = wezterm.font('Agave Nerd Font')
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
-config.window_background_opacity = 0.80
+config.window_background_opacity = 0.5
 
 config.hide_tab_bar_if_only_one_tab = true
 
@@ -15,16 +15,8 @@ local nushell = { '/usr/bin/nu', '-l' }
 config.default_prog = nushell
 
 config.launch_menu = { {
-    args = { 'btop' }
-}, {
-    label = 'Bash',
-    args = { 'bash', '-l' }
-}, {
     label = 'NuShell (Host)',
     args = nushell
-}, {
-    label = 'NuShell (Fedora DistroBox)',
-    args = { 'distrobox', 'enter', '--name', 'fedora', '--', '/usr/bin/nu', '-l' }
 }, {
     label = 'NuShell (Arch DistroBox)',
     args = { 'distrobox', 'enter', '--name', 'arch', '--', '/usr/bin/nu', '-l' }
