@@ -1,0 +1,9 @@
+{
+  "wezterm": {
+    "name": "Terminal",
+    "icon": "terminal"
+  },
+  "VLC media player": {
+    "name": "VLC Player"
+  }
+}
