@@ -28,7 +28,7 @@ opacity = 1.0
 [behavior]
 caching = true
 cache = "~/.cache/sherlock_desktop_cache.json"
-daemonize = true
+daemonize = false
 animate = true
 global_prefix = ""
 global_flags = ""

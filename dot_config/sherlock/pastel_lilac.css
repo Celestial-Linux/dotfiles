@@ -4,7 +4,7 @@
 
 :root {
     /* backgrounds */
-    --background: 256, 29%, 11%;
+    --background: 245, 22%, 40%;
     --background-soft: 15, 3%, 19%;
     --border: 261, 56%, 75%;
     --border-soft: 42, 73%, 84%;
@@ -21,6 +21,29 @@
     --error: 4, 66%, 40%;
     --success: 58, 72%, 40%;
     --warning: 39, 75%, 54%;
+}
+
+scrolledwindow > viewport,
+scrolledwindow > viewport > *,
+listview,
+gridview {
+    background: transparent;
+}
+
+.weather-tile {
+    background: #b49ce3;
+}
+
+window {
+    background: hsla(var(--background), 0.5);
+}
+
+window:not(#backdrop) {
+    border-radius: 20px;
+}
+
+#search-bar {
+    background: transparent;
 }
 
 /* Will make icons inside active tile black else white */

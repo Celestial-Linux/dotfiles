@@ -21,7 +21,7 @@
   "terminal": "$TERM",
   "theme.bar.menus.enableShadow": false,
   "bar.launcher.autoDetectIcon": false,
-  "menus.clock.time.military": false,
+  "menus.clock.time.military": true,
   "menus.clock.time.hideSeconds": false,
   "menus.clock.weather.location": "Bogotá",
   "menus.dashboard.powermenu.avatar.image": "/home/celeste/Pictures/768146f55a0c262656ea026cfe8d0f22.jpg",
@@ -31,7 +31,9 @@
       "left": [
         "windowtitle",
         "cpu",
-        "cputemp"
+        "cputemp",
+        "ram",
+        "storage"
       ],
       "middle": [
         "workspaces"
@@ -67,7 +69,7 @@
   "theme.bar.buttons.workspaces.smartHighlight": true,
   "bar.windowtitle.custom_title": true,
   "theme.bar.buttons.volume.enableBorder": false,
-  "bar.clock.format": "%a %b %d  %I:%M %p",
+  "bar.clock.format": "%a %b %d  %H:%M",
   "theme.bar.floating": false,
   "menus.dashboard.shortcuts.enabled": true,
   "menus.dashboard.directories.enabled": false,
@@ -85,5 +87,12 @@
     "class:gjs$": "",
     "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default": ""
   },
-  "bar.customModules.cpuTemp.sensor": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input"
+  "bar.customModules.cpuTemp.sensor": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input",
+  "bar.customModules.storage.paths": [
+    "/var"
+  ],
+  "theme.bar.location": "top",
+  "bar.customModules.netstat.rateUnit": "auto",
+  "bar.customModules.weather.unit": "metric",
+  "menus.dashboard.stats.enable_gpu": false
 }
