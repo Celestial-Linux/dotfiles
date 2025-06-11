@@ -88,7 +88,7 @@
     "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default": "",
     "class:WhatSie": ""
   },
-  "bar.customModules.cpuTemp.sensor": "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input",
+  "bar.customModules.cpuTemp.sensor": "/sys/devices/platform/nct6775.656/hwmon/hwmon6/temp2_input",
   "bar.customModules.storage.paths": [
     "/var"
   ],
