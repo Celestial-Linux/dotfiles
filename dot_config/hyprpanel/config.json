@@ -83,10 +83,11 @@
   "bar.workspaces.workspaceIconMap": {},
   "bar.workspaces.applicationIconMap": {
     "class:dev.zed.Zed$": "󰅱",
+    "class:Trivalent$": "",
     "class:com.obsproject.Studio$": "󱜠",
     "class:gjs$": "",
-    "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default": "",
-    "class:WhatSie": ""
+    "class:ONLYOFFICE$": "󰈙",
+    "class:WhatSie$": ""
   },
   "bar.customModules.cpuTemp.sensor": "/sys/devices/platform/nct6775.656/hwmon/hwmon6/temp2_input",
   "bar.customModules.storage.paths": [
