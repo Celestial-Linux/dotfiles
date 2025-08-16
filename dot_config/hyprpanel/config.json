@@ -1,77 +1,99 @@
 {
-    "theme.matugen": true,
-    "wallpaper.image": "/home/celeste/Pictures/Wallpapers/pastel_lilac/pastel_lilac_3.png",
-    "theme.bar.menus.monochrome": false,
-    "wallpaper.enable": true,
-    "theme.matugen_settings.mode": "light",
-    "theme.matugen_settings.scheme_type": "tonal-spot",
-    "theme.matugen_settings.variation": "vivid_1",
-    "theme.matugen_settings.contrast": 0,
-    "theme.bar.menus.opacity": 100,
-    "bar.workspaces.show_numbered": false,
-    "bar.workspaces.workspaceMask": false,
-    "bar.workspaces.numbered_active_indicator": "underline",
-    "bar.workspaces.ignored": "-\\d+",
-    "bar.workspaces.show_icons": false,
-    "bar.workspaces.showWsIcons": true,
-    "bar.workspaces.showApplicationIcons": true,
-    "bar.workspaces.applicationIconEmptyWorkspace": "",
-    "theme.bar.buttons.workspaces.enableBorder": false,
-    "bar.launcher.icon": "󰉊",
-    "terminal": "$TERM",
-    "theme.bar.menus.enableShadow": false,
-    "bar.launcher.autoDetectIcon": false,
-    "menus.clock.time.military": true,
-    "menus.clock.time.hideSeconds": false,
-    "menus.clock.weather.location": "Bogotá",
-    "menus.dashboard.powermenu.avatar.image": "/home/celeste/Pictures/768146f55a0c262656ea026cfe8d0f22.jpg",
-    "theme.bar.transparent": true,
-    "bar.layouts": {
-        "0": {
-            "left": ["windowtitle", "cpu", "cputemp", "ram", "storage"],
-            "middle": ["workspaces"],
-            "right": ["netstat", "network", "bluetooth", "systray"]
-        },
-        "1": {
-            "left": ["dashboard", "windowtitle", "media"],
-            "middle": ["workspaces"],
-            "right": ["volume", "clock", "notifications"]
-        }
+  "theme.matugen": true,
+  "wallpaper.image": "/home/celeste/Pictures/Wallpapers/pastel_lilac/pastel_lilac_3.png",
+  "theme.bar.menus.monochrome": false,
+  "wallpaper.enable": true,
+  "theme.matugen_settings.mode": "light",
+  "theme.matugen_settings.scheme_type": "content",
+  "theme.matugen_settings.variation": "vivid_1",
+  "theme.matugen_settings.contrast": 1,
+  "theme.bar.menus.opacity": 100,
+  "bar.workspaces.show_numbered": false,
+  "bar.workspaces.workspaceMask": false,
+  "bar.workspaces.numbered_active_indicator": "underline",
+  "bar.workspaces.ignored": "-\\d+",
+  "bar.workspaces.show_icons": false,
+  "bar.workspaces.showWsIcons": true,
+  "bar.workspaces.showApplicationIcons": true,
+  "bar.workspaces.applicationIconEmptyWorkspace": "",
+  "theme.bar.buttons.workspaces.enableBorder": false,
+  "bar.launcher.icon": "󰉊",
+  "terminal": "$TERM",
+  "theme.bar.menus.enableShadow": false,
+  "bar.launcher.autoDetectIcon": false,
+  "menus.clock.time.military": true,
+  "menus.clock.time.hideSeconds": false,
+  "menus.clock.weather.location": "Bogotá",
+  "menus.dashboard.powermenu.avatar.image": "/home/celeste/Pictures/768146f55a0c262656ea026cfe8d0f22.jpg",
+  "theme.bar.transparent": true,
+  "bar.layouts": {
+    "0": {
+      "left": [
+        "windowtitle",
+        "cpu",
+        "cputemp",
+        "ram"
+      ],
+      "middle": [
+        "workspaces"
+      ],
+      "right": [
+        "bluetooth",
+        "systray"
+      ]
     },
-    "wallpaper.pywal": true,
-    "theme.bar.border.location": "none",
-    "theme.bar.enableShadow": false,
-    "bar.workspaces.applicationIconOncePerWorkspace": true,
-    "bar.workspaces.showAllActive": true,
-    "theme.bar.buttons.workspaces.smartHighlight": true,
-    "bar.windowtitle.custom_title": true,
-    "theme.bar.buttons.volume.enableBorder": false,
-    "bar.clock.format": "%a %b %d  %H:%M",
-    "theme.bar.floating": false,
-    "menus.dashboard.shortcuts.enabled": true,
-    "menus.dashboard.directories.enabled": false,
-    "bar.customModules.netstat.networkInterface": "enp37s0",
-    "theme.bar.buttons.opacity": 60,
-    "theme.bar.buttons.background_opacity": 50,
-    "theme.bar.opacity": 100,
-    "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)",
-    "bar.workspaces.spacing": 1,
-    "theme.bar.buttons.workspaces.fontSize": "1.2em",
-    "bar.workspaces.workspaceIconMap": {},
-    "bar.workspaces.applicationIconMap": {
-        "class:dev.zed.Zed$": "󰅱",
-        "class:[Tt]rivalent$": "",
-        "class:com.obsproject.Studio$": "󱜠",
-        "class:gjs$": "",
-        "class:ONLYOFFICE$": "󰈙",
-        "class:WhatSie$": "",
-        "class:com.mastermindzh.tidal-hifi$": "󰝚"
-    },
-    "bar.customModules.cpuTemp.sensor": "/sys/devices/platform/nct6775.656/hwmon/hwmon6/temp2_input",
-    "bar.customModules.storage.paths": ["/var"],
-    "theme.bar.location": "top",
-    "bar.customModules.netstat.rateUnit": "auto",
-    "bar.customModules.weather.unit": "metric",
-    "menus.dashboard.stats.enable_gpu": false,
-    "theme.bar.buttons.monochrome": false
+    "1": {
+      "left": [
+        "dashboard",
+        "windowtitle",
+        "media"
+      ],
+      "middle": [
+        "workspaces"
+      ],
+      "right": [
+        "volume",
+        "clock",
+        "notifications"
+      ]
+    }
+  },
+  "wallpaper.pywal": true,
+  "theme.bar.border.location": "none",
+  "theme.bar.enableShadow": false,
+  "bar.workspaces.applicationIconOncePerWorkspace": true,
+  "bar.workspaces.showAllActive": true,
+  "theme.bar.buttons.workspaces.smartHighlight": true,
+  "bar.windowtitle.custom_title": true,
+  "theme.bar.buttons.volume.enableBorder": false,
+  "bar.clock.format": "%a %b %d  %H:%M",
+  "theme.bar.floating": false,
+  "menus.dashboard.shortcuts.enabled": true,
+  "menus.dashboard.directories.enabled": false,
+  "bar.customModules.netstat.networkInterface": "enp37s0",
+  "theme.bar.buttons.opacity": 100,
+  "theme.bar.buttons.background_opacity": 80,
+  "theme.bar.opacity": 0,
+  "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)",
+  "bar.workspaces.spacing": 1,
+  "theme.bar.buttons.workspaces.fontSize": "1.2em",
+  "bar.workspaces.workspaceIconMap": {},
+  "bar.workspaces.applicationIconMap": {
+    "class:dev.zed.Zed$": "󰅱",
+    "class:[Tt]rivalent$": "",
+    "class:com.obsproject.Studio$": "󱜠",
+    "class:gjs$": "",
+    "class:ONLYOFFICE$": "󰈙",
+    "class:WhatSie$": "",
+    "class:com.mastermindzh.tidal-hifi$": "󰝚"
+  },
+  "bar.customModules.cpuTemp.sensor": "/sys/devices/platform/nct6775.656/hwmon/hwmon6/temp2_input",
+  "bar.customModules.storage.paths": [
+    "/var"
+  ],
+  "theme.bar.location": "bottom",
+  "bar.customModules.netstat.rateUnit": "auto",
+  "bar.customModules.weather.unit": "metric",
+  "menus.dashboard.stats.enable_gpu": false,
+  "theme.bar.buttons.monochrome": false
 }
