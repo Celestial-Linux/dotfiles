@@ -1,7 +1,7 @@
 [user]
 	email = {{ .email | quote }}
 	name = {{ .name | quote }}
-    signingkey = {{ .signingkey | quote }}
+        signingkey = {{ .signingkey | quote }}
 [init]
 	defaultBranch = main
 
@@ -19,3 +19,6 @@ autoSetupRemote = true
 
 [tag]
 	gpgSign = true
+
+[pull]
+        rebase = true

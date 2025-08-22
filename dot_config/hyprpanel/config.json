@@ -87,7 +87,7 @@
     "class:WhatSie$": "",
     "class:com.mastermindzh.tidal-hifi$": "󰝚"
   },
-  "bar.customModules.cpuTemp.sensor": "/sys/devices/platform/nct6775.656/hwmon/hwmon6/temp2_input",
+  "bar.customModules.cpuTemp.sensor": "auto",
   "bar.customModules.storage.paths": [
     "/var"
   ],
