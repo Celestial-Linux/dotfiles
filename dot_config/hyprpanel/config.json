@@ -109,8 +109,8 @@
   "theme.bar.menus.iconbuttons.active": "#b4beff",
   "theme.bar.border.color": "#b4befe",
   "theme.bar.buttons.text": "#ffffff",
-  "theme.bar.buttons.icon": "#8882ad",
-  "theme.bar.buttons.background": "#9a8ec4",
+  "theme.bar.buttons.icon": "#a37de2",
+  "theme.bar.buttons.background": "#a27ee3",
   "theme.notification.enableShadow": true,
   "theme.bar.buttons.separator.margins": "0.15em",
   "theme.bar.buttons.windowtitle.enableBorder": false,
@@ -153,5 +153,6 @@
   "bar.notifications.show_total": false,
   "bar.notifications.hideCountWhenZero": false,
   "theme.bar.buttons.notifications.spacing": "0.5em",
-  "bar.autoHide": "fullscreen"
+  "bar.autoHide": "fullscreen",
+  "theme.bar.menus.label": "#9ba7f6"
 }
