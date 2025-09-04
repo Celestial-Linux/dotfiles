@@ -1,4 +1,5 @@
 local wezterm = require 'wezterm'
+local wezterm_config_nvim = wezterm.plugin.require('https://github.com/winter-again/wezterm-config.nvim')
 
 local config = wezterm.config_builder()
 
@@ -25,6 +26,7 @@ config.window_background_opacity = 0.5
 -- config.text_background_opacity = 0.4
 config.bold_brightens_ansi_colors = "BrightOnly"
 -- config.dpi = 192.0
+config.enable_kitty_keyboard = true
 
 config.hide_tab_bar_if_only_one_tab = true
 
@@ -47,5 +49,11 @@ config.keys = { {
     mods = 'ALT',
     action = wezterm.action.ShowLauncher
 } }
+
+wezterm.on('user-var-changed', function(window, pane, name, value)
+    local overrides = window:get_config_overrides() or {}
+    overrides = wezterm_config_nvim.override_user_var(overrides, name, value)
+    window:set_config_overrides(overrides)
+end)
 
 return config
