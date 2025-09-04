@@ -1,5 +1,5 @@
 local wezterm_config = require "wezterm-config"
-wezterm_config.set_wezterm_user_var("window_background_opacity", 0.8)
+wezterm_config.set_wezterm_user_var("window_background_opacity", 0.7)
 
 vim.api.nvim_create_autocmd("VimLeavePre", {
   group = vim.api.nvim_create_augroup("WeztermCleanup", { clear = true }),
