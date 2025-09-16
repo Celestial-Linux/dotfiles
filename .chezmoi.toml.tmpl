@@ -5,35 +5,35 @@
 {{- if hasKey . "name" -}}
 {{-   $name = .name -}}
 {{- else if $interactive -}}
-{{-   $name = promptString "name" $name -}}
+{{-   $name = promptStringOnce "name" $name -}}
 {{- end -}}
 
 {{- $email := "celeste@etheryal.net" -}}
 {{- if hasKey . "email" -}}
 {{-   $email = .email -}}
 {{- else if $interactive -}}
-{{-   $email = promptString "email" $email -}}
+{{-   $email = promptStringOnce "email" $email -}}
 {{- end -}}
 
 {{- $signingkey := "" -}}
 {{- if hasKey . "signingkey" -}}
 {{-   $signingkey = .signingkey -}}
 {{- else if $interactive -}}
-{{-   $signingkey = promptString "signingkey" $signingkey -}}
+{{-   $signingkey = promptStringOnce "signingkey" $signingkey -}}
 {{- end -}}
 
 {{- $accessToken := "" -}}
 {{- if hasKey . "accessToken" -}}
 {{-   $accessToken = .accessToken -}}
 {{- else if $interactive -}}
-{{-   $accessToken = promptString "accessToken" $accessToken -}}
+{{-   $accessToken = promptStringOnce "accessToken" $accessToken -}}
 {{- end -}}
 
 {{- $path := "" -}}
 {{- if hasKey . "path" -}}
 {{-   $path = .path -}}
 {{- else if $interactive -}}
-{{-   $path = promptString "path" $path -}}
+{{-   $path = promptStringOnce "path" $path -}}
 {{- end -}}
 
 {{- if $interactive -}}
