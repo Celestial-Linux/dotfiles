@@ -96,6 +96,7 @@ path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # Command aliases
+alias oco = turbocommit
 alias tc = turbocommit
 
 $env.GPG_TTY = (tty)
