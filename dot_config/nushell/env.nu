@@ -96,8 +96,8 @@ path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # Command aliases
-alias oco = turbocommit
-alias tc = turbocommit
+alias oco = turbocommit -c .config/turbocommit/config.yml
+alias tc = turbocommit -c .config/turbocommit/config.yml
 
 $env.GPG_TTY = (tty)
 def --env y [...args] {
