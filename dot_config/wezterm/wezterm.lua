@@ -5,7 +5,7 @@ local config = wezterm.config_builder()
 
 config.color_scheme = 'Catppuccin Mocha'
 config.colors = {
-    background = "#2c2a42"
+    background = "#1E1D2D"
 }
 
 config.webgpu_preferred_adapter = {

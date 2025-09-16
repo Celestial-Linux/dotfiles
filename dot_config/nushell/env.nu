@@ -86,7 +86,6 @@ $env.NU_PLUGIN_DIRS = [
     ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
 ]
 $env.CARGO_HOME = ($env.HOME | path join ".cargo")
-$env.EDITOR = "nano"
 
 use std "path add"
 path add ($env.CARGO_HOME | path join "bin")
@@ -95,10 +94,6 @@ path add ($env.HOME | path join ".bun" "bin")
 path add "/home/linuxbrew/.linuxbrew/bin"
 path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
-
-# To load from a custom file you can use:
-# source ($nu.default-config-dir | path join 'custom.nu')
-/usr/libexec/ublue-motd
 
 $env.GPG_TTY = (tty)
 def --env y [...args] {
@@ -110,3 +105,9 @@ def --env y [...args] {
 	}
 	rm -fp $tmp
 }
+$env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
+
+# To load from a custom file you can use:
+# source ($nu.default-config-dir | path join 'custom.nu')
+/usr/libexec/ublue-motd
+
