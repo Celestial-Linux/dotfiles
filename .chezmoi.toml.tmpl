@@ -22,13 +22,29 @@
 {{-   $signingkey = promptString "signingkey" $signingkey -}}
 {{- end -}}
 
+{{- $accessToken := "" -}}
+{{- if hasKey . "accessToken" -}}
+{{-   $accessToken = .accessToken -}}
+{{- else if $interactive -}}
+{{-   $accessToken = promptString "accessToken" $accessToken -}}
+{{- end -}}
+
+{{- $path := "" -}}
+{{- if hasKey . "path" -}}
+{{-   $path = .path -}}
+{{- else if $interactive -}}
+{{-   $path = promptString "path" $path -}}
+{{- end -}}
+
 {{- if $interactive -}}
 {{-   writeToStdout "💡 Tip: you can re-enter your name and email with `chezmoi init --data=false`.\n" -}}
 {{- end -}}
 
-sourceDir: {{ .chezmoi.sourceDir | quote }}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
-data:
-  name: {{ $name | quote }}
-  email: {{ $email | quote }}
-  signingkey: {{ $signingkey | quote }}
+[data]
+name = {{ $name | quote }}
+email = {{ $email | quote }}
+signingkey = {{ $signingkey | quote }}
+accessToken = {{ $accessToken | quote }}
+path = {{ $path | quote }}
