@@ -95,6 +95,9 @@ path add "/home/linuxbrew/.linuxbrew/bin"
 path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
+# Command aliases
+alias tc = turbocommit
+
 $env.GPG_TTY = (tty)
 def --env y [...args] {
 	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
