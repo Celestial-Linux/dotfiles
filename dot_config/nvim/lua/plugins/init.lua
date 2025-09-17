@@ -1,11 +1,10 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = "BufWritePre",
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -31,9 +30,37 @@ return {
   {
     "winter-again/wezterm-config.nvim",
     config = function()
-      require "wezterm-config".setup {
+      require("wezterm-config").setup {
         append_wezterm_to_rtp = false,
       }
     end,
+  },
+  {
+    "saghen/blink.cmp",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" },
+      {
+        "giuxtaposition/blink-cmp-copilot",
+        config = function()
+          require("copilot").setup {
+            suggestion = { enabled = false },
+            panel = { enabled = false },
+          }
+        end,
+      },
+    },
+    opts = {
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
+      },
+    },
   },
 }
