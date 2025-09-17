@@ -14,12 +14,6 @@ return {
   },
 
   { import = "nvchad.blink.lazyspec" },
-  {
-    "numToStr/Comment.nvim",
-    opts = {
-      -- add any options here
-    },
-  },
 
   {
     "nvim-treesitter/nvim-treesitter",

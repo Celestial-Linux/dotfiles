@@ -98,6 +98,7 @@ $env.PATH = ($env.PATH | uniq)
 # Command aliases
 alias oco = turbocommit -c ($env.HOME | path join ".config" "turbocommit" "config.yml")
 alias tc = turbocommit -c ($env.HOME | path join ".config" "turbocommit" "config.yml")
+alias nv = flatpak run io.neovim.nvim
 
 $env.GPG_TTY = (tty)
 def --env y [...args] {
