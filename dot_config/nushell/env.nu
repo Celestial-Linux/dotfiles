@@ -101,6 +101,11 @@ alias tc = turbocommit -c ($env.HOME | path join ".config" "turbocommit" "config
 alias nv = flatpak run io.neovim.nvim
 
 $env.GPG_TTY = (tty)
+def tca [] {
+	git add .
+	tc
+	git push
+}
 def --env y [...args] {
 	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
 	yazi ...$args --cwd-file $tmp
@@ -115,4 +120,3 @@ $env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
 /usr/libexec/ublue-motd
-
