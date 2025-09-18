@@ -11,6 +11,7 @@ return {
       require "configs.lspconfig"
     end,
   },
+  { import = "configs.jdtls" },
 
   { import = "nvchad.blink.lazyspec" },
 
