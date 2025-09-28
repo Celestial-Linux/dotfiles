@@ -19,21 +19,21 @@
 {{- if hasKey . "signingkey" -}}
 {{-   $signingkey = .signingkey -}}
 {{- else if $interactive -}}
-{{-   $signingkey = promptStringOnce . "signingkey" "GPG signing key (leave blank to skip)" $signingkey -}}
+{{-   $signingkey = promptStringOnce . "signingkey" "What's your GPG signing key? (leave blank to skip)" $signingkey -}}
 {{- end -}}
 
 {{- $accessToken := "" -}}
 {{- if hasKey . "accessToken" -}}
 {{-   $accessToken = .accessToken -}}
 {{- else if $interactive -}}
-{{-   $accessToken = promptStringOnce . "accessToken" "GitHub access token (leave blank to skip)" $accessToken -}}
+{{-   $accessToken = promptStringOnce . "accessToken" "What's your GitHub access token? (leave blank to skip)" $accessToken -}}
 {{- end -}}
 
 {{- $path := "" -}}
 {{- if hasKey . "path" -}}
 {{-   $path = .path -}}
 {{- else if $interactive -}}
-{{-   $path = promptStringOnce . "path" "Preferred project path" $path -}}
+{{-   $path = promptStringOnce . "path" "Do you want to customize your PATH environment variable? (leave blank to skip)" $path -}}
 {{- end -}}
 
 {{- if $interactive -}}
