@@ -5,35 +5,35 @@
 {{- if hasKey . "name" -}}
 {{-   $name = .name -}}
 {{- else if $interactive -}}
-{{-   $name = promptStringOnce "name" $name -}}
+{{-   $name = promptStringOnce . "name" "What is your name?" $name -}}
 {{- end -}}
 
 {{- $email := "celeste@etheryal.net" -}}
 {{- if hasKey . "email" -}}
 {{-   $email = .email -}}
 {{- else if $interactive -}}
-{{-   $email = promptStringOnce "email" $email -}}
+{{-   $email = promptStringOnce . "email" "What is your email address?" $email -}}
 {{- end -}}
 
 {{- $signingkey := "" -}}
 {{- if hasKey . "signingkey" -}}
 {{-   $signingkey = .signingkey -}}
 {{- else if $interactive -}}
-{{-   $signingkey = promptStringOnce "signingkey" $signingkey -}}
+{{-   $signingkey = promptStringOnce . "signingkey" "GPG signing key (leave blank to skip)" $signingkey -}}
 {{- end -}}
 
 {{- $accessToken := "" -}}
 {{- if hasKey . "accessToken" -}}
 {{-   $accessToken = .accessToken -}}
 {{- else if $interactive -}}
-{{-   $accessToken = promptStringOnce "accessToken" $accessToken -}}
+{{-   $accessToken = promptStringOnce . "accessToken" "GitHub access token (leave blank to skip)" $accessToken -}}
 {{- end -}}
 
 {{- $path := "" -}}
 {{- if hasKey . "path" -}}
 {{-   $path = .path -}}
 {{- else if $interactive -}}
-{{-   $path = promptStringOnce "path" $path -}}
+{{-   $path = promptStringOnce . "path" "Preferred project path" $path -}}
 {{- end -}}
 
 {{- if $interactive -}}
