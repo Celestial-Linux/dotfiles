@@ -1,0 +1,10 @@
+[Unit]
+Description=A cutstomizable widget system using AGS for Hyprland
+
+[Service]
+ExecStart=gjs -m "/home/celeste/.local/share/hyprpanel/hyprpanel.js"
+Restart=on-failure
+Type=simple
+
+[Install]
+WantedBy=default.target

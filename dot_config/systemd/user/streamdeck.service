@@ -1,0 +1,10 @@
+[Unit]
+Description=Deckmaster Service
+
+[Service]
+ExecStart=/usr/bin/deckmaster --deck %h/.config/deckmaster/config.deck
+Restart=on-failure
+ExecReload=kill -HUP $MAINPID
+
+[Install]
+WantedBy=default.target

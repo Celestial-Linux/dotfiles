@@ -1,0 +1,10 @@
+[Unit]
+Description="Stream Deck Device Path"
+
+[Path]
+# the device name will be different if you use streamdeck-mini or streamdeck-xl
+PathExists=/dev/streamdeck
+Unit=streamdeck.service
+
+[Install]
+WantedBy=default.target

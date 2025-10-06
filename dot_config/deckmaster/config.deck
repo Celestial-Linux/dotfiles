@@ -1,0 +1,7 @@
+[[keys]]
+  index = 0
+  [keys.widget]
+    id = "top"
+    [keys.widget.config]
+      mode = "cpu"
+      fillColor = "#d497de"
