@@ -1,7 +1,103 @@
 [[keys]]
   index = 0
+  [keys.action]
+    exec = "wezterm start -- btop"
   [keys.widget]
     id = "top"
     [keys.widget.config]
       mode = "cpu"
       fillColor = "#d497de"
+
+[[keys]]
+  index = 1
+  [keys.action]
+    exec = "wezterm start -- btop"
+  [keys.widget]
+    id = "top"
+    [keys.widget.config]
+      mode = "memory"
+
+[[keys]]
+  index = 2
+  [keys.action]
+    exec = "wezterm start -- /home/celeste/.local/bin/runweather.sh"
+  [keys.widget]
+    id = "weather"
+    [keys.widget.config]
+      location = "Bogotá"
+
+[[keys]]
+  index = 3
+  [keys.widget]
+    id = "time"
+    [keys.widget.config]
+      format = "%l;%d;%M"
+      font = "regular;bold;regular"
+
+[[keys]]
+  index = 4
+  [keys.widget]
+    id = "time"
+    [keys.widget.config]
+      format = "%H;%i;%s"
+      font = "bold;regular;thin"
+
+[[keys]]
+  index = 5
+  [keys.widget]
+    id = "button"
+    [keys.widget.config]
+      icon = "/usr/share/icons/HighContrast/256x256/status/audio-volume-low.png"
+      fontsize = 8
+  [keys.action]
+    keycode = "VolumeDown"
+  [keys.action_hold]
+    keycode = "Mute"
+
+[[keys]]
+  index = 6
+  [keys.widget]
+    id = "button"
+    [keys.widget.config]
+      icon = "/usr/share/icons/HighContrast/256x256/status/audio-volume-high.png"
+      fontsize = 8
+  [keys.action]
+    keycode = "VolumeUp"
+  [keys.action_hold]
+    keycode = "Mute"
+
+[[keys]]
+  index = 7
+  [keys.widget]
+    id = "button"
+    [keys.widget.config]
+      icon = "/usr/share/icons/HighContrast/256x256/actions/media-playback-pause.png"
+  [keys.action]
+    exec = "playerctl play-pause"
+
+[[keys]]
+  index = 8
+  [keys.widget]
+    id = "button"
+    [keys.widget.config]
+      icon = "/usr/share/icons/HighContrast/256x256/actions/go-previous.png"
+  [keys.action]
+    exec = "playerctl previous"
+
+[[keys]]
+  index = 9
+  [keys.widget]
+    id = "button"
+    [keys.widget.config]
+      icon = "/usr/share/icons/HighContrast/256x256/actions/go-next.png"
+  [keys.action]
+    exec = "playerctl next"
+
+[[keys]]
+  index = 12
+  [keys.widget]
+    id = "button"
+    [keys.widget.config]
+      icon = "/usr/share/icons/HighContrast/256x256/actions/system-shutdown.png"
+  [keys.action]
+    device = "sleep"
