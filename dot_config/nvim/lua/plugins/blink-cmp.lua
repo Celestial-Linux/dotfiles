@@ -1,29 +1,21 @@
 return {
-  "saghen/blink.cmp",
-  dependencies = {
-    { "zbirenbaum/copilot.lua" },
-    {
-      "giuxtaposition/blink-cmp-copilot",
-      config = function()
-        require("copilot").setup {
-          suggestion = { enabled = false },
-          panel = { enabled = false },
-        }
-      end,
-    },
-  },
-  opts = {
-    sources = {
-      default = { "lsp", "path", "snippets", "buffer", "copilot" },
-      providers = {
-        copilot = {
-          name = "copilot",
-          module = "blink-cmp-copilot",
-          score_offset = 100,
-          async = true,
+  { import = "nvchad.blink.lazyspec" },
+  {
+    "Saghen/blink.cmp",
+    opts = require "configs.blink",
+    dependencies = {
+      {
+        "giuxtaposition/blink-cmp-copilot",
+        dependencies = {
+          { "zbirenbaum/copilot.lua" },
         },
+        config = function()
+          require("copilot").setup {
+            suggestion = { enabled = false },
+            panel = { enabled = false },
+          }
+        end,
       },
     },
   },
 }
-
