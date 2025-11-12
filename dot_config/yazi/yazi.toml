@@ -1,0 +1,24 @@
+[mgr]
+linemode = "size_and_mtime"
+
+[open]
+prepend_rules = [
+	{ name = "*.json", use = "edit" },
+	{ name = "*.html", use = [ "open", "edit" ] },
+	{ name = "*.png", use = [ "open", "edit-image" ] },
+	{ name = "*.jpg", use = [ "open", "edit-image" ] },
+]
+
+[opener]
+play = [
+	{ run = 'mpv "$@"', orphan = true, desc = "Play Media" }
+]
+edit-image = [
+	{ run = 'flatpak run org.gimp.GIMP "$@"', orphan = true, desc = "Edit Image" }
+]
+edit = [
+	{ run = '$EDITOR "$@"', block = true },
+]
+open = [
+	{ run = 'xdg-open "$@"', desc = "Open" },
+]
