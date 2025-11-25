@@ -26,7 +26,7 @@
 {{- if hasKey . "accessToken" -}}
 {{-   $accessToken = .accessToken -}}
 {{- else if $interactive -}}
-{{-   $accessToken = promptStringOnce . "accessToken" "What's your GitHub access token? (leave blank to skip)" $accessToken -}}
+{{-   $accessToken = promptStringOnce . "accessToken" "What's your BitWarden Secrets access token? (leave blank to skip)" $accessToken -}}
 {{- end -}}
 
 {{- $path := "" -}}

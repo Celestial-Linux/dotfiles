@@ -1,6 +1,6 @@
 model: gpt-5-nano
-api_endpoint: https://api.openai.com/v1/chat/completions
-api_key_env_var: OPENAI_API_KEY
+api_endpoint: https://openrouter.ai/api/v1/chat/completions
+api_key_env_var: OPENROUTER_API_KEY
 default_temperature: 1.0
 default_frequency_penalty: 0.0
 default_number_of_choices: 3
