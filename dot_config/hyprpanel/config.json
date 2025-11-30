@@ -154,5 +154,6 @@
   "bar.notifications.hideCountWhenZero": false,
   "theme.bar.buttons.notifications.spacing": "0.5em",
   "bar.autoHide": "fullscreen",
-  "theme.bar.menus.label": "#9ba7f6"
+  "theme.bar.menus.label": "#9ba7f6",
+  "hyprpanel.useLazyLoading": false
 }
