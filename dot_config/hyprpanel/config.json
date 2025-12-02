@@ -29,9 +29,7 @@
   "bar.layouts": {
     "0": {
       "left": [
-        "windowtitle",
         "cpu",
-        "cputemp",
         "ram"
       ],
       "middle": [

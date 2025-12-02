@@ -1,4 +1,4 @@
-model: "anthropic/claude-haiku-4.5"
+model: "openrouter/auto"
 api_endpoint: https://openrouter.ai/api/v1/chat/completions
 api_key_env_var: OPENROUTER_API_KEY
 default_number_of_choices: 3
