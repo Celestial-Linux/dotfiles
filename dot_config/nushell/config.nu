@@ -30,7 +30,7 @@ let dark_theme = {
     record: white
     list: white
     block: white
-    hints: dark_gray
+    hints: gray
     search_result: { bg: red fg: white }
     shape_and: purple_bold
     shape_binary: purple_bold
