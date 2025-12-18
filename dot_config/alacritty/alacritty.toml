@@ -4,7 +4,7 @@ shell = "/usr/bin/nu"
 [window]
 opacity = 0.55
 blur = true
-padding = { x = 5, y = 5 }
+padding = { x = 8, y = 8 }
 dynamic_padding = true
 decorations = "None"
 
