@@ -18,7 +18,7 @@ size = 12
 [colors.primary]
 background = "#1E1D2D"
 foreground = "#cdd6f4"
-dim_foreground = "#7f849c"
+dim_foreground = "#abb0c8"
 bright_foreground = "#cdd6f4"
 
 [colors.cursor]
