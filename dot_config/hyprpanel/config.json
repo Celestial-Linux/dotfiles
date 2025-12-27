@@ -83,7 +83,8 @@
     "class:gjs$": "",
     "class:ONLYOFFICE$": "󰈙",
     "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default$": "",
-    "class:com.mastermindzh.tidal-hifi$": "󰝚"
+    "class:com.mastermindzh.tidal-hifi$": "󰝚",
+    "class:kitty$": ""
   },
   "bar.customModules.cpuTemp.sensor": "auto",
   "bar.customModules.storage.paths": [
