@@ -3,9 +3,9 @@
   "wallpaper.image": "/home/celeste/Pictures/Wallpapers/pastel_lilac/pastel_lilac_3.png",
   "theme.bar.menus.monochrome": false,
   "wallpaper.enable": true,
-  "theme.matugen_settings.mode": "dark",
-  "theme.matugen_settings.scheme_type": "fidelity",
-  "theme.matugen_settings.variation": "monochrome_1",
+  "theme.matugen_settings.mode": "light",
+  "theme.matugen_settings.scheme_type": "tonal-spot",
+  "theme.matugen_settings.variation": "vivid_1",
   "theme.matugen_settings.contrast": 0,
   "theme.bar.menus.opacity": 100,
   "bar.workspaces.show_numbered": false,
@@ -69,7 +69,7 @@
   "menus.dashboard.shortcuts.enabled": true,
   "menus.dashboard.directories.enabled": false,
   "bar.customModules.netstat.networkInterface": "enp37s0",
-  "theme.bar.buttons.opacity": 100,
+  "theme.bar.buttons.opacity": 80,
   "theme.bar.buttons.background_opacity": 100,
   "theme.bar.opacity": 100,
   "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)",
@@ -84,7 +84,9 @@
     "class:ONLYOFFICE$": "󰈙",
     "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default$": "",
     "class:com.mastermindzh.tidal-hifi$": "󰝚",
-    "class:kitty$": ""
+    "class:kitty$": "",
+    "class:org.prismlauncher.PrismLauncher$": "󰍳",
+    "title:Minecraft.*": "󰍳"
   },
   "bar.customModules.cpuTemp.sensor": "auto",
   "bar.customModules.storage.paths": [
@@ -154,5 +156,34 @@
   "theme.bar.buttons.notifications.spacing": "0.5em",
   "bar.autoHide": "fullscreen",
   "theme.bar.menus.label": "#9ba7f6",
-  "hyprpanel.useLazyLoading": false
+  "hyprpanel.useLazyLoading": false,
+  "theme.bar.buttons.dashboard.enableBorder": false,
+  "bar.windowtitle.title_map": [
+    [
+      "microsoft-edge.*",
+      "󰇩",
+      "Edge"
+    ],
+    [
+      "org.prismlauncher.prismlauncher",
+      "󰍳",
+      "Prism Launcher"
+    ],
+    [
+      "trivalent",
+      "",
+      "Chromium"
+    ],
+    [
+      "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-default",
+      "",
+      "WhatsApp"
+    ],
+    [
+      "com.mastermindzh.tidal-hifi",
+      "󰝚",
+      "Tidal"
+    ]
+  ],
+  "bar.windowtitle.class_name": false
 }
