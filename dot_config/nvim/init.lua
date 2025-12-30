@@ -31,8 +31,15 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "autocmds"
-require "wezterm"
 
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.cmd [[
+augroup kitty_mp
+    autocmd!
+    au VimLeave * if !empty($KITTY_WINDOW_ID) | :silent !kitty @ set-spacing padding=8 margin=0 && kitty @ set-background-opacity 0.35
+    au VimEnter * if !empty($KITTY_WINDOW_ID) | :silent !kitty @ set-spacing padding=0 margin=0 && kitty @ set-background-opacity 1.0
+augroup END
+]]

@@ -69,7 +69,7 @@
   "menus.dashboard.shortcuts.enabled": true,
   "menus.dashboard.directories.enabled": false,
   "bar.customModules.netstat.networkInterface": "enp37s0",
-  "theme.bar.buttons.opacity": 80,
+  "theme.bar.buttons.opacity": 75,
   "theme.bar.buttons.background_opacity": 100,
   "theme.bar.opacity": 100,
   "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)",
