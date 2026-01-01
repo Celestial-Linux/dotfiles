@@ -86,7 +86,9 @@
     "class:com.mastermindzh.tidal-hifi$": "󰝚",
     "class:kitty$": "",
     "class:org.prismlauncher.PrismLauncher$": "󰍳",
-    "title:Minecraft.*": "󰍳"
+    "title:Minecraft.*": "󰍳",
+    "class:microsoft-edge$": "󰇩",
+    "class:com.github.iwalton3.jellyfin-media-player": "󰼁"
   },
   "bar.customModules.cpuTemp.sensor": "auto",
   "bar.customModules.storage.paths": [
@@ -183,6 +185,11 @@
       "com.mastermindzh.tidal-hifi",
       "󰝚",
       "Tidal"
+    ],
+    [
+      "com.github.iwalton3.jellyfin-media-player",
+      "󰼁",
+      "Jellyfin"
     ]
   ],
   "bar.windowtitle.class_name": false,
