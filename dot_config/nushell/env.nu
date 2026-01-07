@@ -96,14 +96,13 @@ path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # Command aliases
-alias oco = turbocommit -c ($env.HOME | path join ".config" "turbocommit" "config.yml")
 alias tc = turbocommit -c ($env.HOME | path join ".config" "turbocommit" "config.yml")
 alias nv = flatpak run io.neovim.nvim
 
 $env.GPG_TTY = (tty)
-def tca [] {
+def tca [...args] {
 	git add .
-	tc
+	tc ...$args
 	git push
 }
 def --env y [...args] {
