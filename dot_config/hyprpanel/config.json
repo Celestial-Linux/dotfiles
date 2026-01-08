@@ -83,6 +83,7 @@
     "class:gjs$": "",
     "class:ONLYOFFICE$": "󰈙",
     "class:chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default$": "",
+    "class:chrome-blgdilankhbcpipclgpdndahbehalgkh-Default$": "󰝚",
     "class:com.mastermindzh.tidal-hifi$": "󰝚",
     "class:kitty$": "",
     "class:org.prismlauncher.PrismLauncher$": "󰍳",
@@ -175,6 +176,11 @@
       "trivalent",
       "",
       "Chromium"
+    ],
+    [
+      "chrome-blgdilankhbcpipclgpdndahbehalgkh-default",
+      "󰎆",
+      "Apple Music"
     ],
     [
       "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-default",
