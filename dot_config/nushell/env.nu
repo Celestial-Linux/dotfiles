@@ -114,6 +114,17 @@ def --env y [...args] {
 	}
 	rm -fp $tmp
 }
+
+def "from env" []: string -> record {
+  lines 
+    | split column '#' 
+    | get column1 
+    | filter {($in | str length) > 0} 
+    | parse "{key}={value}"
+    | update value {str trim -c '"'}
+    | transpose -r -d
+}
+
 $env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "gcr" "ssh"
 
