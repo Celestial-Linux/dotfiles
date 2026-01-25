@@ -1,7 +1,7 @@
 [[keys]]
   index = 0
   [keys.action]
-    exec = "wezterm start -- btop"
+    exec = "kitty btop"
   [keys.widget]
     id = "top"
     [keys.widget.config]
@@ -11,7 +11,7 @@
 [[keys]]
   index = 1
   [keys.action]
-    exec = "wezterm start -- btop"
+    exec = "kitty btop"
   [keys.widget]
     id = "top"
     [keys.widget.config]
@@ -20,7 +20,7 @@
 [[keys]]
   index = 2
   [keys.action]
-    exec = "wezterm start -- /home/celeste/.local/bin/runweather.sh"
+    exec = "kitty /home/celeste/.local/bin/runweather.sh"
   [keys.widget]
     id = "weather"
     [keys.widget.config]
