@@ -1,5 +1,5 @@
 # style name or JSON path (default "auto")
-style: "/home/celeste/.config/glow/mocha.json"
+style: ".config/glow/catppuccin-latte.json"
 # mouse support (TUI-mode only)
 mouse: false
 # use pager to display markdown
