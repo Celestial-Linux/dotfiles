@@ -885,3 +885,5 @@ $env.config = {
     ]
 }
 use ~/.cache/starship/init.nu
+
+source nu-themes/catppuccin-mocha.nu
