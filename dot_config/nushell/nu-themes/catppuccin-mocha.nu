@@ -24,7 +24,7 @@ export def main [] {
         surface2: "#585b70"
         surface1: "#45475a"
         surface0: "#313244"
-        base: "#0f4684"
+        base: "##482ca1"
         mantle: "#181825"
         crust: "#11111b"
     }

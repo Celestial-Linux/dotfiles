@@ -95,7 +95,7 @@
   "bar.customModules.storage.paths": [
     "/var"
   ],
-  "theme.bar.location": "bottom",
+  "theme.bar.location": "top",
   "bar.customModules.netstat.rateUnit": "auto",
   "bar.customModules.weather.unit": "metric",
   "menus.dashboard.stats.enable_gpu": false,
@@ -114,7 +114,7 @@
   "theme.bar.border.color": "#b4befe",
   "theme.bar.buttons.text": "#ffffff",
   "theme.bar.buttons.icon": "#ffffff",
-  "theme.bar.buttons.background": "#1974dc",
+  "theme.bar.buttons.background": "#472ba1",
   "theme.notification.enableShadow": true,
   "theme.bar.buttons.separator.margins": "0.15em",
   "theme.bar.buttons.windowtitle.enableBorder": true,
