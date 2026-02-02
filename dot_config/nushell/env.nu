@@ -125,6 +125,10 @@ def "from env" []: string -> record {
     | transpose -r -d
 }
 
+def claude [...args] {
+    bunx @anthropic-ai/claude-code ...$args
+}
+
 $env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "gcr" "ssh"
 
