@@ -2,15 +2,27 @@
 # - overlay which can be loaded with `overlay use starship.nu`
 # - module which can be used with `use starship.nu`
 # - script which can be used with `source starship.nu`
+let vi_background = {
+    bg: '#2E4057'
+    attr: b
+}
+let vi_foreground = {
+    fg: '#2E4057'
+    attr: b
+}
 export-env { $env.STARSHIP_SHELL = "nu"; load-env {
     STARSHIP_SESSION_KEY: (random chars -l 16)
     PROMPT_MULTILINE_INDICATOR: (
         ^/usr/bin/starship prompt --continuation
     )
 
+    
     # Does not play well with default character module.
     # TODO: Also Use starship vi mode indicators?
     PROMPT_INDICATOR: ""
+    PROMPT_INDICATOR_VI_INSERT: $"(ansi --escape $vi_background) INSERT (ansi reset)(ansi --escape $vi_foreground)(ansi reset) "
+    PROMPT_INDICATOR_VI_NORMAL: $"(ansi --escape $vi_background) NORMAL (ansi reset)(ansi --escape $vi_foreground)(ansi reset) "
+
 
     PROMPT_COMMAND: {||
         (
