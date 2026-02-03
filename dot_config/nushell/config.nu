@@ -216,17 +216,17 @@ $env.config = {
 
     cursor_shape: {
         emacs: line # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (line is the default)
-        vi_insert: block # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (block is the default)
-        vi_normal: underscore # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
+        vi_insert: line # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (block is the default)
+        vi_normal: block # block, underscore, line, blink_block, blink_underscore, blink_line, inherit to skip setting cursor shape (underscore is the default)
     }
 
-    color_config: $dark_theme # if you want a more interesting theme, you can replace the empty record with `$dark_theme`, `$light_theme` or another custom record
+    color_config: $dark_theme 
     footer_mode: 25 # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
     buffer_editor: null # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
     use_ansi_coloring: true
     bracketed_paste: true # enable bracketed paste, currently useless on windows
-    edit_mode: emacs # emacs, vi
+    edit_mode: vi # emacs, vi
     shell_integration: {
         # osc2 abbreviates the path if in the home_dir, sets the tab/window title, shows the running command in the tab/window title
         osc2: true
@@ -256,7 +256,7 @@ $env.config = {
         reset_application_mode: true
     }
     render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
-    use_kitty_protocol: false # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this.
+    use_kitty_protocol: true # enables keyboard enhancement protocol implemented by kitty console, only if your terminal support this.
     highlight_resolved_externals: false # true enables highlighting of external commands in the repl resolved by which.
     recursion_limit: 50 # the maximum number of times nushell allows recursion before stopping it
 
@@ -884,6 +884,5 @@ $env.config = {
         }
     ]
 }
-use ~/.cache/starship/init.nu
 
 source nu-themes/catppuccin-mocha.nu
