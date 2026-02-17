@@ -196,6 +196,11 @@
       "com.github.iwalton3.jellyfin-media-player",
       "󰼁",
       "Jellyfin"
+    ],
+    [
+      "dev.zed.zed",
+      "󰅱",
+      "Zed"
     ]
   ],
   "bar.windowtitle.class_name": false,
