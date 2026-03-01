@@ -11,7 +11,7 @@
   "bar.workspaces.show_numbered": false,
   "bar.workspaces.workspaceMask": false,
   "bar.workspaces.numbered_active_indicator": "underline",
-  "bar.workspaces.ignored": "-\\d+",
+  "bar.workspaces.ignored": "",
   "bar.workspaces.show_icons": false,
   "bar.workspaces.showWsIcons": true,
   "bar.workspaces.showApplicationIcons": true,
@@ -75,7 +75,13 @@
   "theme.bar.shadow": "0px 1px 2px 1px rgba(104, 104, 104, 0.05)",
   "bar.workspaces.spacing": 1,
   "theme.bar.buttons.workspaces.fontSize": "1.2em",
-  "bar.workspaces.workspaceIconMap": {},
+  "bar.workspaces.workspaceIconMap": {
+    "1": "󰄛",
+    "2": "",
+    "3": "󰙯",
+    "4": "󰓇",
+    "5": ""
+  },
   "bar.workspaces.applicationIconMap": {
     "class:dev.zed.Zed$": "󰅱",
     "class:[Tt]rivalent$": "",
@@ -223,5 +229,6 @@
   "theme.bar.border_radius": "0.8em",
   "theme.bar.border.width": "0.0em",
   "theme.bar.buttons.workspaces.hover": "#ffffff",
-  "theme.bar.buttons.radius": "0.5em"
+  "theme.bar.buttons.radius": "0.5em",
+  "bar.workspaces.workspaces": 20
 }
