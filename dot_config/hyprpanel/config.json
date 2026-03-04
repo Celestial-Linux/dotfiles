@@ -11,7 +11,7 @@
   "bar.workspaces.show_numbered": false,
   "bar.workspaces.workspaceMask": false,
   "bar.workspaces.numbered_active_indicator": "underline",
-  "bar.workspaces.ignored": "",
+  "bar.workspaces.ignored": "^-\\d+$",
   "bar.workspaces.show_icons": false,
   "bar.workspaces.showWsIcons": true,
   "bar.workspaces.showApplicationIcons": true,
