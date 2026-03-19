@@ -8,25 +8,25 @@
 # https://github.com/nushell/nu_scripts/tree/main/themes
 let dark_theme = {
     # color for nushell primitives
-    separator: white
+    separator: cyan
     leading_trailing_space_bg: { attr: n } # no fg, no bg, attr none effectively turns this off
-    header: green_bold
+    header: cyan_bold
     empty: blue
     # Closures can be used to choose colors for specific values.
     # The value (in this case, a bool) is piped into the closure.
     # eg) {|| if $in { 'light_cyan' } else { 'light_gray' } }
     bool: light_cyan
-    int: white
-    filesize: cyan
-    duration: white
-    date: purple
-    range: white
-    float: white
-    string: white
-    nothing: white
-    binary: white
-    cell-path: white
-    row_index: green_bold
+    int: light_gray
+    filesize: light_green
+    duration: light_gray
+    date: light_gray
+    range: light_gray
+    float: light_gray
+    string: light_cyan
+    nothing: dark_gray
+    binary: light_purple
+    cell-path: light_cyan
+    row_index: { fg: "#888888" attr: b }
     record: white
     list: white
     block: white
@@ -885,4 +885,4 @@ $env.config = {
     ]
 }
 
-source nu-themes/catppuccin-mocha.nu
+source nu-themes/celeste.nu
