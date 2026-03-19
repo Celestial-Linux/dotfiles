@@ -135,7 +135,7 @@ export module activate {
             | dircolors --print-ls-colors
             | ansi strip
             | lines
-            | where { $in != '' }
+            | where { is-not-empty }
             | each { |line| $line | str replace "\t" '=' }
             | str join ':')
 
