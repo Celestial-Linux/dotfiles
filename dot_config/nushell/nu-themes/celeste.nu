@@ -127,7 +127,12 @@ export module activate {
     export-env {
         set color_config
         let ls_colors_file = ($nu.default-config-dir | path join 'LS_COLORS')
-        $env.LS_COLORS = (dircolors --print-ls-colors $ls_colors_file
+        $env.LS_COLORS = (open $ls_colors_file
+            | lines
+            | sort
+            | where { is-not-empty }
+            | str join (char newline)
+            | dircolors --print-ls-colors
             | ansi strip
             | lines
             | where { $in != '' }
