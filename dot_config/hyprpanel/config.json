@@ -85,6 +85,7 @@
   "bar.workspaces.applicationIconMap": {
     "class:dev.zed.Zed$": "󰅱",
     "class:[Tt]rivalent$": "",
+    "class:[Hh]elium$": "󰛄",
     "class:com.obsproject.Studio$": "󱜠",
     "class:gjs$": "",
     "class:ONLYOFFICE$": "󰈙",
@@ -182,6 +183,11 @@
       "trivalent",
       "",
       "Chromium"
+    ],
+    [
+        "helium",
+        "󰛄",
+        "Helium"
     ],
     [
       "chrome-blgdilankhbcpipclgpdndahbehalgkh-default",
