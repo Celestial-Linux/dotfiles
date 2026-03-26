@@ -161,10 +161,6 @@
                 {
                     "icon": "terminal",
                     "regex": "kitty"
-                },
-                {
-                    "icon": "deployed_code",
-                    "regex": "Minecraft.*"
                 }
             ]
         },
