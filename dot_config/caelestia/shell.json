@@ -139,8 +139,32 @@
             "specialWorkspaceIcons": [],
             "windowIcons": [
                 {
+                    "icon": "code",
+                    "regex": "zed"
+                },
+                {
+                    "icon": "globe",
+                    "regex": "helium"
+                },
+                {
                     "icon": "sports_esports",
                     "regex": "steam(_app_(default|[0-9]+))?"
+                },
+                {
+                    "icon": "music_note_2",
+                    "regex": "chrome-blgdilankhbcpipclgpdndahbehalgkh-Default"
+                },
+                {
+                    "icon": "chat",
+                    "regex": "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"
+                },
+                {
+                    "icon": "terminal",
+                    "regex": "kitty"
+                },
+                {
+                    "icon": "deployed_code",
+                    "regex": "Minecraft.*"
                 }
             ]
         },
@@ -159,7 +183,7 @@
         "status": {
             "showAudio": false,
             "showMicrophone": false,
-            "showKbLayout": false,
+            "showKbLayout": true,
             "showNetwork": true,
             "showWifi": true,
             "showBluetooth": true,
@@ -377,7 +401,7 @@
         "enabled": true,
         "hideDelay": 2000,
         "enableBrightness": true,
-        "enableMicrophone": false
+        "enableMicrophone": true
     },
     "session": {
         "enabled": true,
@@ -459,10 +483,10 @@
         "dragThreshold": 80
     },
     "services": {
-        "weatherLocation": "",
-        "useFahrenheit": true,
-        "useFahrenheitPerformance": true,
-        "useTwelveHourClock": true,
+        "weatherLocation": "Bogotá",
+        "useFahrenheit": false,
+        "useFahrenheitPerformance": false,
+        "useTwelveHourClock": false,
         "gpuType": "",
         "visualiserBars": 45,
         "audioIncrement": 0.1,
@@ -472,8 +496,8 @@
         "defaultPlayer": "Spotify",
         "playerAliases": [
             {
-                "from": "com.github.th_ch.youtube_music",
-                "to": "YT Music"
+                "from": "chrome-blgdilankhbcpipclgpdndahbehalgkh-Default",
+                "to": "Apple Music"
             }
         ],
         "showLyrics": true
