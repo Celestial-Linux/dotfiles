@@ -188,8 +188,8 @@
       "hiddenIcons": []
     },
     "status": {
-      "showAudio": false,
-      "showMicrophone": false,
+      "showAudio": true,
+      "showMicrophone": true,
       "showKbLayout": true,
       "showNetwork": true,
       "showWifi": true,
@@ -454,7 +454,7 @@
     "enabled": true,
     "hideDelay": 2000,
     "enableBrightness": true,
-    "enableMicrophone": true
+    "enableMicrophone": false
   },
   "session": {
     "enabled": true,
