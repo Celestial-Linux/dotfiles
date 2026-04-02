@@ -747,19 +747,19 @@ use nu-themes/catppuccin-latte.nu
 
 catppuccin-mocha set color_config
 
-# def --env switch_theme [] {
-#     const dark_theme = 1
-#     const light_theme = 2
-#     let system_theme = term query "\e[?996n" --prefix "\e[?997;" --terminator "n" | decode | into int
-#
-#     if $system_theme == $dark_theme {
-#         catppuccin-mocha set color_config
-#     } else if $system_theme == $light_theme {
-#         catppuccin-latte set color_config
-#     } else {
-#         let error_msg = "Unknown system theme returned from terminal: " + ($system_theme | into string)
-#         error make {msg: $error_msg }
-#     }
-# }
-#
-# $env.config.hooks.pre_execution = ([ switch_theme ])
+def --env switch_theme [] {
+    const dark_theme = 1
+    const light_theme = 2
+    let system_theme = term query "\e[?996n" --prefix "\e[?997;" --terminator "n" | decode | into int
+
+    if $system_theme == $dark_theme {
+        catppuccin-mocha set color_config
+    } else if $system_theme == $light_theme {
+        catppuccin-latte set color_config
+    } else {
+        let error_msg = "Unknown system theme returned from terminal: " + ($system_theme | into string)
+        error make {msg: $error_msg }
+    }
+}
+
+$env.config.hooks.pre_execution = ([ switch_theme ])
