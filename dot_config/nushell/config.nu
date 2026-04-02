@@ -885,4 +885,4 @@ $env.config = {
     ]
 }
 
-source nu-themes/celeste.nu
+source nu-themes/catppuccin-mocha.nu
