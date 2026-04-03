@@ -129,6 +129,7 @@ alias claude = bunx @anthropic-ai/claude-code
 
 $env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "gcr" "ssh"
+$env.GOPATH = ($env.HOME | path join ".local" "share" "go")
 
 # To load from a custom file you can use:
 # source ($nu.default-config-dir | path join 'custom.nu')
