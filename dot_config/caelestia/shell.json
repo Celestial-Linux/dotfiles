@@ -199,7 +199,7 @@
     },
     "clock": {
       "background": true,
-      "showDate": false,
+      "showDate": true,
       "showIcon": true
     },
     "entries": [
