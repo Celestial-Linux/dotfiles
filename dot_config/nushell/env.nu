@@ -90,9 +90,7 @@ $env.CARGO_HOME = ($env.HOME | path join ".cargo")
 use std "path add"
 path add ($env.CARGO_HOME | path join "bin")
 path add ($env.HOME | path join ".local" "bin")
-path add ($env.HOME | path join ".bun" "bin")
 path add "/home/linuxbrew/.linuxbrew/bin"
-path add ($env.HOME | path join ".cache" ".bun" "bin")
 path add ($env.HOME | path join ".local" "share" "go" "bin")
 $env.PATH = ($env.PATH | uniq)
 
@@ -125,8 +123,6 @@ def "from env" []: string -> record {
     | update value {str trim -c '"'}
     | transpose -r -d
 }
-
-alias claude = bunx @anthropic-ai/claude-code
 
 $env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "gcr" "ssh"
