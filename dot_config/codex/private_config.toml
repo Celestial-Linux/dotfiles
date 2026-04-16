@@ -1,5 +1,7 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
 
 
 [profiles.openrouter-codex]
