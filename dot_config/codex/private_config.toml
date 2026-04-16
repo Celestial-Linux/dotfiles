@@ -1,16 +1,31 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
 
+
+[profiles.openrouter-codex]
 model_provider = "openrouter"
 model_reasoning_effort = "high"
 model="openai/gpt-5.3-codex"
+
+[profiles.qwen]
+model_provider = "llamacpp"
+model_reasoning_effort = "high"
+model="qwen3.6-35b-a3b"
+
 
 [model_providers.openrouter]
 name = "openrouter"
 
 base_url="https://openrouter.ai/api/v1"
 env_key="OPENROUTER_API_KEY"
+wire_api = "responses"
 
+[model_providers.llamacpp]
+name = "llama.cpp"
 
-[projects."/var/home/celeste/Documents/Development/Eufonia-Infra/EufoniaClient"]
+base_url="https://llama-server.catfish-dinosaur.ts.net/v1"
+wire_api = "responses"
+
+[projects."/var/home/celeste/.config/cute-view"]
 trust_level = "trusted"
+
