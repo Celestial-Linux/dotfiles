@@ -31,3 +31,6 @@ wire_api = "responses"
 [projects."/var/home/celeste/.config/cute-view"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/Documents/Development/CelesteLove/cuteview"]
+trust_level = "trusted"
+
