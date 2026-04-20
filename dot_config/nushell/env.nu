@@ -92,6 +92,7 @@ path add ($env.CARGO_HOME | path join "bin")
 path add ($env.HOME | path join ".local" "bin")
 path add "/home/linuxbrew/.linuxbrew/bin"
 path add ($env.HOME | path join ".local" "share" "go" "bin")
+path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # Command aliases
