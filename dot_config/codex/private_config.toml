@@ -28,9 +28,8 @@ name = "llama.cpp"
 base_url="https://llama-server.catfish-dinosaur.ts.net/v1"
 wire_api = "responses"
 
-[projects."/var/home/celeste/.config/cute-view"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/cuteview"]
-trust_level = "trusted"
-
+[model_providers.opencode-go]
+name = "OpenCode Go"
+base_url = "https://opencode.ai/zen/go/v1"
+env_key = "OPENCODE_GO_API_KEY"
+wire_api = "chat"
