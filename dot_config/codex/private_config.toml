@@ -1,7 +1,7 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
-model = "gpt-5.4"
-model_reasoning_effort = "medium"
+model = "gpt-5.5"
+model_reasoning_effort = "high"
 
 
 [profiles.openrouter-codex]
@@ -32,3 +32,13 @@ wire_api = "responses"
 js_repl = true
 memories = true
 external_migration = true
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/aether-auth"]
+trust_level = "trusted"
+
+[notice.external_config_migration_prompts]
+home_last_prompted_at = 1777469676
+home = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 1
