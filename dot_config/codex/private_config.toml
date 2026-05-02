@@ -1,7 +1,8 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
 model = "gpt-5.5"
-model_reasoning_effort = "high"
+model_reasoning_effort = "xhigh"
+approvals_reviewer = "guardian_subagent"
 
 
 [profiles.openrouter-codex]
