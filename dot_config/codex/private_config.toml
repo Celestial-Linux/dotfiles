@@ -37,6 +37,18 @@ external_migration = true
 [projects."/var/home/celeste/Documents/Development/CelesteLove/*"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/.config/nvim"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.local/share/chezmoi"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/dotfiles"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/codex"]
+trust_level = "trusted"
+
 [notice.external_config_migration_prompts]
 home_last_prompted_at = 1777469676
 home = true
@@ -46,3 +58,12 @@ theme = "catppuccin-latte"
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
+
+[mcp_servers.godot]
+command = "bunx"
+args = ["@coding-solo/godot-mcp"]
+
+[mcp_servers.github]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_PAT_TOKEN"
+
