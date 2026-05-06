@@ -3,6 +3,7 @@
 # - module which can be used with `use starship.nu`
 # - script which can be used with `source starship.nu`
 let vi_background = {
+    fg: '#ffffff'
     bg: '#2E4057'
     attr: b
 }
