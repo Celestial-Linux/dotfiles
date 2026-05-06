@@ -745,7 +745,90 @@ $env.config = {
 use nu-themes/catppuccin-mocha.nu
 use nu-themes/catppuccin-latte.nu
 
+def catppuccin_base_ls_colors [] {
+    let ls_colors_file = ($nu.default-config-dir | path join "LS_COLORS")
+
+    if ($ls_colors_file | path exists) {
+        dircolors --print-ls-colors $ls_colors_file
+            | lines
+            | where { is-not-empty }
+            | each { |line| $line | str replace "\t" "=" | ansi strip }
+            | str join ":"
+    } else {
+        ""
+    }
+}
+
+def catppuccin_ls_color_overrides [
+    text: string
+    docs: string
+    directory: string
+    link: string
+    executable: string
+    orphan: string
+] {
+    [
+        "rs=0"
+        $"fi=($text)"
+        $"di=($directory)"
+        $"ln=($link)"
+        $"or=($orphan)"
+        $"ex=($executable)"
+        $"*.md=($docs)"
+        $"*.markdown=($docs)"
+        $"*.rst=($docs)"
+        $"*README=($docs)"
+        $"*README.md=($docs)"
+        $"*LICENSE=($docs)"
+        $"*LICENSE.md=($docs)"
+        $"*COPYING=($docs)"
+        $"*INSTALL=($docs)"
+        $"*COPYRIGHT=($docs)"
+        $"*AUTHORS=($docs)"
+        $"*HISTORY=($docs)"
+        $"*CONTRIBUTORS=($docs)"
+        $"*CONTRIBUTING=($docs)"
+        $"*CONTRIBUTING.md=($docs)"
+        $"*CHANGELOG=($docs)"
+        $"*CHANGELOG.md=($docs)"
+        $"*CODEOWNERS=($docs)"
+        $"*PATENTS=($docs)"
+        $"*VERSION=($docs)"
+        $"*NOTICE=($docs)"
+        $"*CHANGES=($docs)"
+    ] | str join ":"
+}
+
+def catppuccin_ls_colors [
+    text: string
+    docs: string
+    directory: string
+    link: string
+    executable: string
+    orphan: string
+] {
+    let base = (catppuccin_base_ls_colors)
+    let overrides = (
+        catppuccin_ls_color_overrides $text $docs $directory $link $executable $orphan
+    )
+
+    if ($base | is-empty) {
+        $overrides
+    } else {
+        [$base $overrides] | str join ":"
+    }
+}
+
+def catppuccin_mocha_ls_colors [] {
+    catppuccin_ls_colors "38;2;205;214;244" "38;2;249;226;175;1" "38;2;148;226;213;1" "38;2;137;180;250;4" "38;2;166;227;161;1" "48;2;243;139;168;38;2;30;30;46;1"
+}
+
+def catppuccin_latte_ls_colors [] {
+    catppuccin_ls_colors "38;2;76;79;105" "38;2;136;57;239;1" "38;2;23;146;153;1" "38;2;30;102;245;4" "38;2;64;160;43;1" "48;2;210;15;57;38;2;239;241;245;1"
+}
+
 catppuccin-mocha set color_config
+$env.LS_COLORS = (catppuccin_mocha_ls_colors)
 
 def --env switch_theme [] {
     const dark_theme = 1
@@ -754,12 +837,15 @@ def --env switch_theme [] {
 
     if $system_theme == $dark_theme {
         catppuccin-mocha set color_config
+        $env.LS_COLORS = (catppuccin_mocha_ls_colors)
     } else if $system_theme == $light_theme {
         catppuccin-latte set color_config
+        $env.LS_COLORS = (catppuccin_latte_ls_colors)
     } else {
         let error_msg = "Unknown system theme returned from terminal: " + ($system_theme | into string)
         error make {msg: $error_msg }
     }
 }
 
+$env.config.hooks.pre_prompt = ([ switch_theme ])
 $env.config.hooks.pre_execution = ([ switch_theme ])
