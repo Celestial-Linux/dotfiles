@@ -34,12 +34,15 @@ js_repl = true
 memories = true
 external_migration = true
 
-[projects."/var/home/celeste/Documents/Development/CelesteLove/aether-auth"]
+[projects."/var/home/celeste/Documents/Development/CelesteLove/*"]
 trust_level = "trusted"
 
 [notice.external_config_migration_prompts]
 home_last_prompted_at = 1777469676
 home = true
 
+[tui]
+theme = "catppuccin-latte"
+
 [tui.model_availability_nux]
-"gpt-5.5" = 1
+"gpt-5.5" = 4
