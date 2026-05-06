@@ -5,14 +5,13 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.base46 = {
-  theme = "flouromachine",
-  transparency = true,
+local light_theme = "catppuccin-latte"
+local dark_theme = "catppuccin"
 
-  -- hl_override = {
-  -- 	Comment = { italic = true },
-  -- 	["@comment"] = { italic = true },
-  -- },
+M.base46 = {
+  theme = vim.o.background == "light" and light_theme or dark_theme,
+  theme_toggle = { dark_theme, light_theme },
+  transparency = true,
 }
 
 M.nvdash = {
