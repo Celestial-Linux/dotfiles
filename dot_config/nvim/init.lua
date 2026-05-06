@@ -27,6 +27,7 @@ require("lazy").setup({
 
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
+dofile(vim.g.base46_cache .. "git")
 dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
