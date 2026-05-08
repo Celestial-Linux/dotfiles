@@ -47,7 +47,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/home/celeste/.config/deckmaster/assets/volume-low.png"
+      icon = "/home/celeste/.config/deckmaster/assets/audio-volume-low-symbolic-white.png"
       fontsize = 8
   [keys.action]
     keycode = "VolumeDown"
@@ -59,7 +59,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/home/celeste/.config/deckmaster/assets/volume-high.png"
+      icon = "/home/celeste/.config/deckmaster/assets/audio-volume-high-symbolic-white.png"
       fontsize = 8
   [keys.action]
     keycode = "VolumeUp"
@@ -71,7 +71,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/AdwaitaLegacy/48x48/legacy/media-playback-pause.png"
+      icon = "/home/celeste/.config/deckmaster/assets/media-playback-pause-symbolic-white.png"
   [keys.action]
     exec = "playerctl play-pause"
 
@@ -80,7 +80,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/home/celeste/.config/deckmaster/assets/go-previous.png"
+      icon = "/home/celeste/.config/deckmaster/assets/go-previous-symbolic-white.png"
   [keys.action]
     exec = "playerctl previous"
 
@@ -89,7 +89,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/home/celeste/.config/deckmaster/assets/go-next.png"
+      icon = "/home/celeste/.config/deckmaster/assets/go-next-symbolic-white.png"
   [keys.action]
     exec = "playerctl next"
 
@@ -98,7 +98,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/AdwaitaLegacy/48x48/legacy/starred.png"
+      icon = "/home/celeste/.config/deckmaster/assets/star-new-symbolic-white.png"
   [keys.action]
     exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 toggle"
 
@@ -107,7 +107,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/AdwaitaLegacy/48x48/legacy/go-down.png"
+      icon = "/home/celeste/.config/deckmaster/assets/pan-down-symbolic-white.png"
   [keys.action]
     exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 decr-brightness"
 
@@ -116,7 +116,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/AdwaitaLegacy/48x48/legacy/system-shutdown.png"
+      icon = "/home/celeste/.config/deckmaster/assets/system-shutdown-symbolic-white.png"
   [keys.action]
     device = "sleep"
 
@@ -125,7 +125,6 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/AdwaitaLegacy/48x48/legacy/go-up.png"
+      icon = "/home/celeste/.config/deckmaster/assets/pan-up-symbolic-white.png"
   [keys.action]
     exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 incr-brightness"
-
