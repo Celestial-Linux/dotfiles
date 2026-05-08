@@ -69,7 +69,7 @@ home_last_prompted_at = 1777469676
 home = true
 
 [tui]
-theme = "catppuccin-frappe"
+theme = "ansi"
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
