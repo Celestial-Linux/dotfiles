@@ -7,6 +7,8 @@ local M = {}
 
 local light_theme = "catppuccin-latte"
 local dark_theme = "catppuccin"
+local dark_comment = "#A6ADC8"
+local dark_subtle = "#9399B2"
 local latte_comment = "#6C6F85"
 local latte_subtle = "#7C7F93"
 
@@ -84,6 +86,15 @@ M.base46 = {
   theme_toggle = { dark_theme, light_theme },
   transparency = true,
   changed_themes = {
+    catppuccin = {
+      base_30 = {
+        light_grey = dark_comment,
+      },
+      base_16 = {
+        base03 = dark_subtle,
+        base04 = dark_comment,
+      },
+    },
     catppuccin_latte = {
       base_30 = {
         light_grey = latte_comment,
@@ -96,6 +107,7 @@ M.base46 = {
   },
   hl_override = {
     Comment = { fg = "light_grey" },
+    ["@comment"] = { fg = "light_grey" },
     gitcommitComment = { fg = "light_grey" },
     gitcommitDiscarded = { fg = "light_grey" },
     gitcommitSelected = { fg = "light_grey" },
