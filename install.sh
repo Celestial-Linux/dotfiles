@@ -23,6 +23,33 @@ fi
 # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
+install_pre_commit_hook() {
+  if [ "${CHEZMOI_INSTALL_PRE_COMMIT:-1}" = "0" ]; then
+    echo "Skipping pre-commit hook setup because CHEZMOI_INSTALL_PRE_COMMIT=0." >&2
+    return
+  fi
+
+  if ! command -v pre-commit >/dev/null 2>&1; then
+    echo "Skipping pre-commit hook setup because pre-commit is not installed." >&2
+    return
+  fi
+
+  if ! command -v git >/dev/null 2>&1 || ! git -C "${script_dir}" rev-parse --git-dir >/dev/null 2>&1; then
+    echo "Skipping pre-commit hook setup because '${script_dir}' is not a Git repository." >&2
+    return
+  fi
+
+  echo "Installing pre-commit hooks in '${script_dir}'" >&2
+  if ! (
+    cd "${script_dir}"
+    pre-commit install
+  ); then
+    echo "Warning: failed to install pre-commit hooks in '${script_dir}'." >&2
+  fi
+}
+
+install_pre_commit_hook
+
 set -- init --apply --source="${script_dir}"
 
 echo "Running 'chezmoi $*'" >&2

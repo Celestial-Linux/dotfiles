@@ -1,4 +1,5 @@
 .github/
+.pre-commit-config.yaml
 install.sh
 LICENSE
 README.md
