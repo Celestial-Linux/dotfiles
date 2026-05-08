@@ -47,7 +47,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/status/audio-volume-low.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/status/audio-volume-low.png"
       fontsize = 8
   [keys.action]
     keycode = "VolumeDown"
@@ -59,7 +59,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/status/audio-volume-high.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/status/audio-volume-high.png"
       fontsize = 8
   [keys.action]
     keycode = "VolumeUp"
@@ -71,7 +71,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/media-playback-pause.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/media-playback-pause.png"
   [keys.action]
     exec = "playerctl play-pause"
 
@@ -80,7 +80,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/go-previous.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/go-previous.png"
   [keys.action]
     exec = "playerctl previous"
 
@@ -89,7 +89,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/go-next.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/go-next.png"
   [keys.action]
     exec = "playerctl next"
 
@@ -98,7 +98,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/star-new.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/star-new.png"
   [keys.action]
     exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 toggle"
 
@@ -107,7 +107,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/pan-down.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/pan-down.png"
   [keys.action]
     exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 decr-brightness"
 
@@ -116,7 +116,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/system-shutdown.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/system-shutdown.png"
   [keys.action]
     device = "sleep"
 
@@ -125,7 +125,7 @@
   [keys.widget]
     id = "button"
     [keys.widget.config]
-      icon = "/usr/share/icons/HighContrast/32x32/actions/pan-up.png"
+      #icon = "/usr/share/icons/HighContrast/32x32/actions/pan-up.png"
   [keys.action]
     exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 incr-brightness"
 
