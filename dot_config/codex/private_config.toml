@@ -55,3 +55,6 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"
 [projects."/var/home/celeste/.config/deckmaster"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/.config/kitty"]
+trust_level = "trusted"
+
