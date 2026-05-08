@@ -47,51 +47,51 @@ format = '[ $symbol ]($style)'
 disabled = false
 
 [os.symbols]
-Alpaquita = " "
-Alpine = " "
-AlmaLinux = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CachyOS = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Kali = " "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-Nobara = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-RockyLinux = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Void = " "
-Windows = "󰍲 "
+Alpaquita = ""
+Alpine = ""
+AlmaLinux = ""
+Amazon = ""
+Android = ""
+Arch = ""
+Artix = ""
+CachyOS = ""
+CentOS = ""
+Debian = ""
+DragonFly = ""
+Emscripten = ""
+EndeavourOS = ""
+Fedora = ""
+FreeBSD = ""
+Garuda = "󰛓"
+Gentoo = ""
+HardenedBSD = "󰞌"
+Illumos = "󰈸"
+Kali = ""
+Linux = ""
+Mabox = ""
+Macos = ""
+Manjaro = ""
+Mariner = ""
+MidnightBSD = ""
+Mint = ""
+NetBSD = ""
+NixOS = ""
+Nobara = ""
+OpenBSD = "󰈺"
+openSUSE = ""
+OracleLinux = "󰌷"
+Pop = ""
+Raspbian = ""
+Redhat = ""
+RedHatEnterprise = ""
+RockyLinux = ""
+Redox = "󰀘"
+Solus = "󰠳"
+SUSE = ""
+Ubuntu = ""
+Unknown = ""
+Void = ""
+Windows = "󰍲"
 
 [directory]
 style = "bg:#DA627D fg:#e2eefc"
@@ -102,10 +102,10 @@ truncation_symbol = "…/"
 # Here is how you can shorten some long paths by text replacement
 # similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = " "
-"Pictures" = " "
+"Documents" = "󰈙"
+"Downloads" = ""
+"Music" = ""
+"Pictures" = ""
 # Keep in mind that the order matters. For example:
 # "Important Documents" = " 󰈙 "
 # will not be replaced, because "Documents" was already substituted before.
@@ -113,22 +113,22 @@ truncation_symbol = "…/"
 # "Important 󰈙 " = " 󰈙 "
 
 [c]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
-symbol = " "
+symbol = ""
 style = "bg:#06969A fg:#e2eefc"
 format = '[ $symbol $context ]($style)'
 
 [elixir]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
@@ -142,7 +142,7 @@ style = "bg:#FCA17D fg:#e2eefc"
 format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
@@ -151,17 +151,17 @@ style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [haskell]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
@@ -181,7 +181,7 @@ style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [scala]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
@@ -189,7 +189,7 @@ format = '[ $symbol ($version) ]($style)'
 disabled = false
 time_format = "%R"              # Hour:Minute Format
 style = "bg:#33658A fg:#e2eefc"
-format = '[  $time ]($style)'
+format = '[   $time ]($style)'
 
 [character]
 success_symbol = "[➜](bold green bg:#2E4057)"
