@@ -5,7 +5,7 @@
 ---@type ChadrcConfig
 local M = {}
 
-local light_theme = "catppuccin-latte"
+local light_theme = "everforest_light"
 local dark_theme = "catppuccin"
 local dark_comment = "#A6ADC8"
 local dark_subtle = "#9399B2"
@@ -47,10 +47,7 @@ local function desktop_color_scheme()
     "color-scheme",
   }
   local portal_value = portal_output
-    and (
-      portal_output:match "uint32%s+(%d+)"
-      or portal_output:match "%f[%d]([012])%f[%D]"
-    )
+    and (portal_output:match "uint32%s+(%d+)" or portal_output:match "%f[%d]([012])%f[%D]")
 
   if portal_value == "1" then
     return "dark"
