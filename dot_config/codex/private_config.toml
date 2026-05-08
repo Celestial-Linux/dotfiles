@@ -49,6 +49,15 @@ trust_level = "trusted"
 [projects."/var/home/celeste/.config/codex"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/Documents/Development/CelesteLove/gemma4"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/Celestial-Silverblue"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/wiki-tui"]
+trust_level = "trusted"
+
 [notice.external_config_migration_prompts]
 home_last_prompted_at = 1777469676
 home = true
