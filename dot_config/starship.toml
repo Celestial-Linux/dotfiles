@@ -171,7 +171,7 @@ style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
 [nim]
-symbol = "󰆥 "
+symbol = "󰆥"
 style = "bg:#86BBD8 fg:#e2eefc"
 format = '[ $symbol ($version) ]($style)'
 
