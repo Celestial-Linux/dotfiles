@@ -762,6 +762,7 @@ def catppuccin_base_ls_colors [] {
 def catppuccin_ls_color_overrides [
     text: string
     docs: string
+    c_source: string
     directory: string
     link: string
     executable: string
@@ -796,12 +797,15 @@ def catppuccin_ls_color_overrides [
         $"*VERSION=($docs)"
         $"*NOTICE=($docs)"
         $"*CHANGES=($docs)"
+        $"*.c=($c_source)"
+        $"*.C=($c_source)"
     ] | str join ":"
 }
 
 def catppuccin_ls_colors [
     text: string
     docs: string
+    c_source: string
     directory: string
     link: string
     executable: string
@@ -809,7 +813,7 @@ def catppuccin_ls_colors [
 ] {
     let base = (catppuccin_base_ls_colors)
     let overrides = (
-        catppuccin_ls_color_overrides $text $docs $directory $link $executable $orphan
+        catppuccin_ls_color_overrides $text $docs $c_source $directory $link $executable $orphan
     )
 
     if ($base | is-empty) {
@@ -820,11 +824,11 @@ def catppuccin_ls_colors [
 }
 
 def catppuccin_mocha_ls_colors [] {
-    catppuccin_ls_colors "38;2;205;214;244" "38;2;249;226;175;1" "38;2;148;226;213;1" "38;2;137;180;250;4" "38;2;166;227;161;1" "48;2;243;139;168;38;2;30;30;46;1"
+    catppuccin_ls_colors "38;2;205;214;244" "38;2;249;226;175;1" "38;2;148;226;213;1" "38;2;148;226;213;1" "38;2;137;180;250;4" "38;2;166;227;161;1" "48;2;243;139;168;38;2;30;30;46;1"
 }
 
 def catppuccin_latte_ls_colors [] {
-    catppuccin_ls_colors "38;2;76;79;105" "38;2;136;57;239;1" "38;2;23;146;153;1" "38;2;30;102;245;4" "38;2;64;160;43;1" "48;2;210;15;57;38;2;239;241;245;1"
+    catppuccin_ls_colors "38;2;76;79;105" "38;2;136;57;239;1" "38;2;30;102;245;1" "38;2;23;146;153;1" "38;2;30;102;245;4" "38;2;64;160;43;1" "48;2;210;15;57;38;2;239;241;245;1"
 }
 
 catppuccin-mocha set color_config

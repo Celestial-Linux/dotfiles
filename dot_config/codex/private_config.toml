@@ -58,3 +58,9 @@ trust_level = "trusted"
 [projects."/var/home/celeste/.config/kitty"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/Documents/Development/CelesteLove/Celestial-Silverblue"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/nushell"]
+trust_level = "trusted"
+
