@@ -52,3 +52,6 @@ args = ["@coding-solo/godot-mcp"]
 url = "https://api.githubcopilot.com/mcp/"
 bearer_token_env_var = "GITHUB_PAT_TOKEN"
 
+[projects."/var/home/celeste/.config/deckmaster"]
+trust_level = "trusted"
+
