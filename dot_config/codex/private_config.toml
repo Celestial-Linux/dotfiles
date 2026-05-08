@@ -64,6 +64,9 @@ trust_level = "trusted"
 [projects."/var/home/celeste/Documents/Development/CelesteLove/nerd-fonts"]
 trust_level = "trusted"
 
+[projects."/tmp/wikiwand-stylus"]
+trust_level = "trusted"
+
 [notice.external_config_migration_prompts]
 home_last_prompted_at = 1777469676
 home = true
