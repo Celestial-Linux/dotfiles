@@ -1,0 +1,5 @@
+hl.on("hyprland.start", function()
+	hl.exec_cmd("uwsm finalize")
+	hl.exec_cmd("caelestia shell -d")
+	hl.exec_cmd("uwsm app -- flatpak run --command=easyeffects com.github.wwmm.easyeffects --gapplication-service")
+end)
