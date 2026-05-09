@@ -12,17 +12,21 @@ local emoji_picker = "flatpak run it.mijorus.smile"
 local main_mod = "SUPER"
 local shift_mod = "SHIFT"
 
-hl.bind(main_mod .. " + Return", hl.dsp.exec_cmd("uwsm app -- " .. terminal))
+local function uwsm_app(command)
+	return hl.dsp.exec_cmd("uwsm app -- " .. command)
+end
+
+hl.bind(main_mod .. " + Return", uwsm_app(terminal))
 hl.bind(main_mod .. " + SHIFT + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + I", hl.dsp.exec_cmd(runfetch))
-hl.bind(main_mod .. " + C", hl.dsp.exec_cmd("uwsm app -- " .. browser))
-hl.bind(main_mod .. " + SHIFT + C", hl.dsp.exec_cmd("uwsm app -- " .. color_picker))
+hl.bind(main_mod .. " + C", uwsm_app(browser))
+hl.bind(main_mod .. " + SHIFT + C", uwsm_app(color_picker))
 hl.bind(main_mod .. " + Q", hl.dsp.window.close())
 hl.bind(main_mod .. " + SHIFT + Q", hl.dsp.window.kill())
 hl.bind(main_mod .. " + M", hl.dsp.exit())
-hl.bind(main_mod .. " + E", hl.dsp.exec_cmd("uwsm app -- " .. file_manager))
+hl.bind(main_mod .. " + E", uwsm_app(file_manager))
 hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(main_mod .. " + Space", hl.dsp.exec_cmd("uwsm app -- " .. menu))
+hl.bind(main_mod .. " + Space", uwsm_app(menu))
 hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
 hl.bind(main_mod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
