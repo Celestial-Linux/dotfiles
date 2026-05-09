@@ -3,10 +3,10 @@ linemode = "size_and_mtime"
 
 [open]
 prepend_rules = [
-	{ name = "*.json", use = "edit" },
-	{ name = "*.html", use = [ "open", "edit" ] },
-	{ name = "*.png", use = [ "open", "edit-image" ] },
-	{ name = "*.jpg", use = [ "open", "edit-image" ] },
+	{ url = "*.json", use = "edit" },
+	{ url = "*.html", use = [ "open", "edit" ] },
+	{ url = "*.png", use = [ "open", "edit-image" ] },
+	{ url = "*.jpg", use = [ "open", "edit-image" ] },
 ]
 
 [opener]
