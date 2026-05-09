@@ -64,3 +64,9 @@ trust_level = "trusted"
 [projects."/var/home/celeste/.config/nushell"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/.config/hypr"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.local/bin"]
+trust_level = "trusted"
+
