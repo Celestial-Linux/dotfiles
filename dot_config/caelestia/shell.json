@@ -21,8 +21,6 @@
       }
     },
     "anim": {
-      "mediaGifSpeedAdjustment": 300,
-      "sessionGifSpeed": 0.7,
       "durations": {
         "scale": 1
       }
@@ -35,7 +33,6 @@
   },
   "general": {
     "logo": "~/.config/caelestia/flower.svg",
-    "excludedScreens": [],
     "apps": {
       "terminal": [
         "kitty"
