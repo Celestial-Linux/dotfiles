@@ -1,0 +1,406 @@
+local terminal = "kitty"
+local file_manager = "kitty yazi"
+local menu = "caelestia shell drawers toggle launcher"
+local browser = "helium"
+local color_picker = "hyprpicker --autocopy"
+local screenshot_window = "hyprshot -m window"
+local screenshot_monitor = "hyprshot -m output"
+local screenshot_region = "hyprshot -m region"
+local runfetch = [[kitty --class floating bash -c "~/.local/bin/runfetch.sh"]]
+local emoji_picker = "flatpak run it.mijorus.smile"
+
+local main_mod = "SUPER"
+local shift_mod = "SHIFT"
+
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "Posys-Cursor-Scalable")
+hl.env("EDITOR", "nvim")
+hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "1")
+hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
+hl.env("PATH", {{ .path | quote }})
+
+hl.on("hyprland.start", function()
+	hl.exec_cmd("uwsm finalize")
+	hl.exec_cmd("caelestia shell -d")
+	hl.exec_cmd("uwsm app -- flatpak run --command=easyeffects com.github.wwmm.easyeffects --gapplication-service")
+end)
+
+hl.monitor({
+	output = "desc:LG Electronics 27GL650F 0x00059204",
+	mode = "1920x1080@119.88Hz",
+	position = "0x0",
+	scale = "1",
+	vrr = 3,
+})
+
+hl.monitor({
+	output = "desc:Acer Technologies K202HQL T0CAA0028519",
+	mode = "preferred",
+	position = "auto-left",
+	scale = "1",
+	transform = 3,
+})
+
+hl.monitor({
+	output = "",
+	mode = "highrr",
+	position = "auto",
+	scale = "1",
+})
+
+hl.config({
+	general = {
+		gaps_in = 5,
+		gaps_out = 18,
+		gaps_workspaces = 20,
+		border_size = 1,
+		col = {
+			active_border = "rgba(d4cddce6)",
+			inactive_border = "rgba(88abcb80)",
+		},
+		resize_on_border = true,
+		allow_tearing = true,
+		layout = "dwindle",
+		snap = {
+			enabled = true,
+		},
+	},
+
+	debug = {
+		disable_logs = false,
+	},
+
+	cursor = {
+		no_hardware_cursors = true,
+	},
+
+	decoration = {
+		rounding = 15,
+		shadow = {
+			enabled = true,
+			range = 10,
+			render_power = 8,
+			color = "rgba(13131740)",
+		},
+		blur = {
+			enabled = true,
+			size = 4,
+			passes = 3,
+			new_optimizations = true,
+			vibrancy = 0.1696,
+			brightness = 0.8,
+		},
+	},
+
+	render = {
+		direct_scanout = 2,
+		cm_auto_hdr = 2,
+	},
+
+	ecosystem = {
+		no_donation_nag = true,
+		enforce_permissions = true,
+	},
+
+	animations = {
+		enabled = true,
+	},
+
+	dwindle = {
+		preserve_split = true,
+	},
+
+	master = {
+		new_status = "master",
+	},
+
+	misc = {
+		force_default_wallpaper = 0,
+		disable_hyprland_logo = true,
+		disable_splash_rendering = true,
+		middle_click_paste = false,
+		mouse_move_enables_dpms = true,
+		key_press_enables_dpms = true,
+		vrr = 0,
+		enable_anr_dialog = false,
+	},
+
+	input = {
+		kb_layout = "us",
+		kb_variant = "altgr-intl",
+		kb_model = "",
+		kb_options = "",
+		kb_rules = "",
+		follow_mouse = 1,
+		sensitivity = -0.70,
+		accel_profile = "flat",
+		touchpad = {
+			natural_scroll = false,
+		},
+	},
+})
+
+hl.curve("md3_decel", { type = "bezier", points = { { 0.05, 0.7 }, { 0.1, 1 } } })
+hl.curve("md3_accel", { type = "bezier", points = { { 0.3, 0 }, { 0.8, 0.15 } } })
+hl.curve("menu_decel", { type = "bezier", points = { { 0.1, 1 }, { 0, 1 } } })
+hl.curve("menu_accel", { type = "bezier", points = { { 0.38, 0.04 }, { 1, 0.07 } } })
+
+hl.animation({ leaf = "windows", enabled = true, speed = 3, bezier = "md3_decel", style = "popin 60%" })
+hl.animation({ leaf = "windowsIn", enabled = true, speed = 3, bezier = "md3_decel", style = "popin 60%" })
+hl.animation({ leaf = "windowsOut", enabled = true, speed = 3, bezier = "md3_accel", style = "popin 60%" })
+hl.animation({ leaf = "fade", enabled = true, speed = 3, bezier = "md3_decel" })
+hl.animation({ leaf = "layersIn", enabled = true, speed = 3, bezier = "menu_decel", style = "slide" })
+hl.animation({ leaf = "layersOut", enabled = true, speed = 1.6, bezier = "menu_accel", style = "slide" })
+hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 2, bezier = "menu_decel" })
+hl.animation({ leaf = "fadeLayersOut", enabled = true, speed = 4.5, bezier = "menu_accel" })
+hl.animation({ leaf = "workspaces", enabled = true, speed = 7, bezier = "menu_decel", style = "slide" })
+hl.animation({ leaf = "specialWorkspace", enabled = true, speed = 3, bezier = "md3_decel", style = "slidefadevert 15%" })
+
+hl.bind(main_mod .. " + Return", hl.dsp.exec_cmd("uwsm app -- " .. terminal))
+hl.bind(main_mod .. " + SHIFT + Return", hl.dsp.exec_cmd(terminal))
+hl.bind(main_mod .. " + I", hl.dsp.exec_cmd(runfetch))
+hl.bind(main_mod .. " + C", hl.dsp.exec_cmd("uwsm app -- " .. browser))
+hl.bind(main_mod .. " + SHIFT + C", hl.dsp.exec_cmd("uwsm app -- " .. color_picker))
+hl.bind(main_mod .. " + Q", hl.dsp.window.close())
+hl.bind(main_mod .. " + SHIFT + Q", hl.dsp.window.kill())
+hl.bind(main_mod .. " + M", hl.dsp.exit())
+hl.bind(main_mod .. " + E", hl.dsp.exec_cmd("uwsm app -- " .. file_manager))
+hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(main_mod .. " + Space", hl.dsp.exec_cmd("uwsm app -- " .. menu))
+hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
+hl.bind(main_mod .. " + J", hl.dsp.layout("togglesplit"))
+hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
+hl.bind(main_mod .. " + period", hl.dsp.exec_cmd(emoji_picker))
+hl.bind(main_mod .. " + SHIFT + Z", hl.dsp.global("caelestia:screenshotFreeze"))
+
+hl.bind(main_mod .. " + Print", hl.dsp.exec_cmd(screenshot_window))
+hl.bind(shift_mod .. " + Print", hl.dsp.exec_cmd(screenshot_monitor))
+hl.bind("Print", hl.dsp.exec_cmd(screenshot_region))
+
+hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "left" }))
+hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "right" }))
+hl.bind(main_mod .. " + up", hl.dsp.focus({ direction = "up" }))
+hl.bind(main_mod .. " + down", hl.dsp.focus({ direction = "down" }))
+
+for _, key in ipairs({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }) do
+	hl.bind(main_mod .. " + " .. key, hl.dsp.focus({ workspace = "r~" .. key, on_current_monitor = true }))
+	hl.bind(main_mod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = "r~" .. key }))
+end
+
+hl.bind(main_mod .. " + S", hl.dsp.workspace.toggle_special("magic"))
+hl.bind(main_mod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(main_mod .. " + mouse_down", hl.dsp.focus({ workspace = "r-1" }))
+hl.bind(main_mod .. " + mouse_up", hl.dsp.focus({ workspace = "r+1" }))
+hl.bind(main_mod .. " + SHIFT + mouse_down", hl.dsp.focus({ monitor = "-1" }))
+hl.bind(main_mod .. " + SHIFT + mouse_up", hl.dsp.focus({ monitor = "+1" }))
+hl.bind(main_mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind(main_mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ locked = true, repeating = true }
+)
+hl.bind(
+	"XF86AudioMicMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+	{ locked = true, repeating = true }
+)
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl s 10%+"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl s 10%-"), { locked = true, repeating = true })
+
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+hl.bind("SUPER + SHIFT + Left", hl.dsp.global(":prev_suggestion"))
+hl.bind("SUPER + SHIFT + Right", hl.dsp.global(":next_suggestion"))
+hl.bind("SUPER + SHIFT + M", hl.dsp.global(":cycle_copilot_model"))
+hl.bind("SUPER + SHIFT + C", hl.dsp.global(":clear_copilot_context"))
+hl.bind("SUPER + SHIFT + W", hl.dsp.global(":close_app"))
+hl.bind("SUPER + SHIFT + X", hl.dsp.global(":toggle_ui_visibility"))
+
+hl.window_rule({
+	name = "maximize-ignore",
+	match = { class = ".*" },
+	suppress_event = "maximize",
+})
+
+hl.window_rule({
+	name = "xwayland-drag-fix",
+	match = {
+		class = "^$",
+		title = "^$",
+		xwayland = true,
+		float = true,
+		fullscreen = false,
+		pin = false,
+	},
+	no_focus = true,
+})
+
+hl.window_rule({
+	name = "wezterm-window-rule",
+	match = { class = "org.wezfurlong.wezterm" },
+	opacity = "1",
+})
+
+hl.window_rule({
+	name = "easyeffects-window-rule",
+	match = { class = "com.github.wwmm.easyeffects" },
+	workspace = "special:magic",
+})
+
+hl.window_rule({
+	name = "boatswain-window-rule",
+	match = { class = "com.feaneron.Boatswain" },
+	workspace = "special:magic",
+})
+
+hl.window_rule({
+	name = "webcord-window-rule",
+	match = { class = "WebCord" },
+	workspace = "11",
+})
+
+hl.window_rule({
+	name = "vesktop-window-rule",
+	match = { class = "vesktop" },
+	workspace = "11",
+})
+
+hl.window_rule({
+	name = "fullscreen-rule-1",
+	match = { fullscreen = 1 },
+	immediate = true,
+})
+
+hl.window_rule({
+	name = "fullscreen-rule-2",
+	match = { fullscreen = 2 },
+	immediate = true,
+})
+
+hl.window_rule({
+	name = "floating-rule-1",
+	match = { class = "floating" },
+	float = true,
+})
+
+hl.window_rule({
+	name = "floating-rule-2",
+	match = { class = "it.mijorus.smile" },
+	float = true,
+})
+
+hl.window_rule({
+	name = "cuteview-window-rule-1",
+	match = { class = "^(cuteview)$" },
+	float = true,
+	size = "500 800",
+	center = true,
+	no_blur = true,
+	border_size = 0,
+	decorate = false,
+	focus_on_activate = false,
+	no_focus = true,
+	no_shadow = true,
+	no_screen_share = true,
+	no_follow_mouse = true,
+	border_color = "rgba(00000000)",
+	pin = true,
+	suppress_event = "activate activatefocus fullscreen maximize",
+	rounding = 0,
+})
+
+hl.layer_rule({
+	name = "caelestia-no-anim",
+	match = { namespace = "caelestia-(launcher|osd|notifications|border-exclusion|area-picker)" },
+	no_anim = true,
+})
+
+hl.layer_rule({
+	name = "caelestia-drawers-fade",
+	match = { namespace = "caelestia-(drawers|background)" },
+	animation = "fade",
+})
+
+hl.layer_rule({
+	name = "caelestia-border-exclusion-order",
+	match = { namespace = "caelestia-border-exclusion" },
+	order = 1,
+})
+
+hl.layer_rule({
+	name = "caelestia-bar-order",
+	match = { namespace = "caelestia-bar" },
+	order = 2,
+})
+
+hl.layer_rule({
+	name = "caelestia-xray",
+	match = { namespace = "caelestia-(border|launcher|bar|sidebar|navbar|mediadisplay|sc.*)" },
+	xray = true,
+})
+
+hl.layer_rule({
+	name = "caelestia-blur",
+	match = { namespace = "caelestia-.*" },
+	blur = true,
+})
+
+hl.layer_rule({
+	name = "quickshell-blur",
+	match = { namespace = "qs-.*" },
+	blur = true,
+})
+
+hl.layer_rule({
+	name = "caelestia-ignore-alpha",
+	match = { namespace = "caelestia-.*" },
+	ignore_alpha = 0.57,
+})
+
+for _, permission in ipairs({
+	{ binary = "/usr/(lib|libexec|lib64)/xdg-desktop-portal-hyprland", type = "screencopy", mode = "allow" },
+	{ binary = "/usr/bin/grim", type = "screencopy", mode = "allow" },
+	{ binary = "/usr/bin/hyprlock", type = "screencopy", mode = "allow" },
+	{ binary = "/usr/bin/hyprpicker", type = "screencopy", mode = "allow" },
+	{ binary = "/usr/bin/quickshell", type = "screencopy", mode = "allow" },
+}) do
+	hl.permission(permission)
+end
+
+local lg_monitor = "desc:LG Electronics 27GL650F 0x00059204"
+local acer_monitor = "desc:Acer Technologies K202HQL T0CAA0028519"
+
+for workspace = 1, 10 do
+	hl.workspace_rule({
+		workspace = tostring(workspace),
+		persistent = true,
+		monitor = lg_monitor,
+		default = workspace == 1,
+	})
+end
+
+for workspace = 11, 20 do
+	hl.workspace_rule({
+		workspace = tostring(workspace),
+		persistent = true,
+		monitor = acer_monitor,
+		default = workspace == 11,
+	})
+end
