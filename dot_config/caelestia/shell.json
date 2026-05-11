@@ -438,11 +438,11 @@
         "useFuzzy": {
             "actions": false,
             "apps": false,
-            "schemes": false,
-            "variants": false,
+            "schemes": true,
+            "variants": true,
             "wallpapers": false
         },
-        "vimKeybinds": false
+        "vimKeybinds": true
     },
     "lock": {
         "enableFprint": true,

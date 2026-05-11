@@ -70,3 +70,9 @@ trust_level = "trusted"
 [projects."/var/home/celeste/.local/bin"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/Documents/Development/CelesteLove/concord"]
+trust_level = "trusted"
+
+[projects."/tmp"]
+trust_level = "trusted"
+
