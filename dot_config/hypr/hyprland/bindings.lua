@@ -1,7 +1,7 @@
 local terminal = "kitty"
 local file_manager = "kitty yazi"
 local menu = "caelestia shell drawers toggle launcher"
-local browser = "helium"
+local browser = "trivalent"
 local color_picker = "hyprpicker --autocopy"
 local screenshot_window = "hyprshot -m window"
 local screenshot_monitor = "hyprshot -m output"
