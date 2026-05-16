@@ -76,3 +76,18 @@ trust_level = "trusted"
 [projects."/tmp"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/Documents/Development/CelesteLove/doomy"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Downloads"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/namegen"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/fakeword"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/nvim"]
+trust_level = "trusted"
+
