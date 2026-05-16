@@ -9,11 +9,11 @@
             "family": {
                 "clock": "Rubik",
                 "material": "Material Symbols Rounded",
-                "mono": "Agave Nerd Font Mono",
-                "sans": "Rubik"
+                "mono": "BerkeleyMono Nerd Font",
+                "sans": "Atkinson Hyperlegible"
             },
             "size": {
-                "scale": 0.912624584717608
+                "scale": 0.860594892026578
             }
         },
         "padding": {
