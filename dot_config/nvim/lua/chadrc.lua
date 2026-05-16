@@ -72,8 +72,54 @@ local function desktop_color_scheme()
     end
   end
 
+  local gtk_theme = system_output {
+    "gsettings",
+    "get",
+    "org.gnome.desktop.interface",
+    "gtk-theme",
+  }
+
+  if gtk_theme then
+    local value = gtk_theme:lower()
+
+    if value:find "dark" then
+      return "dark"
+    elseif value:find "light" then
+      return "light"
+    end
+  end
+
   return vim.o.background == "light" and "light" or "dark"
 end
+
+local function sync_system_theme()
+  local selected_mode = desktop_color_scheme()
+  local selected_theme = selected_mode == "light" and light_theme or dark_theme
+  local changed = false
+
+  if vim.o.background ~= selected_mode then
+    vim.o.background = selected_mode
+    changed = true
+  end
+
+  if package.loaded.nvconfig then
+    local nvconfig = require "nvconfig"
+
+    if nvconfig.base46.theme ~= selected_theme then
+      nvconfig.base46.theme = selected_theme
+      changed = true
+    end
+
+    if changed then
+      local ok, base46 = pcall(require, "base46")
+      if ok and type(base46.load_all_highlights) == "function" then
+        base46.load_all_highlights()
+      end
+    end
+  end
+end
+
+M.sync_system_theme = sync_system_theme
 
 local selected_mode = desktop_color_scheme()
 vim.o.background = selected_mode
