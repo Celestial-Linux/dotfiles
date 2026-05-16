@@ -5,9 +5,9 @@ return {
       "vim",
       "lua",
       "vimdoc",
+      "toml",
       "html",
       "css",
     },
   },
 }
-

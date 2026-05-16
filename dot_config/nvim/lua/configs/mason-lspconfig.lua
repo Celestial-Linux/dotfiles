@@ -10,6 +10,7 @@ local servers = {
   "cssls",
   "rust_analyzer",
   "jdtls",
+  "taplo",
   -- kotlin: use JetBrains' kotlin_lsp
   "kotlin_lsp",
 }
