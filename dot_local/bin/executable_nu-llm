@@ -2,6 +2,7 @@
 
 const default_endpoint = "http://localhost:8080/v1/chat/completions"
 const default_model = "qwen/qwen3.6-35b-a3b"
+const default_codex_model = "gpt-5.3-codex-spark"
 const default_api_key_env = "OPENAI_API_KEY"
 
 def command-schema [] {
@@ -39,6 +40,17 @@ def normalize-endpoint [endpoint: string] {
 
 def system-prompt [] {
     "You generate Nushell commands. Return only JSON matching the provided schema. The command must be valid Nushell syntax for a single command or pipeline. Prefer Nushell built-ins and pipelines. Use external commands with ^ when needed. Use exact Nushell command names, flag names, and table column names. Do not include markdown, comments, explanations, code fences, or extra keys."
+}
+
+def codex-prompt [
+    request: string
+    attempt: int
+    last_command
+    last_error
+] {
+    let user_prompt = (build-user-prompt $request $attempt $last_command $last_error)
+
+    $"(system-prompt)\n\nYou are being called by a wrapper around codex exec. Do not inspect files, run commands, edit files, or ask follow-up questions. Return only the final JSON object.\n\n($user_prompt)"
 }
 
 def build-user-prompt [
@@ -88,14 +100,23 @@ def build-body [
 
     $body
 }
-def candidate-command [response: record] {
-    let model_response = $response | get choices | get 0 | get message | get content
-    let command = $model_response | from json | get --optional command
+def command-from-json [text: string] {
+    let parsed = try {
+        $text | from json
+    } catch { |err|
+        error make {msg: $"nu-llm: model returned invalid JSON: (error-text $err)"}
+    }
+    let command = $parsed | get --optional command
     if ($command == null) or (($command | into string | str trim) == "") {
         error make {msg: "nu-llm: model returned JSON without a non-empty command field"}
     }
 
     $command | into string | str trim
+}
+
+def candidate-command [response: record] {
+    let model_response = $response | get choices | get 0 | get message | get content
+    command-from-json $model_response
 }
 
 def check-output [result: record] {
@@ -217,14 +238,70 @@ def request-command [
     candidate-command $response
 }
 
+def request-codex-command [
+    model: string
+    request: string
+    attempt: int
+    last_command
+    last_error
+] {
+    let schema_path = (mktemp --suffix .json)
+    let output_path = (mktemp --suffix .json)
+    let prompt = (codex-prompt $request $attempt $last_command $last_error)
+
+    let run = (try {
+        command-schema | to json | save --force $schema_path
+
+        let result = (
+            ^codex exec
+                --model $model
+                --sandbox read-only
+                --skip-git-repo-check
+                --ignore-rules
+                --ephemeral
+                --color never
+                --output-schema $schema_path
+                --output-last-message $output_path
+                $prompt
+                | complete
+        )
+
+        if $result.exit_code == 0 {
+            let saved = try {
+                open --raw $output_path | str trim
+            } catch { "" }
+            let output = if $saved == "" {
+                $result.stdout | into string | str trim
+            } else {
+                $saved
+            }
+
+            {ok: true, output: $output, error: ""}
+        } else {
+            {ok: false, output: "", error: (check-output $result)}
+        }
+    } catch { |err|
+        {ok: false, output: "", error: (error-text $err)}
+    })
+
+    try { rm --force $schema_path }
+    try { rm --force $output_path }
+
+    if not $run.ok {
+        error make {msg: $"nu-llm: codex exec failed: ($run.error)"}
+    }
+
+    command-from-json $run.output
+}
+
 def main [] {
-    print "Usage: nu-llm generate <request> [--endpoint URL] [--model MODEL]"
+    print "Usage:\n  nu-llm generate <request> [--endpoint URL] [--model MODEL]\n  nu-llm generate-codex <request> [--model MODEL]"
 }
 
 def "main generate" [
     request: string # Natural-language request to turn into a Nushell command.
     --endpoint (-e): string = $default_endpoint # OpenAI-compatible chat endpoint or llama.cpp /completion endpoint.
-    --model (-m): string = "" # Model id. Defaults to $env.NU_LLM_MODEL or gpt-4o-mini.
+    --model (-m): string = "" # Model id. Defaults to $env.NU_LLM_MODEL or qwen/qwen3.6-35b-a3b.
     --api-key-env: string = $default_api_key_env # Environment variable that contains the bearer token.
     --max-retries (-r): int = 5 # Maximum model attempts before failing.
     --temperature (-t): float = 0.1 # Sampling temperature.
@@ -274,6 +351,52 @@ def "main generate" [
 
     if $final_command == null {
         error make {msg: $"nu-llm: model did not produce valid Nushell after ($max_retries) attempts. Last error: ($last_error)"}
+    }
+
+    print $final_command
+}
+
+def "main generate-codex" [
+    request: string # Natural-language request to turn into a Nushell command via codex exec.
+    --model (-m): string = "" # Model id. Defaults to $env.NU_LLM_CODEX_MODEL or gpt-5.3-codex-spark.
+    --max-retries (-r): int = 5 # Maximum Codex attempts before failing.
+] {
+    if $max_retries < 1 {
+        error make {msg: "nu-llm: --max-retries must be at least 1"}
+    }
+
+    let model_name = if $model == "" {
+        env-or "NU_LLM_CODEX_MODEL" $default_codex_model
+    } else {
+        $model
+    }
+
+    mut last_command = null
+    mut last_error = null
+    mut final_command = null
+
+    for attempt in 1..$max_retries {
+        let candidate = (
+            request-codex-command
+                $model_name
+                $request
+                $attempt
+                $last_command
+                $last_error
+        )
+        let validation = (validate-command $candidate)
+
+        if $validation.valid {
+            $final_command = $candidate
+            break
+        }
+
+        $last_command = $candidate
+        $last_error = $validation.error
+    }
+
+    if $final_command == null {
+        error make {msg: $"nu-llm: Codex did not produce valid Nushell after ($max_retries) attempts. Last error: ($last_error)"}
     }
 
     print $final_command
