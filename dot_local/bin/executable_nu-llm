@@ -80,11 +80,12 @@ def build-body [
     last_command
     last_error
     temperature: float
+    thinking_budget_tokens
 ] {
     let user_prompt = (build-user-prompt $request $attempt $last_command $last_error)
     let schema = (command-schema)
 
-    let body = {
+    let base = {
         model: $model
         messages: [
             {
@@ -98,7 +99,11 @@ def build-body [
         temperature: $temperature
     }
 
-    $body
+    if $thinking_budget_tokens == null {
+        $base
+    } else {
+        $base | upsert thinking_budget_tokens $thinking_budget_tokens
+    }
 }
 def command-from-json [text: string] {
     let parsed = try {
@@ -198,6 +203,7 @@ def request-command [
     last_error
     temperature: float
     timeout: duration
+    thinking_budget_tokens
 ] {
     let body = (
         (build-body
@@ -208,6 +214,7 @@ def request-command [
             $last_command
             $last_error
             $temperature
+            $thinking_budget_tokens
         )
     )
     let headers = if ($api_key == null) or ($api_key == "") {
@@ -306,6 +313,7 @@ def "main generate" [
     --max-retries (-r): int = 5 # Maximum model attempts before failing.
     --temperature (-t): float = 0.1 # Sampling temperature.
     --timeout: duration = 60sec # HTTP request timeout.
+    --thinking-budget-tokens: int # llama.cpp per-request thinking token budget. Requires no fixed server --reasoning-budget.
 ] {
     if $max_retries < 1 {
         error make {msg: "nu-llm: --max-retries must be at least 1"}
@@ -336,6 +344,7 @@ def "main generate" [
                 $last_error
                 $temperature
                 $timeout
+                $thinking_budget_tokens
             )
         )
         let validation = (validate-command $candidate)
