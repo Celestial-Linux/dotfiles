@@ -17,6 +17,12 @@ local function uwsm_app(command)
 	return hl.dsp.exec_cmd("uwsm app -- " .. command)
 end
 
+local function turn_off_screens()
+	hl.timer(function()
+		hl.dispatch(hl.dsp.dpms({ action = "disable" }))
+	end, { timeout = 500, type = "oneshot" })
+end
+
 hl.bind(main_mod .. " + Return", uwsm_app(terminal))
 hl.bind(main_mod .. " + SHIFT + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + I", hl.dsp.exec_cmd(runfetch))
@@ -32,6 +38,7 @@ hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
 hl.bind(main_mod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind(main_mod .. " + period", hl.dsp.exec_cmd(emoji_picker))
+hl.bind(main_mod .. " + SHIFT + O", turn_off_screens, { locked = true })
 hl.bind(main_mod .. " + SHIFT + Z", hl.dsp.global("caelestia:screenshotFreeze"))
 
 hl.bind(main_mod .. " + Print", hl.dsp.exec_cmd(screenshot_window))
