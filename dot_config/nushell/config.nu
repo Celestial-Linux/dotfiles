@@ -356,6 +356,13 @@ $env.config = {
             event: { send: executehostcommand cmd: "rewrite-commandline-with-nu-llm-llama" }
         }
         {
+            name: nu_llm_command_prompt
+            modifier: none
+            keycode: "char_:"
+            mode: vi_normal
+            event: { send: executehostcommand cmd: "rewrite-commandline-with-nu-llm-prompt" }
+        }
+        {
             name: move_up
             modifier: none
             keycode: up
@@ -781,6 +788,43 @@ def rewrite-commandline-with-nu-llm-llama [] {
         ~/.local/bin/nu-llm generate --thinking-budget-tokens 64 --endpoint "https://llama-server.catfish-dinosaur.ts.net/v1" $prompt
         | str trim
     )
+    commandline edit --replace $generated
+}
+
+def rewrite-commandline-with-nu-llm-prompt [] {
+    let command = (input ":" | str trim)
+
+    if ($command | is-empty) {
+        return
+    }
+
+    let backend = if ($command == "llama" or ($command | str starts-with "llama ")) {
+        "llama"
+    } else {
+        "codex"
+    }
+
+    let prompt = if ($command == "codex" or $command == "llama") {
+        commandline | str trim
+    } else if ($command | str starts-with "codex ") {
+        $command | str replace --regex '^codex\s+' ''
+    } else if ($command | str starts-with "llama ") {
+        $command | str replace --regex '^llama\s+' ''
+    } else {
+        $command
+    }
+
+    if ($prompt | is-empty) {
+        return
+    }
+
+    let generated = if $backend == "llama" {
+        ~/.local/bin/nu-llm generate --thinking-budget-tokens 64 --endpoint "https://llama-server.catfish-dinosaur.ts.net/v1" $prompt
+        | str trim
+    } else {
+        ~/.local/bin/nu-llm generate-codex $prompt | str trim
+    }
+
     commandline edit --replace $generated
 }
 

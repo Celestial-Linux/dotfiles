@@ -8,6 +8,7 @@ local screenshot_monitor = "hyprshot -m output"
 local screenshot_region = "hyprshot -m region"
 local runfetch = "kitty --class floating -- /var/home/celeste/.local/bin/fetch"
 local emoji_picker = "flatpak run it.mijorus.smile"
+local exit = "uwsm stop"
 
 local main_mod = "SUPER"
 local shift_mod = "SHIFT"
@@ -23,7 +24,7 @@ hl.bind(main_mod .. " + C", uwsm_app(browser))
 hl.bind(main_mod .. " + SHIFT + C", uwsm_app(color_picker))
 hl.bind(main_mod .. " + Q", hl.dsp.window.close())
 hl.bind(main_mod .. " + SHIFT + Q", hl.dsp.window.kill())
-hl.bind(main_mod .. " + M", hl.dsp.exit())
+hl.bind(main_mod .. " + M", hl.dsp.exec_cmd(exit))
 hl.bind(main_mod .. " + E", uwsm_app(file_manager))
 hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(main_mod .. " + Space", uwsm_app(menu))
