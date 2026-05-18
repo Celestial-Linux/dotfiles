@@ -1,0 +1,280 @@
+#!/usr/bin/env nu
+
+const default_endpoint = "http://localhost:8080/v1/chat/completions"
+const default_model = "qwen/qwen3.6-35b-a3b"
+const default_api_key_env = "OPENAI_API_KEY"
+
+def command-schema [] {
+    {
+        type: "object"
+        additionalProperties: false
+        required: ["command"]
+        properties: {
+            command: {type: "string", minLength: 1, description: "One valid Nushell command or pipeline, with no markdown, comments, or explanation."}
+        }
+    }
+}
+
+def env-or [name: string, fallback: string] {
+    let value = $env | get --optional $name
+
+    if ($value == null) or ($value == "") {
+        $fallback
+    } else {
+        $value
+    }
+}
+
+def normalize-endpoint [endpoint: string] {
+    let clean = $endpoint | str trim | str replace --regex "/+$" ""
+
+    if ($clean | str ends-with "/chat/completions") {
+        $clean
+    } else if ($clean | str ends-with "/v1") {
+        $"($clean)/chat/completions"
+    } else {
+        $clean
+    }
+}
+
+def system-prompt [] {
+    "You generate Nushell commands. Return only JSON matching the provided schema. The command must be valid Nushell syntax for a single command or pipeline. Prefer Nushell built-ins and pipelines. Use external commands with ^ when needed. Use exact Nushell command names, flag names, and table column names. Do not include markdown, comments, explanations, code fences, or extra keys."
+}
+
+def build-user-prompt [
+    request: string
+    attempt: int
+    last_command
+    last_error
+] {
+    let retry_context = if ($attempt <= 1) or ($last_error == null) {
+        ""
+    } else {
+        $"\n\nPrevious invalid command:\n($last_command)\n\nValidator error:\n($last_error)\n\nReturn a corrected command."
+    }
+
+    $"Request:\n($request)($retry_context)"
+}
+
+def use-native-completion [endpoint: string] {
+    ($endpoint | str ends-with "/completion") and not ($endpoint | str ends-with "/v1/completion")
+}
+
+def build-body [
+    endpoint: string
+    model: string
+    request: string
+    attempt: int
+    last_command
+    last_error
+    temperature: float
+] {
+    let user_prompt = (build-user-prompt $request $attempt $last_command $last_error)
+    let schema = (command-schema)
+
+    let body = {
+        model: $model
+        messages: [
+            {
+                role: "system"
+                content: (system-prompt)
+            }
+            {role: "user", content: $user_prompt}
+        ]
+        response_format: {type: "json_object", schema: $schema}
+        stream: false
+        temperature: $temperature
+    }
+
+    $body
+}
+def candidate-command [response: record] {
+    let model_response = $response | get choices | get 0 | get message | get content
+    let command = $model_response | from json | get --optional command
+    if ($command == null) or (($command | into string | str trim) == "") {
+        error make {msg: "nu-llm: model returned JSON without a non-empty command field"}
+    }
+
+    $command | into string | str trim
+}
+
+def check-output [result: record] {
+    let stderr = $result.stderr | into string | str trim
+    let stdout = $result.stdout | into string | str trim
+
+    if $stderr != "" {
+        $stderr
+    } else if $stdout != "" {
+        $stdout
+    } else {
+        $"checker exited ($result.exit_code)"
+    }
+}
+
+def error-text [err] {
+    let msg = $err | get --optional msg
+    let json = $err | get --optional json
+    let parsed = if ($json == null) or (($json | into string | str trim) == "") {
+        null
+    } else {
+        try {
+            $json | from json
+        } catch { null }
+    }
+    let label = if $parsed == null {
+        null
+    } else {
+        $parsed | get --optional labels.0.text
+    }
+
+    if ($msg != null) and ($label != null) and (($label | into string | str trim) != "") {
+        $"($msg): ($label)"
+    } else if $msg != null {
+        $msg | into string
+    } else {
+        $err | into string
+    }
+}
+
+def validate-command [command: string] {
+    let path = (mktemp --suffix .nu)
+
+    let validation = (try {
+        $"($command)\n" | save --force $path
+
+        if not (which nu-check | is-empty) {
+            let ok = (nu-check --debug $path)
+
+            if $ok {
+                { valid: true, error: "" }
+            } else {
+                { valid: false, error: "nu-check returned false" }
+            }
+        } else {
+            let result = (^nu --ide-check 100 $path | complete)
+
+            if $result.exit_code == 0 {
+                { valid: true, error: "" }
+            } else {
+                { valid: false, error: (check-output $result) }
+            }
+        }
+    } catch { |err|
+        { valid: false, error: (error-text $err) }
+    })
+
+    try { rm --force $path }
+    $validation
+}
+
+def request-command [
+    endpoint: string
+    model: string
+    api_key: string
+    request: string
+    attempt: int
+    last_command
+    last_error
+    temperature: float
+    timeout: duration
+] {
+    let body = (
+        (build-body
+            $endpoint
+            $model
+            $request
+            $attempt
+            $last_command
+            $last_error
+            $temperature
+        )
+    )
+    let headers = if ($api_key == null) or ($api_key == "") {
+        {Accept: "application/json"}
+    } else {
+        {
+            Authorization: $"Bearer ($api_key)"
+            Accept: "application/json"
+        }
+    }
+
+    let response = (
+        http post
+            --content-type application/json
+            --headers $headers
+            --max-time $timeout
+            --allow-errors
+            $endpoint
+            $body | metadata access {
+                |m| if $m.http_response.status != 200 {
+                    error make {
+                        msg: $"Request failed: ($body | to json)"
+                    }
+                } else {}
+            }
+    )
+
+    candidate-command $response
+}
+
+def main [] {
+    print "Usage: nu-llm generate <request> [--endpoint URL] [--model MODEL]"
+}
+
+def "main generate" [
+    request: string # Natural-language request to turn into a Nushell command.
+    --endpoint (-e): string = $default_endpoint # OpenAI-compatible chat endpoint or llama.cpp /completion endpoint.
+    --model (-m): string = "" # Model id. Defaults to $env.NU_LLM_MODEL or gpt-4o-mini.
+    --api-key-env: string = $default_api_key_env # Environment variable that contains the bearer token.
+    --max-retries (-r): int = 5 # Maximum model attempts before failing.
+    --temperature (-t): float = 0.1 # Sampling temperature.
+    --timeout: duration = 60sec # HTTP request timeout.
+] {
+    if $max_retries < 1 {
+        error make {msg: "nu-llm: --max-retries must be at least 1"}
+    }
+
+    let api_key = (env-or $api_key_env "")
+
+    let url = (normalize-endpoint $endpoint)
+    let model_name = if $model == "" {
+        env-or "NU_LLM_MODEL" $default_model
+    } else {
+        $model
+    }
+
+    mut last_command = null
+    mut last_error = null
+    mut final_command = null
+
+    for attempt in 1..$max_retries {
+        let candidate = (
+            (request-command
+                $url
+                $model_name
+                $api_key
+                $request
+                $attempt
+                $last_command
+                $last_error
+                $temperature
+                $timeout
+            )
+        )
+        let validation = (validate-command $candidate)
+
+        if $validation.valid {
+            $final_command = $candidate
+            break
+        }
+
+        $last_command = $candidate
+        $last_error = $validation.error
+    }
+
+    if $final_command == null {
+        error make {msg: $"nu-llm: model did not produce valid Nushell after ($max_retries) attempts. Last error: ($last_error)"}
+    }
+
+    print $final_command
+}
