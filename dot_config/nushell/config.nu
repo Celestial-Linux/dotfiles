@@ -342,6 +342,20 @@ $env.config = {
             event: { send: openeditor }
         }
         {
+            name: rewrite_commandline_with_nu_llm_codex
+            modifier: alt
+            keycode: char_g
+            mode: [emacs, vi_normal, vi_insert]
+            event: { send: executehostcommand cmd: "rewrite-commandline-with-nu-llm-codex" }
+        }
+        {
+            name: rewrite_commandline_with_nu_llm_llama
+            modifier: alt_shift
+            keycode: char_g
+            mode: [emacs, vi_normal, vi_insert]
+            event: { send: executehostcommand cmd: "rewrite-commandline-with-nu-llm-llama" }
+        }
+        {
             name: move_up
             modifier: none
             keycode: up
@@ -744,6 +758,31 @@ $env.config = {
 
 use nu-themes/catppuccin-mocha.nu
 use nu-themes/catppuccin-latte.nu
+
+def rewrite-commandline-with-nu-llm-codex [] {
+    let prompt = (commandline | str trim)
+
+    if ($prompt | is-empty) {
+        return
+    }
+
+    let generated = (~/.local/bin/nu-llm generate-codex $prompt | str trim)
+    commandline edit --replace $generated
+}
+
+def rewrite-commandline-with-nu-llm-llama [] {
+    let prompt = (commandline | str trim)
+
+    if ($prompt | is-empty) {
+        return
+    }
+
+    let generated = (
+        ~/.local/bin/nu-llm generate --thinking-budget-tokens 64 --endpoint "https://llama-server.catfish-dinosaur.ts.net/v1" $prompt
+        | str trim
+    )
+    commandline edit --replace $generated
+}
 
 def catppuccin_base_ls_colors [] {
     let ls_colors_file = ($nu.default-config-dir | path join "LS_COLORS")
