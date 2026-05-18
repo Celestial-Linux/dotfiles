@@ -6,7 +6,7 @@ local color_picker = "hyprpicker --autocopy"
 local screenshot_window = "hyprshot -m window"
 local screenshot_monitor = "hyprshot -m output"
 local screenshot_region = "hyprshot -m region"
-local runfetch = [[kitty --class floating bash -c "~/.local/bin/runfetch.sh"]]
+local runfetch = [[kitty --class floating nu -c "fetch"]]
 local emoji_picker = "flatpak run it.mijorus.smile"
 
 local main_mod = "SUPER"

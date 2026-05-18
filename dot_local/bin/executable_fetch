@@ -1,0 +1,10 @@
+#!/usr/bin/env nu
+
+def main [] {
+    ^fastfetch
+    let status = $env.LAST_EXIT_CODE
+
+    ^bash -c 'IFS= read -r -s -n 1 _ < /dev/tty'
+
+    exit $status
+}
