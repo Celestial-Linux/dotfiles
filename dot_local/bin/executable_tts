@@ -1,0 +1,80 @@
+#!/bin/nu
+
+def u32-le [n: int] { $n | into binary | bytes at 0..<4 }
+def u16-le [n: int] { $n | into binary | bytes at 0..<2 }
+
+def wav-header [data_size: int, sample_rate: int] {
+    let channels = 1
+    let bits = 16
+    let byte_rate = $sample_rate * $channels * $bits // 8
+    let block_align = $channels * $bits // 8
+
+    (
+        (0x[52 49 46 46])
+        ++ (u32-le ($data_size + 36))
+        ++ (0x[57 41 56 45 66 6d 74 20])
+        ++ (u32-le 16)
+        ++ (u16-le 1)
+        ++ (u16-le $channels)
+        ++ (u32-le $sample_rate)
+        ++ (u32-le $byte_rate)
+        ++ (u16-le $block_align)
+        ++ (u16-le $bits)
+        ++ (0x[64 61 74 61])
+        ++ (u32-le $data_size)
+    )
+}
+
+def main [
+    text: string,
+    --voice: string = "Kore",
+    --style: string = "",
+    --model: string = "gemini-3.1-flash-tts-preview",
+    --output (-o): string = "speech.wav",
+    --play (-p),
+] {
+    let prompt = if ($style | is-empty) { $text } else { $"Say ($style): ($text)" }
+
+    let url = $"https://aiplatform.googleapis.com/v1/publishers/google/models/($model):generateContent"
+
+    let body = {
+        contents: [{ role: "user", parts: [{ text: $prompt }] }]
+        generationConfig: {
+            responseModalities: ["AUDIO"]
+            speechConfig: {
+                voiceConfig: {
+                    prebuiltVoiceConfig: { voiceName: $voice }
+                }
+            }
+        }
+    }
+
+    let raw = (
+        http post
+            --content-type 'application/json'
+            --headers { 'x-goog-api-key': $env.VERTEX_AI_API_KEY }
+            --full
+            --allow-errors
+            $url
+            $body
+    )
+
+    if $raw.status >= 400 {
+        print --stderr $"HTTP ($raw.status)"
+        print --stderr ($raw.body | to text)
+        exit 1
+    }
+
+    let resp = $raw.body
+    let part = $resp.candidates.0.content.parts.0
+    let pcm = ($part.inlineData.data | decode base64)
+    let rate = ($part.inlineData.mimeType | parse --regex 'rate=(?<r>\d+)' | get r.0 | into int)
+
+    let wav = (wav-header ($pcm | bytes length) $rate) ++ $pcm
+    if $play {
+        $wav | aplay --quiet
+    } else {
+        $wav | save --force $output
+        print $"wrote ($output)"
+    }
+}
