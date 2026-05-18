@@ -91,3 +91,9 @@ trust_level = "trusted"
 [projects."/var/home/celeste/.config/nvim"]
 trust_level = "trusted"
 
+[projects."/var/home/celeste/Documents/Development/Grovebird/search-flow"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.local/share/chezmoi"]
+trust_level = "trusted"
+

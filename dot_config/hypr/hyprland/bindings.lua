@@ -6,7 +6,7 @@ local color_picker = "hyprpicker --autocopy"
 local screenshot_window = "hyprshot -m window"
 local screenshot_monitor = "hyprshot -m output"
 local screenshot_region = "hyprshot -m region"
-local runfetch = [[kitty --class floating nu -c "fetch"]]
+local runfetch = "kitty --class floating -- /var/home/celeste/.local/bin/fetch"
 local emoji_picker = "flatpak run it.mijorus.smile"
 
 local main_mod = "SUPER"
