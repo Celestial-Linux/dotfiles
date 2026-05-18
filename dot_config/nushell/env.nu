@@ -96,8 +96,8 @@ path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # Command aliases
-alias tc = turbocommit -c ($env.HOME | path join ".config" "turbocommit" "config.yml")
 alias nv = flatpak run io.neovim.nvim
+alias codex = with-bws-secrets codex
 
 $env.GPG_TTY = (tty)
 def tca [...args] {
