@@ -39,7 +39,7 @@ def normalize-endpoint [endpoint: string] {
 }
 
 def system-prompt [] {
-    "You generate Nushell commands. Return only JSON matching the provided schema. The command must be valid Nushell syntax for a single command or pipeline. Prefer Nushell built-ins and pipelines. Use external commands with ^ when needed. Use exact Nushell command names, flag names, and table column names. Do not include markdown, comments, explanations, code fences, or extra keys."
+    "You generate Nushell commands. Return only JSON matching the provided schema. The command must be valid Nushell syntax for a single command or pipeline. Prefer Nushell built-ins and pipelines. Use external commands with ^ when needed. Use exact Nushell command names, flag names, and table column names. Use `fd` to find files and `rg` to search text in files unless Nushell's built-in `find` works naturally for the requested filtering. Do not include markdown, comments, explanations, code fences, or extra keys."
 }
 
 def codex-prompt [
