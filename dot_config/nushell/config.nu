@@ -923,9 +923,11 @@ def --env switch_theme [] {
     let requested_theme = $env.NU_THEME? | default "" | str downcase
 
     if $requested_theme == "dark" {
+        $env.NU_THEME = "dark"
         catppuccin-mocha set color_config
         $env.LS_COLORS = (catppuccin_mocha_ls_colors)
     } else if $requested_theme == "light" {
+        $env.NU_THEME = "light"
         catppuccin-latte set color_config
         $env.LS_COLORS = (catppuccin_latte_ls_colors)
     } else {
@@ -936,9 +938,11 @@ def --env switch_theme [] {
         }
 
         if $system_theme == $dark_theme {
+            $env.NU_THEME = "dark"
             catppuccin-mocha set color_config
             $env.LS_COLORS = (catppuccin_mocha_ls_colors)
         } else if $system_theme == $light_theme {
+            $env.NU_THEME = "light"
             catppuccin-latte set color_config
             $env.LS_COLORS = (catppuccin_latte_ls_colors)
         } else {
