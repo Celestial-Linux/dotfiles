@@ -22,13 +22,6 @@
 {{-   $signingkey = promptStringOnce . "signingkey" "What's your GPG signing key? (leave blank to skip)" $signingkey -}}
 {{- end -}}
 
-{{- $accessToken := "" -}}
-{{- if hasKey . "accessToken" -}}
-{{-   $accessToken = .accessToken -}}
-{{- else if $interactive -}}
-{{-   $accessToken = promptStringOnce . "accessToken" "What's your BitWarden Secrets access token? (leave blank to skip)" $accessToken -}}
-{{- end -}}
-
 {{- $path := "" -}}
 {{- if hasKey . "path" -}}
 {{-   $path = .path -}}
@@ -46,5 +39,4 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 name = {{ $name | quote }}
 email = {{ $email | quote }}
 signingkey = {{ $signingkey | quote }}
-accessToken = {{ $accessToken | quote }}
 path = {{ $path | quote }}
