@@ -92,7 +92,8 @@ local function desktop_color_scheme()
   return vim.o.background == "light" and "light" or "dark"
 end
 
-local function sync_system_theme()
+local function sync_system_theme(opts)
+  local force = opts and opts.force == true
   local selected_mode = desktop_color_scheme()
   local selected_theme = selected_mode == "light" and light_theme or dark_theme
   local changed = false
@@ -110,7 +111,7 @@ local function sync_system_theme()
       changed = true
     end
 
-    if changed then
+    if changed or force then
       local ok, base46 = pcall(require, "base46")
       if ok and type(base46.load_all_highlights) == "function" then
         base46.load_all_highlights()
