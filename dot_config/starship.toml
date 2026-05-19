@@ -2,7 +2,9 @@ format = """
 [](#9A348E)\
 $os\
 $username\
-[](bg:#DA627D fg:#9A348E)\
+[](fg:#9A348E bg:#B85C9E)\
+$hostname\
+[](fg:#B85C9E bg:#DA627D)\
 $directory\
 [](fg:#DA627D bg:#FCA17D)\
 $git_branch\
@@ -37,6 +39,13 @@ show_always = true
 style_user = "bg:#9A348E fg:#e2eefc"
 style_root = "bg:#9A348E fg:#e2eefc"
 format = '[$user ]($style)'
+disabled = false
+
+[hostname]
+ssh_only = false
+style = "bg:#B85C9E fg:#e2eefc"
+format = '[󰒋 $hostname ]($style)'
+trim_at = "."
 disabled = false
 
 # An alternative to the username module which displays a symbol that
