@@ -8,25 +8,25 @@ approvals_reviewer = "guardian_subagent"
 [profiles.openrouter-codex]
 model_provider = "openrouter"
 model_reasoning_effort = "high"
-model="openai/gpt-5.3-codex"
+model = "openai/gpt-5.3-codex"
 
 [profiles.qwen]
 model_provider = "llamacpp"
 model_reasoning_effort = "high"
-model="qwen3.6-35b-a3b"
+model = "qwen3.6-35b-a3b"
 
 
 [model_providers.openrouter]
 name = "openrouter"
 
-base_url="https://openrouter.ai/api/v1"
-env_key="OPENROUTER_API_KEY"
+base_url = "https://openrouter.ai/api/v1"
+env_key = "OPENROUTER_API_KEY"
 wire_api = "responses"
 
 [model_providers.llamacpp]
 name = "llama.cpp"
 
-base_url="https://llama-server.catfish-dinosaur.ts.net/v1"
+base_url = "https://llama-server.catfish-dinosaur.ts.net/v1"
 wire_api = "responses"
 
 [features]
@@ -52,63 +52,6 @@ args = ["@coding-solo/godot-mcp"]
 url = "https://api.githubcopilot.com/mcp/"
 bearer_token_env_var = "GITHUB_PAT_TOKEN"
 
-[projects."/var/home/celeste/.config/deckmaster"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.config/kitty"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/Celestial-Silverblue"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.config/nushell"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.config/hypr"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.local/bin"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/concord"]
-trust_level = "trusted"
-
-[projects."/tmp"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/doomy"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Downloads"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/namegen"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/fakeword"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.config/nvim"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/Grovebird/search-flow"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.local/share/chezmoi"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/caelestia-fedora"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Downloads/extensions/whatsapp-audio"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/Documents/Development/CelesteLove/transcriber-for-whatsapp"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.ssh"]
-trust_level = "trusted"
-
-[projects."/var/home/celeste/.config"]
-trust_level = "trusted"
-
+[mcp_servers.pterodactyl]
+command = "nu"
+args = ["/var/home/celeste/.local/bin/pterodactyl-mcp.nu"]
