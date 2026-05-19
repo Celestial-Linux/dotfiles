@@ -38,5 +38,7 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 [data]
 name = {{ $name | quote }}
 email = {{ $email | quote }}
+{{- if $signingkey }}
 signingkey = {{ $signingkey | quote }}
+{{- end }}
 path = {{ $path | quote }}

@@ -1,7 +1,9 @@
 [user]
 	email = {{ .email | quote }}
 	name = {{ .name | quote }}
+{{- if and (hasKey . "signingkey") .signingkey }}
         signingkey = {{ .signingkey | quote }}
+{{- end }}
 [init]
 	defaultBranch = main
 
