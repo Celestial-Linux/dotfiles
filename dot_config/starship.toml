@@ -44,7 +44,7 @@ disabled = false
 [hostname]
 ssh_only = false
 style = "bg:#B85C9E fg:#e2eefc"
-format = '[󰒋 $hostname ]($style)'
+format = '[ 󰒋 $hostname ]($style)'
 trim_at = "."
 disabled = false
 
@@ -63,6 +63,7 @@ Amazon = ""
 Android = ""
 Arch = ""
 Artix = ""
+CachyOS = ""
 CentOS = ""
 Debian = ""
 DragonFly = ""
@@ -84,6 +85,7 @@ MidnightBSD = ""
 Mint = ""
 NetBSD = ""
 NixOS = ""
+Nobara = ""
 OpenBSD = "󰈺"
 openSUSE = ""
 OracleLinux = "󰌷"
