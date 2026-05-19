@@ -920,17 +920,31 @@ $env.LS_COLORS = (catppuccin_mocha_ls_colors)
 def --env switch_theme [] {
     const dark_theme = 1
     const light_theme = 2
-    let system_theme = term query "\e[?996n" --prefix "\e[?997;" --terminator "n" | decode | into int
+    let requested_theme = $env.NU_THEME? | default "" | str downcase
 
-    if $system_theme == $dark_theme {
+    if $requested_theme == "dark" {
         catppuccin-mocha set color_config
         $env.LS_COLORS = (catppuccin_mocha_ls_colors)
-    } else if $system_theme == $light_theme {
+    } else if $requested_theme == "light" {
         catppuccin-latte set color_config
         $env.LS_COLORS = (catppuccin_latte_ls_colors)
     } else {
-        let error_msg = "Unknown system theme returned from terminal: " + ($system_theme | into string)
-        error make {msg: $error_msg }
+        let system_theme = try {
+            term query "\e[?996n" --prefix "\e[?997;" --terminator "n" | decode | into int
+        } catch {
+            $dark_theme
+        }
+
+        if $system_theme == $dark_theme {
+            catppuccin-mocha set color_config
+            $env.LS_COLORS = (catppuccin_mocha_ls_colors)
+        } else if $system_theme == $light_theme {
+            catppuccin-latte set color_config
+            $env.LS_COLORS = (catppuccin_latte_ls_colors)
+        } else {
+            let error_msg = "Unknown system theme returned from terminal: " + ($system_theme | into string)
+            error make {msg: $error_msg }
+        }
     }
 }
 
