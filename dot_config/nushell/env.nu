@@ -97,7 +97,7 @@ $env.PATH = ($env.PATH | uniq)
 
 # Command aliases
 alias nv = flatpak run io.neovim.nvim
-alias codex = with-bws-secrets codex
+alias codex = with-bws-secrets codex-sandbox
 
 $env.GPG_TTY = (tty)
 def tca [...args] {

@@ -10,10 +10,15 @@ model_provider = "openrouter"
 model_reasoning_effort = "high"
 model = "openai/gpt-5.3-codex"
 
+[profiles.spark]
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
+
 [profiles.qwen]
 model_provider = "llamacpp"
 model_reasoning_effort = "high"
-model = "qwen3.6-35b-a3b"
+model = "qwen/qwen3.6-35b-a3b"
+model_catalog_json = "/var/home/celeste/.config/codex/model.json"
 
 
 [model_providers.openrouter]
@@ -38,6 +43,9 @@ external_migration = true
 home_last_prompted_at = 1777469676
 home = true
 
+[notice.model_migrations]
+"gpt-5.3-codex" = "gpt-5.4"
+
 [tui]
 theme = "ansi"
 
@@ -55,3 +63,78 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"
 [mcp_servers.pterodactyl]
 command = "nu"
 args = ["/var/home/celeste/.local/bin/pterodactyl-mcp.nu"]
+
+[projects."/var/home/celeste/.config/deckmaster"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/kitty"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/Celestial-Silverblue"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/nushell"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/hypr"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.local/bin"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/concord"]
+trust_level = "trusted"
+
+[projects."/tmp"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/doomy"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Downloads"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/namegen"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/fakeword"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/nvim"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/Grovebird/search-flow"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.local/share/chezmoi"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/caelestia-fedora"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Downloads/extensions/whatsapp-audio"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/transcriber-for-whatsapp"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.ssh"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/PterodactylMCP"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/Eufonia-Infra/eufonia-client-tools"]
+trust_level = "trusted"
+
+[projects."/var/home/linuxbrew"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/elgato-keylight"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/.config/codex"]
+trust_level = "trusted"
