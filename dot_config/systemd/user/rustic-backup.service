@@ -1,0 +1,8 @@
+[Unit]
+Description=Rustic backup
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h
+Environment=PATH=/home/linuxbrew/.linuxbrew/bin:/var/home/celeste/.cargo/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/var/home/celeste/.local/bin/with-bws-secret 8a47a459-510d-4abb-b15a-b4500053ba6e cef5743f-f4be-40ef-acee-b450005a5606 -- rustic backup
