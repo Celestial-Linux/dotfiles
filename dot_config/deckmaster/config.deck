@@ -100,7 +100,7 @@
     [keys.widget.config]
       icon = "/home/celeste/.config/deckmaster/assets/star-new-symbolic-white.png"
   [keys.action]
-    exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 toggle"
+    exec = "elgato-keylight-cli toggle"
 
 [[keys]]
   index = 11
@@ -109,7 +109,7 @@
     [keys.widget.config]
       icon = "/home/celeste/.config/deckmaster/assets/pan-down-symbolic-white.png"
   [keys.action]
-    exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 decr-brightness"
+    exec = "elgato-keylight-cli decr-brightness"
 
 [[keys]]
   index = 12
@@ -127,4 +127,4 @@
     [keys.widget.config]
       icon = "/home/celeste/.config/deckmaster/assets/pan-up-symbolic-white.png"
   [keys.action]
-    exec = "elgato-keylight-cli --ip 192.168.0.11 --port 9123 incr-brightness"
+    exec = "elgato-keylight-cli incr-brightness"
