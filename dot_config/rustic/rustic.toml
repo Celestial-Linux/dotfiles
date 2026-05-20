@@ -1,0 +1,9 @@
+[repository]
+repository = "rclone:b2:celestelove-backups"
+
+[[backup.snapshots]]
+sources = ["/home/celeste"]
+globs = ["!/home/celeste/Downloads/*"]
+
+[backup]
+git-ignore = true
