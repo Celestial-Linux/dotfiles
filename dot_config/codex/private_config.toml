@@ -11,7 +11,7 @@ model_reasoning_effort = "high"
 model = "openai/gpt-5.3-codex"
 
 [profiles.spark]
-model = "gpt-5.4"
+model = "gpt-5.3-codex-spark"
 model_reasoning_effort = "medium"
 
 [profiles.qwen]
@@ -63,3 +63,7 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"
 [mcp_servers.pterodactyl]
 command = "nu"
 args = ["/var/home/celeste/.local/bin/pterodactyl-mcp.nu"]
+
+[projects."/var/home/celeste/.local/share/chezmoi"]
+trust_level = "trusted"
+
