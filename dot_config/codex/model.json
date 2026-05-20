@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "slug": "qwen/qwen3.6-35b-a3b",
+      "display_name": "qwen/qwen3.6-35b-a3b",
+      "context_window": 65536,
+      "apply_patch_tool_type": "freeform",
+      "shell_type": "default",
+      "visibility": "list",
+      "supported_in_api": true,
+      "priority": 0,
+      "truncation_policy": {
+        "mode": "bytes",
+        "limit": 10000
+      },
+      "input_modalities": [
+        "text"
+      ],
+      "base_instructions": "",
+      "support_verbosity": true,
+      "default_verbosity": "low",
+      "supports_parallel_tool_calls": false,
+      "supports_reasoning_summaries": false,
+      "supported_reasoning_levels": [],
+      "experimental_supported_tools": []
+    }
+  ]
+}
