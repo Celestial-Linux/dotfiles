@@ -12,7 +12,7 @@ model = "openai/gpt-5.3-codex"
 
 [profiles.spark]
 model = "gpt-5.3-codex-spark"
-model_reasoning_effort = "medium"
+model_reasoning_effort = "xhigh"
 
 [profiles.qwen]
 model_provider = "llamacpp"
