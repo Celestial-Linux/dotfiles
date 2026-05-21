@@ -23,6 +23,26 @@ local function turn_off_screens()
 	end, { timeout = 500, type = "oneshot" })
 end
 
+local function active_workspace_layout()
+	local workspace = hl.get_active_workspace()
+
+	if workspace == nil then
+		return nil
+	end
+
+	return workspace.tiled_layout
+end
+
+local function handle_layout_action()
+	local layout = active_workspace_layout()
+
+	if layout == "dwindle" then
+		hl.dispatch(hl.dsp.layout("togglesplit"))
+	elseif layout == "master" then
+		hl.dispatch(hl.dsp.layout("swapwithmaster master ignoremaster"))
+	end
+end
+
 hl.bind(main_mod .. " + Return", uwsm_app(terminal))
 hl.bind(main_mod .. " + SHIFT + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + I", hl.dsp.exec_cmd(runfetch))
@@ -35,7 +55,7 @@ hl.bind(main_mod .. " + E", uwsm_app(file_manager))
 hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(main_mod .. " + Space", uwsm_app(menu))
 hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
-hl.bind(main_mod .. " + J", hl.dsp.layout("togglesplit"))
+hl.bind(main_mod .. " + J", handle_layout_action)
 hl.bind(main_mod .. " + SHIFT + J", hl.dsp.layout("swapwithmaster master ignoremaster"))
 hl.bind(main_mod .. " + Tab", hl.dsp.layout("cyclenext"))
 hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.layout("cycleprev"))
