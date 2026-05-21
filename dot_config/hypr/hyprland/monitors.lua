@@ -1,6 +1,6 @@
 hl.monitor({
 	output = "desc:LG Electronics 27GL650F 0x00059204",
-	mode = "1920x1080@119.88Hz",
+	mode = "1920x1080@143.98Hz",
 	position = "0x0",
 	scale = "1",
 	vrr = 3,
