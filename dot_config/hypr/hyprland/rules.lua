@@ -36,6 +36,24 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "trivalent-workspace-rule",
+	match = { class = "trivalent" },
+	workspace = "1",
+})
+
+hl.window_rule({
+	name = "zed-workspace-rule",
+	match = { class = "dev.zed.Zed" },
+	workspace = "3",
+})
+
+hl.window_rule({
+	name = "discord-workspace-rule",
+	match = { class = "discord" },
+	workspace = "11",
+})
+
+hl.window_rule({
 	name = "webcord-window-rule",
 	match = { class = "WebCord" },
 	workspace = "11",
@@ -45,6 +63,12 @@ hl.window_rule({
 	name = "vesktop-window-rule",
 	match = { class = "vesktop" },
 	workspace = "11",
+})
+
+hl.window_rule({
+	name = "whatsapp-workspace-rule",
+	match = { class = "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default" },
+	workspace = "12",
 })
 
 hl.window_rule({
