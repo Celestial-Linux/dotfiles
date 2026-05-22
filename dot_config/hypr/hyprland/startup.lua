@@ -1,6 +1,7 @@
 local autostart_preset = {
 	{ name = "Trivalent", workspace = "1", command = "trivalent" },
 	{ name = "Kitty", workspace = "2", command = "kitty nu -l -e wtf" },
+	{ name = "Kite", workspace = "2", command = "kitty kite" },
 	{ name = "Zed", workspace = "3", command = "zed" },
 	{
 		name = "Apple Music",
