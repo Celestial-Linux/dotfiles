@@ -98,6 +98,7 @@ $env.PATH = ($env.PATH | uniq)
 # Command aliases
 alias nv = flatpak run io.neovim.nvim
 alias codex = with-bws-secrets codex-sandbox
+alias wtf = WTF_GITHUB_TOKEN=$"(gh auth token)" with-bws-secret --env-name=WTF_OWM_API_KEY 07d8bc22-32b5-4936-a734-b452003bbcf4 wtfutil
 
 $env.GPG_TTY = (tty)
 def tca [...args] {
