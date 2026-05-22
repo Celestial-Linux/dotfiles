@@ -95,10 +95,52 @@ path add ($env.HOME | path join ".local" "share" "go" "bin")
 path add ($env.HOME | path join ".cache" ".bun" "bin")
 $env.PATH = ($env.PATH | uniq)
 
-# Command aliases
+# Command aliases and functions
 alias nv = flatpak run io.neovim.nvim
 alias codex = with-bws-secrets codex-sandbox
-alias wtf = WTF_GITHUB_TOKEN=$"(gh auth token)" with-bws-secret --env-name=WTF_OWM_API_KEY 07d8bc22-32b5-4936-a734-b452003bbcf4 wtfutil
+def --wrapped wtf [
+	...args # Arguments to pass to wtfutil.
+] {
+	let secret_id = ($env | get --optional WTF_OWM_SECRET_ID)
+
+	if ($secret_id == null) or ($secret_id == "") {
+		print --stderr "wtf: set WTF_OWM_SECRET_ID to your BWS secret UUID"
+		return
+	}
+
+	if (which bws | is-empty) {
+		print --stderr "wtf: bws was not found in PATH"
+		return
+	}
+
+	let access_token = ($env | get --optional BWS_AUTH_TOKEN)
+	if ($access_token == null) or ($access_token == "") {
+		print --stderr "wtf: BWS_AUTH_TOKEN must be set for --access-token"
+		return
+	}
+
+	let secret = try {
+		^bws --access-token $access_token secret get $secret_id --output json | from json
+	} catch { |err|
+		print --stderr $"wtf: failed to fetch OWM secret ($secret_id): ($err.msg)"
+		null
+	}
+
+	if $secret == null {
+		return
+	}
+
+	let owm_token = ($secret | get --optional value)
+	if $owm_token == null {
+		print --stderr $"wtf: secret ($secret_id) has no value"
+		return
+	}
+
+	let wtf_args = ($args | each { |arg| $arg | into string })
+	$env.WTF_GITHUB_TOKEN = $"(gh auth token)"
+	$env.WTF_OWM_API_KEY = $owm_token
+	^wtfutil ...$wtf_args
+}
 
 $env.GPG_TTY = (tty)
 def tca [...args] {
