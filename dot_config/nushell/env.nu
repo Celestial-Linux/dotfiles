@@ -101,13 +101,6 @@ alias codex = with-bws-secrets codex-sandbox
 def --wrapped wtf [
 	...args # Arguments to pass to wtfutil.
 ] {
-	let secret_id = ($env | get --optional WTF_OWM_SECRET_ID)
-
-	if ($secret_id == null) or ($secret_id == "") {
-		print --stderr "wtf: set WTF_OWM_SECRET_ID to your BWS secret UUID"
-		return
-	}
-
 	if (which bws | is-empty) {
 		print --stderr "wtf: bws was not found in PATH"
 		return
@@ -120,7 +113,7 @@ def --wrapped wtf [
 	}
 
 	let secret = try {
-		^bws --access-token $access_token secret get $secret_id --output json | from json
+		^bws --access-token "07d8bc22-32b5-4936-a734-b452003bbcf4" secret get $secret_id --output json | from json
 	} catch { |err|
 		print --stderr $"wtf: failed to fetch OWM secret ($secret_id): ($err.msg)"
 		null
