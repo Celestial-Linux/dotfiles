@@ -48,6 +48,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "apple-music-workspace-rule",
+	match = { class = "chrome-blgdilankhbcpipclgpdndahbehalgkh-Default" },
+	workspace = "4",
+})
+
+hl.window_rule({
 	name = "discord-workspace-rule",
 	match = { class = "discord" },
 	workspace = "11",

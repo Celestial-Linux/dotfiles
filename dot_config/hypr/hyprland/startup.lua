@@ -1,21 +1,43 @@
 local autostart_preset = {
-	{ workspace = "1", command = "trivalent" },
-	{ workspace = "2", command = "kitty" },
-	{ workspace = "3", command = "zed" },
-	{ workspace = "11", command = "flatpak run com.discordapp.Discord" },
+	{ name = "Trivalent", workspace = "1", command = "trivalent" },
+	{ name = "Kitty", workspace = "2", command = "kitty" },
+	{ name = "Zed", workspace = "3", command = "zed" },
 	{
+		name = "Apple Music",
+		workspace = "4",
+		command = "/usr/lib64/trivalent/trivalent.sh --profile-directory=Default --app-id=blgdilankhbcpipclgpdndahbehalgkh",
+	},
+	{ name = "Discord", workspace = "11", command = "flatpak run com.discordapp.Discord" },
+	{
+		name = "WhatsApp Web",
 		workspace = "12",
 		command = "/usr/lib64/trivalent/trivalent.sh --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm",
 	},
 }
 
-local function launch_on_workspace(workspace, command)
-	hl.dispatch(hl.dsp.exec_cmd("[workspace " .. workspace .. " silent] uwsm app -- " .. command))
+local function shell_quote(value)
+	return "'" .. tostring(value):gsub("'", "'\"'\"'") .. "'"
+end
+
+local function notify_launch_failure_command(app)
+	return "notify-send --app-name=Hyprland --urgency=critical "
+		.. shell_quote("Autostart failed: " .. app.name)
+		.. " "
+		.. shell_quote("Workspace " .. app.workspace .. ": " .. app.command)
+end
+
+local function launch_command(app)
+	return "sh -c "
+		.. shell_quote("uwsm app -- " .. app.command .. " || " .. notify_launch_failure_command(app))
+end
+
+local function launch_on_workspace(app)
+	hl.dispatch(hl.dsp.exec_cmd("[workspace " .. app.workspace .. " silent] " .. launch_command(app)))
 end
 
 local function launch_autostart_preset()
 	for _, app in ipairs(autostart_preset) do
-		launch_on_workspace(app.workspace, app.command)
+		launch_on_workspace(app)
 	end
 end
 
