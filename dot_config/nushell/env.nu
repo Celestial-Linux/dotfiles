@@ -113,9 +113,9 @@ def --wrapped wtf [
 	}
 
 	let secret = try {
-		^bws --access-token "07d8bc22-32b5-4936-a734-b452003bbcf4" secret get $secret_id --output json | from json
+		^bws --access-token $access_token secret get "07d8bc22-32b5-4936-a734-b452003bbcf4" --output json | from json
 	} catch { |err|
-		print --stderr $"wtf: failed to fetch OWM secret ($secret_id): ($err.msg)"
+		print --stderr $"wtf: failed to fetch OWM secret: ($err.msg)"
 		null
 	}
 
@@ -125,7 +125,7 @@ def --wrapped wtf [
 
 	let owm_token = ($secret | get --optional value)
 	if $owm_token == null {
-		print --stderr $"wtf: secret ($secret_id) has no value"
+		print --stderr $"wtf: secret has no value"
 		return
 	}
 
