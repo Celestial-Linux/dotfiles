@@ -1,0 +1,166 @@
+wtf:
+  colors:
+    border:
+      focusable: darkslateblue
+      focused: orange
+      normal: gray
+  grid:
+    columns: [34, 34, 34, 92]
+    rows: [9, 10, 12, 12, 14]
+  refreshInterval: 1s
+  mods:
+    resourceusage:
+      enabled: true
+      position:
+        top: 0
+        left: 0
+        height: 1
+        width: 1
+      refreshInterval: 5s
+      title: "Resources"
+
+    weather:
+      cityids:
+        - 3688689
+      colors:
+        current: "lightblue"
+      compact: true
+      enabled: true
+      language: "EN"
+      position:
+        top: 0
+        left: 1
+        height: 1
+        width: 1
+      refreshInterval: 15m
+      tempUnit: "C"
+      title: "Weather"
+      useEmoji: false
+
+    nowplaying:
+      args:
+        - "metadata"
+        - "--format"
+        - "{{playerName}}: {{artist}} - {{title}}"
+      cmd: "playerctl"
+      enabled: true
+      position:
+        top: 0
+        left: 2
+        height: 1
+        width: 1
+      refreshInterval: 5s
+      title: "Now Playing"
+      type: "cmdrunner"
+
+    git:
+      branchInTitle: true
+      commitCount: 5
+      commitFormat: "[forestgreen]%h [grey]%cd [white]%s [grey]%an[white]"
+      dateFormat: "15:04 Jan 2"
+      enabled: true
+      lastFolderTitle: true
+      position:
+        top: 0
+        left: 3
+        height: 2
+        width: 1
+      refreshInterval: 15s
+      repositories:
+        - "/var/home/celeste/Documents/Development/CelesteLove/aether-auth"
+        - "/var/home/celeste/Documents/Development/CelesteLove/wiki-tui"
+        - "/var/home/celeste/Documents/Development/CelesteLove/concord"
+        - "/var/home/celeste/Documents/Development/CelesteLove/PterodactylMCP"
+        - "/var/home/celeste/Documents/Development/CelesteLove/Celestial-Silverblue"
+        - "/var/home/celeste/Documents/Development/Eufonia-Infra/eufonia-client-tools"
+      showFilesIfEmpty: false
+      showModuleName: false
+      title: "Git"
+
+    podman:
+      args:
+        - "ps"
+        - "--format"
+        - "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+      cmd: "podman"
+      enabled: true
+      maxLines: 12
+      position:
+        top: 1
+        left: 0
+        height: 1
+        width: 3
+      refreshInterval: 20s
+      title: "Podman"
+      type: "cmdrunner"
+
+    github:
+      customQueries:
+        assignedIssues:
+          filter: "is:issue is:open assignee:KernelFreeze sort:updated-desc"
+          perPage: 10
+          title: "Assigned Issues"
+        reviewRequests:
+          filter: "is:pr is:open review-requested:KernelFreeze sort:updated-desc"
+          perPage: 10
+          title: "Review Requests"
+      enabled: true
+      enableStatus: true
+      position:
+        top: 2
+        left: 0
+        height: 2
+        width: 3
+      refreshInterval: 5m
+      repositories:
+        - "KernelFreeze/aether-auth"
+        - "KernelFreeze/wiki-tui"
+        - "PixlFlip-Enterprises/PterodactylMCP"
+        - "Celestial-Linux/Celestial-Silverblue"
+        - "Eufonia-Studio/eufonia-client-mass-uploader"
+      showMyPullRequests: true
+      showOpenReviewRequests: true
+      showStats: true
+      title: "GitHub"
+      username: "KernelFreeze"
+
+    hackernews:
+      enabled: true
+      focusable: true
+      position:
+        top: 2
+        left: 3
+        height: 2
+        width: 1
+      refreshInterval: 30m
+      title: "Hacker News"
+
+    todo:
+      checkedIcon: "x"
+      checkedPos: "first"
+      colors:
+        checked: "gray"
+        highlight:
+          fore: "black"
+          back: "orange"
+        tags: "khaki"
+      dates:
+        enabled: true
+        format: "yyyy-mm-dd"
+        hideYearIfCurrent: true
+        switchToInDays: 7
+        undatedAsDays: 7
+      enabled: true
+      filename: "todo.yml"
+      newPos: "first"
+      position:
+        top: 4
+        left: 0
+        height: 1
+        width: 4
+      refreshInterval: 1h
+      tags:
+        enabled: true
+        hiddenInTitle: true
+        pos: "end"
+      title: "Todo"
