@@ -136,11 +136,6 @@ def --wrapped wtf [
 }
 
 $env.GPG_TTY = (tty)
-def tca [...args] {
-	git add .
-	tc ...$args
-	git push
-}
 def --env y [...args] {
 	let tmp = (mktemp -t "yazi-cwd.XXXXXX")
 	yazi ...$args --cwd-file $tmp
@@ -154,7 +149,7 @@ def --env y [...args] {
 def "from env" []: string -> record {
   lines 
     | split column '#' 
-    | get column1 
+    | get column1
     | where {($in | str length) > 0} 
     | parse "{key}={value}"
     | update value {str trim -c '"'}
