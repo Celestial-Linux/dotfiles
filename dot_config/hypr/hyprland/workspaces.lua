@@ -13,6 +13,7 @@ local workspace_default_names = {
 	[2] = "terminal",
 	[3] = "code",
 	[4] = "music",
+	[9] = "game",
 	[11] = "discord",
 	[12] = "whatsapp",
 }

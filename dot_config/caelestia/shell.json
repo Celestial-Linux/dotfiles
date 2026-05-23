@@ -155,6 +155,34 @@
             "showWindowsOnSpecialWorkspaces": true,
             "shown": 5,
             "specialWorkspaceIcons": [
+                {
+                    "icon": "web",
+                    "name": "browser"
+                },
+                {
+                    "icon": "terminal",
+                    "name": "terminal"
+                },
+                {
+                    "icon": "code",
+                    "name": "code"
+                },
+                {
+                    "icon": "music_note",
+                    "name": "music"
+                },
+                {
+                    "icon": "sports_esports",
+                    "name": "game"
+                },
+                {
+                    "icon": "forum",
+                    "name": "discord"
+                },
+                {
+                    "icon": "chat",
+                    "name": "whatsapp"
+                }
             ],
             "windowIcons": [
                 {
