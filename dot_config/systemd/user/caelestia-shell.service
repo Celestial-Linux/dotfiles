@@ -1,0 +1,13 @@
+[Unit]
+Description=Caelestia Shell
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/caelestia shell
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=graphical-session.target
