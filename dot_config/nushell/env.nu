@@ -149,7 +149,7 @@ def --env y [...args] {
 def "from env" []: string -> record {
   lines 
     | split column '#' 
-    | get column1
+    | get column0
     | where {($in | str length) > 0} 
     | parse "{key}={value}"
     | update value {str trim -c '"'}
