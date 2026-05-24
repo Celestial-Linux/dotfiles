@@ -44,6 +44,14 @@ local function handle_layout_action()
 	end
 end
 
+local function handle_reverse_layout_action()
+	local layout = active_workspace_layout()
+
+	if layout == "master" then
+		hl.dispatch(hl.dsp.layout("removemaster"))
+	end
+end
+
 hl.bind(main_mod .. " + Return", uwsm_app(terminal))
 hl.bind(main_mod .. " + SHIFT + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(main_mod .. " + I", hl.dsp.exec_cmd(runfetch))
@@ -57,7 +65,7 @@ hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(main_mod .. " + Space", uwsm_app(menu))
 hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
 hl.bind(main_mod .. " + J", handle_layout_action)
-hl.bind(main_mod .. " + SHIFT + J", hl.dsp.layout("swapwithmaster master ignoremaster"))
+hl.bind(main_mod .. " + SHIFT + J", handle_reverse_layout_action)
 hl.bind(main_mod .. " + Tab", hl.dsp.layout("cyclenext"))
 hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.layout("cycleprev"))
 hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
