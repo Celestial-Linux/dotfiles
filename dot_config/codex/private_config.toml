@@ -10,10 +10,6 @@ model_provider = "openrouter"
 model_reasoning_effort = "high"
 model = "openai/gpt-5.3-codex"
 
-[profiles.spark]
-model = "gpt-5.3-codex-spark"
-model_reasoning_effort = "xhigh"
-
 [profiles.qwen]
 model_provider = "llamacpp"
 model_reasoning_effort = "high"
@@ -66,4 +62,3 @@ args = ["/var/home/celeste/.local/bin/pterodactyl-mcp.nu"]
 
 [projects."/var/home/celeste/.local/share/chezmoi"]
 trust_level = "trusted"
-
