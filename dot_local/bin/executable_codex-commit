@@ -1,0 +1,123 @@
+#!/usr/bin/env nu
+
+const usage = "Usage:
+  codex-commit [--push] [--cd DIR] [--] [ADDITIONAL_INSTRUCTIONS...]
+
+Run codex exec with the codex-spark model and the conventional-commits skill.
+
+Options:
+  --push       Commit and push after checking upstream/remote state.
+  --no-push    Commit only. This is the default.
+  -C, --cd DIR Run Codex in DIR instead of the current directory.
+  -h, --help   Show this help.
+
+Examples:
+  codex-commit
+  codex-commit --push
+  codex-commit --cd /path/to/repo -- docs only
+"
+
+def print_usage_error [
+    message: string
+] {
+    print --stderr $"codex-commit: ($message)"
+    print --stderr ""
+    print --stderr $usage
+    exit 64
+}
+
+def parse_directory [
+    flag: string
+    remaining: list<string>
+] {
+    if (($remaining | length) < 2) or (($remaining | get 1) == "") {
+        print --stderr $"codex-commit: ($flag) requires a directory"
+        exit 64
+    }
+
+    $remaining.1
+}
+
+def --wrapped main [
+    ...args # Wrapper flags, then optional additional instructions for Codex.
+] {
+    mut remaining = ($args | each { |arg| $arg | into string })
+    mut push = false
+    mut workdir = ""
+    mut extra_instructions = []
+    mut parsing_flags = true
+
+    while $parsing_flags and (not ($remaining | is-empty)) {
+        let arg = ($remaining | get 0?)
+
+        if $arg == "--push" {
+            $push = true
+            $remaining = ($remaining | skip 1)
+        } else if $arg == "--no-push" {
+            $push = false
+            $remaining = ($remaining | skip 1)
+        } else if ($arg == "--cd") or ($arg == "-C") {
+            $workdir = (parse_directory $arg $remaining)
+            $remaining = ($remaining | skip 2)
+        } else if ($arg | str starts-with "--cd=") {
+            $workdir = ($arg | str replace "--cd=" "")
+            if $workdir == "" {
+                print --stderr "codex-commit: --cd requires a directory"
+                exit 64
+            }
+            $remaining = ($remaining | skip 1)
+        } else if ($arg == "--help") or ($arg == "-h") {
+            print $usage
+            exit 0
+        } else if $arg == "--" {
+            $extra_instructions = ($remaining | skip 1)
+            $remaining = []
+            $parsing_flags = false
+        } else if ($arg | str starts-with "-") {
+            print_usage_error $"unknown option: ($arg)"
+        } else {
+            $extra_instructions = $remaining
+            $remaining = []
+            $parsing_flags = false
+        }
+    }
+
+    if (which codex | is-empty) {
+        print --stderr "codex-commit: codex was not found in PATH"
+        exit 127
+    }
+
+    let action = if $push {
+        "commit and push the changes"
+    } else {
+        "commit the changes without pushing"
+    }
+
+    let push_instruction = if $push {
+        "After committing, check branch, upstream, and remote state, then push the commits."
+    } else {
+        "Do not push, even if commits succeed."
+    }
+
+    mut prompt = $"Use \$conventional-commits to ($action).
+
+Inspect repository state before staging, split unrelated changes into atomic Conventional Commits, preserve unrelated user work, stage deliberately with explicit pathspecs, and run git diff --cached --check before each commit when allowed.
+
+($push_instruction)"
+
+    if not ($extra_instructions | is-empty) {
+        let extra_text = ($extra_instructions | str join " ")
+        $prompt = $"($prompt)
+
+Additional user instructions: ($extra_text)"
+    }
+
+    mut codex_args = ["-a" on-request exec --model gpt-5.3-codex-spark --sandbox workspace-write]
+
+    if $workdir != "" {
+        $codex_args = ($codex_args | append "--cd" | append $workdir)
+    }
+
+    ^codex ...$codex_args $prompt
+    exit $env.LAST_EXIT_CODE
+}
