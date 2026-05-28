@@ -1,0 +1,13 @@
+[Unit]
+Description=Hyprland autostart: Zed
+PartOf=graphical-session.target
+Wants=caelestia-shell.service
+After=caelestia-shell.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 3 silent] uwsm app -- zed"
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=Hyprland autostart: Kitty WTF
+PartOf=graphical-session.target
+Wants=caelestia-shell.service
+After=caelestia-shell.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 2 silent] uwsm app -- kitty nu -l -e wtf"
+
+[Install]
+WantedBy=graphical-session.target

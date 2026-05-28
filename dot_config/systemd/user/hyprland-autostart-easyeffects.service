@@ -1,0 +1,14 @@
+[Unit]
+Description=Hyprland autostart: EasyEffects
+PartOf=graphical-session.target
+Wants=caelestia-shell.service
+After=caelestia-shell.service
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/uwsm app -- flatpak run --command=easyeffects com.github.wwmm.easyeffects --gapplication-service
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=graphical-session.target
