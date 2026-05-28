@@ -406,9 +406,8 @@
             },
             {
                 "command": [
-                    "loginctl",
-                    "terminate-user",
-                    ""
+                    "uwsm",
+                    "stop"
                 ],
                 "dangerous": true,
                 "description": "Log out of the current session",
@@ -525,8 +524,8 @@
                 "hibernate"
             ],
             "logout": [
-                "loginctl",
-                "terminate-user",
+                "uwsm",
+                "stop",
                 ""
             ],
             "reboot": [
@@ -581,7 +580,7 @@
                 "id": "dnd"
             },
             {
-                "enabled": false,
+                "enabled": true,
                 "id": "vpn"
             }
         ],
@@ -599,9 +598,9 @@
             "vpnChanged": true
         },
         "vpn": {
-            "enabled": false,
+            "enabled": true,
             "provider": [
-                "netbird"
+                "mullvad"
             ]
         }
     }
