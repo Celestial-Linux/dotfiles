@@ -18,6 +18,8 @@ local workspace_default_names = {
 	[12] = "whatsapp",
 }
 
+hl.config({ scrolling = { column_width = 0.9 } })
+
 for workspace = 1, 10 do
 	hl.workspace_rule({
 		workspace = tostring(workspace),
