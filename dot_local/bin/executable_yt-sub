@@ -1,0 +1,169 @@
+#!/usr/bin/env nu
+
+const usage = 'usage: yt-sub [-p|--plain] "youtube-url"
+
+Downloads English subtitles to: <today>_<video-title>.srt
+With --plain, saves plain transcript text to: <today>_<video-title>.txt
+
+Options:
+  -p, --plain   Save transcript text as .txt, grouped every 4 sentences
+  -h, --help    Show this help'
+
+def parse-args [args: list<string>] {
+    mut plain = false
+    mut url = null
+    mut parsing_options = true
+
+    for arg in $args {
+        if $url != null {
+            continue
+        }
+
+        if $parsing_options and (($arg == "-p") or ($arg == "--plain")) {
+            $plain = true
+        } else if $parsing_options and (($arg == "-h") or ($arg == "--help")) {
+            print $usage
+            exit 0
+        } else if $parsing_options and ($arg == "--") {
+            $parsing_options = false
+        } else if $parsing_options and ($arg | str starts-with "-") {
+            print --stderr $"yt-sub: unknown option: ($arg)"
+            print --stderr $usage
+            exit 2
+        } else {
+            $url = $arg
+            $parsing_options = false
+        }
+    }
+
+    { plain: $plain, url: $url }
+}
+
+def cleanup-temp [tmp_dir: string] {
+    if ($tmp_dir | path exists) {
+        rm --recursive --force $tmp_dir
+    }
+}
+
+def strip-subtitle-tags [text: string] {
+    $text | str replace --all --regex '<[^>]*>' ''
+}
+
+def srt-to-plain [text: string] {
+    let transcript = (
+        (strip-subtitle-tags $text)
+        | str replace --all --regex '(?m)^\d+\r?\n' ''
+        | str replace --all --regex '(?m)^.*-->.*\r?\n' ''
+        | str replace --all --regex '[\r\n]+' ' '
+        | str replace --all --regex '\s+' ' '
+        | str trim
+    )
+
+    if $transcript == "" {
+        ""
+    } else {
+        let grouped = (
+            $transcript
+            | split row --regex '(?<=[.!?])\s+'
+            | each { |sentence| $sentence | str trim }
+            | where { |sentence| $sentence != "" }
+            | chunks 4
+            | each { |paragraph| $paragraph | str join " " }
+            | str join "\n\n"
+        )
+
+        $"($grouped)\n"
+    }
+}
+
+def error-message [err] {
+    let msg = $err | get --optional msg
+
+    if $msg == null {
+        $err | into string
+    } else {
+        $msg | into string
+    }
+}
+
+def --wrapped main [...args: string] {
+    let options = parse-args $args
+
+    if $options.url == null {
+        print --stderr $usage
+        exit 2
+    }
+
+    let today = (^date '+%-d-%b-%Y' | str trim | str downcase)
+    let tmp_dir = (mktemp --directory)
+    let output_template = [$tmp_dir ($today + "_%(title)s.%(ext)s")] | path join
+
+    let download = (
+        ^yt-dlp
+            --quiet
+            --no-warnings
+            --force-overwrites
+            --skip-download
+            --write-subs
+            --write-auto-subs
+            --sub-lang en
+            --sub-format ttml
+            --convert-subs srt
+            --output $output_template
+            $options.url
+        | complete
+    )
+
+    if $download.exit_code != 0 {
+        cleanup-temp $tmp_dir
+
+        let stderr = $download.stderr | str trim
+        let stdout = $download.stdout | str trim
+
+        if $stderr != "" {
+            print --stderr $stderr
+        }
+
+        if $stdout != "" {
+            print $stdout
+        }
+
+        exit $download.exit_code
+    }
+
+    let process = (try {
+        let subtitles = (glob --no-dir $"($tmp_dir)/($today)_*.en.srt")
+
+        if ($subtitles | is-empty) {
+            error make {msg: "no English subtitles were downloaded"}
+        }
+
+        let final_ext = if $options.plain { "txt" } else { "srt" }
+
+        for subtitle in $subtitles {
+            let text = open --raw $subtitle
+            let output = if $options.plain {
+                srt-to-plain $text
+            } else {
+                strip-subtitle-tags $text
+            }
+
+            let name = $subtitle | path basename
+            let stem = $name | str replace --regex '\.en\.srt$' ''
+            let target = [$env.PWD $"($stem).($final_ext)"] | path join
+
+            $output | save --force $target
+        }
+
+        { ok: true, message: "" }
+    } catch { |err|
+        { ok: false, message: (error-message $err) }
+    })
+
+    cleanup-temp $tmp_dir
+
+    if not $process.ok {
+        print --stderr $"yt-sub: ($process.message)"
+        exit 1
+    }
+}
