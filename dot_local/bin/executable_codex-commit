@@ -40,6 +40,7 @@ TOKEN_REFRESH_WINDOW = dt.timedelta(minutes=5)
 MAX_STEPS = 48
 MAX_OUTPUT_CHARS = 24000
 SENSITIVE_ENV_RE = re.compile(r"(TOKEN|KEY|SECRET|PASSWORD|CREDENTIAL|AUTH)", re.I)
+SENSITIVE_ENV_ALLOWLIST = {"SSH_AUTH_SOCK", "SSH_AGENT_PID"}
 
 console = Console()
 err_console = Console(stderr=True)
@@ -292,6 +293,8 @@ def redact(text: str) -> str:
 def command_env() -> dict[str, str]:
     env = os.environ.copy()
     for key in list(env):
+        if key in SENSITIVE_ENV_ALLOWLIST:
+            continue
         if SENSITIVE_ENV_RE.search(key):
             env.pop(key, None)
     return env
@@ -419,6 +422,8 @@ Hard rules:
 - Use `git commit -m` or multiple `-m` arguments so no editor opens.
 - Push only when the prompt asks for a push. Before pushing, check branch,
   upstream, and unpublished commits.
+- The shell environment keeps SSH_AUTH_SOCK so git over SSH can use the user's
+  ssh-agent, but do not print full environment dumps.
 - Final answer must list each commit hash and subject. If pushing was requested,
   state whether the push completed.
 
