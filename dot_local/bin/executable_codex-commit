@@ -1,123 +1,617 @@
-#!/usr/bin/env nu
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "openai>=2.8.0",
+#   "rich>=13.9.0",
+# ]
+# ///
+from __future__ import annotations
 
-const usage = "Usage:
-  codex-commit [--push] [--cd DIR] [--] [ADDITIONAL_INSTRUCTIONS...]
+import argparse
+import base64
+import datetime as dt
+import json
+import os
+import re
+import subprocess
+import sys
+import textwrap
+import urllib.error
+import urllib.request
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
 
-Run codex exec with the codex-spark model and the conventional-commits skill.
+from openai import OpenAI
+from rich.console import Console
+from rich.markdown import Markdown
+from rich.panel import Panel
+from rich.table import Table
+from rich.text import Text
 
-Options:
-  --push       Commit and push after checking upstream/remote state.
-  --no-push    Commit only. This is the default.
-  -C, --cd DIR Run Codex in DIR instead of the current directory.
-  -h, --help   Show this help.
 
-Examples:
-  codex-commit
-  codex-commit --push
-  codex-commit --cd /path/to/repo -- docs only
-"
+MODEL = "gpt-5.3-codex-spark"
+CHATGPT_CODEX_BASE_URL = "https://chatgpt.com/backend-api/codex"
+OPENAI_BASE_URL = "https://api.openai.com/v1"
+REFRESH_TOKEN_URL = "https://auth.openai.com/oauth/token"
+CLIENT_ID = "app_EMoamEEZ73f0CkXaXp7hrann"
+TOKEN_REFRESH_WINDOW = dt.timedelta(minutes=5)
+MAX_STEPS = 48
+MAX_OUTPUT_CHARS = 24000
+SENSITIVE_ENV_RE = re.compile(r"(TOKEN|KEY|SECRET|PASSWORD|CREDENTIAL|AUTH)", re.I)
 
-def print_usage_error [
-    message: string
-] {
-    print --stderr $"codex-commit: ($message)"
-    print --stderr ""
-    print --stderr $usage
-    exit 64
-}
+console = Console()
+err_console = Console(stderr=True)
 
-def parse_directory [
-    flag: string
-    remaining: list<string>
-] {
-    if (($remaining | length) < 2) or (($remaining | get 1) == "") {
-        print --stderr $"codex-commit: ($flag) requires a directory"
-        exit 64
-    }
 
-    $remaining.1
-}
+class UsageError(Exception):
+    pass
 
-def --wrapped main [
-    ...args # Wrapper flags, then optional additional instructions for Codex.
-] {
-    mut remaining = ($args | each { |arg| $arg | into string })
-    mut push = false
-    mut workdir = ""
-    mut extra_instructions = []
-    mut parsing_flags = true
 
-    while $parsing_flags and (not ($remaining | is-empty)) {
-        let arg = ($remaining | get 0?)
+class AuthError(Exception):
+    pass
 
-        if $arg == "--push" {
-            $push = true
-            $remaining = ($remaining | skip 1)
-        } else if $arg == "--no-push" {
-            $push = false
-            $remaining = ($remaining | skip 1)
-        } else if ($arg == "--cd") or ($arg == "-C") {
-            $workdir = (parse_directory $arg $remaining)
-            $remaining = ($remaining | skip 2)
-        } else if ($arg | str starts-with "--cd=") {
-            $workdir = ($arg | str replace "--cd=" "")
-            if $workdir == "" {
-                print --stderr "codex-commit: --cd requires a directory"
-                exit 64
-            }
-            $remaining = ($remaining | skip 1)
-        } else if ($arg == "--help") or ($arg == "-h") {
-            print $usage
-            exit 0
-        } else if $arg == "--" {
-            $extra_instructions = ($remaining | skip 1)
-            $remaining = []
-            $parsing_flags = false
-        } else if ($arg | str starts-with "-") {
-            print_usage_error $"unknown option: ($arg)"
-        } else {
-            $extra_instructions = $remaining
-            $remaining = []
-            $parsing_flags = false
+
+@dataclass
+class CodexAuth:
+    kind: str
+    api_key: str
+    base_url: str
+    headers: dict[str, str]
+    auth_file: Path | None = None
+
+
+@dataclass
+class ModelResponse:
+    output: list[dict[str, Any]]
+    output_text: str = ""
+
+
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        prog="codex-commit",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="Commit changes with codex-spark and the conventional-commits workflow.",
+        epilog=textwrap.dedent(
+            """\
+            Examples:
+              codex-commit
+              codex-commit --push
+              codex-commit --cd /path/to/repo -- docs only
+            """
+        ),
+    )
+    parser.add_argument("--push", dest="push", action="store_true", help="Commit and push.")
+    parser.add_argument(
+        "--no-push",
+        dest="push",
+        action="store_false",
+        help="Commit only. This is the default.",
+    )
+    parser.add_argument(
+        "-C",
+        "--cd",
+        dest="workdir",
+        metavar="DIR",
+        help="Run in DIR instead of the current directory.",
+    )
+    parser.add_argument(
+        "extra",
+        nargs=argparse.REMAINDER,
+        help="Additional instructions for the commit agent.",
+    )
+    parser.set_defaults(push=False)
+    args = parser.parse_args(argv)
+    if args.extra and args.extra[0] == "--":
+        args.extra = args.extra[1:]
+    return args
+
+
+def jwt_payload(jwt: str) -> dict[str, Any]:
+    parts = jwt.split(".")
+    if len(parts) < 2:
+        return {}
+    payload = parts[1]
+    payload += "=" * (-len(payload) % 4)
+    try:
+        raw = base64.urlsafe_b64decode(payload.encode("ascii"))
+        decoded = json.loads(raw.decode("utf-8"))
+    except Exception:
+        return {}
+    return decoded if isinstance(decoded, dict) else {}
+
+
+def token_expires_at(jwt: str) -> dt.datetime | None:
+    exp = jwt_payload(jwt).get("exp")
+    if not isinstance(exp, int):
+        return None
+    return dt.datetime.fromtimestamp(exp, tz=dt.UTC)
+
+
+def codex_home() -> Path:
+    if home := os.environ.get("CODEX_HOME"):
+        return Path(home).expanduser()
+    xdg = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
+    config_home = xdg / "codex"
+    if (config_home / "auth.json").exists():
+        return config_home
+    return Path.home() / ".codex"
+
+
+def read_auth_file(path: Path) -> dict[str, Any]:
+    try:
+        raw = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        return {}
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise AuthError(f"failed to parse {path}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise AuthError(f"{path} does not contain a JSON object")
+    return data
+
+
+def write_auth_file(path: Path, auth_json: dict[str, Any]) -> None:
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(auth_json, indent=2) + "\n", encoding="utf-8")
+    os.chmod(tmp, 0o600)
+    tmp.replace(path)
+
+
+def refresh_chatgpt_tokens(auth_file: Path, auth_json: dict[str, Any]) -> dict[str, Any]:
+    tokens = auth_json.get("tokens")
+    if not isinstance(tokens, dict):
+        raise AuthError(f"{auth_file} does not contain ChatGPT token data")
+    access_token = tokens.get("access_token")
+    refresh_token = tokens.get("refresh_token")
+    if not isinstance(access_token, str) or not access_token:
+        raise AuthError(f"{auth_file} is missing tokens.access_token")
+    expires_at = token_expires_at(access_token)
+    if expires_at and expires_at - dt.datetime.now(dt.UTC) > TOKEN_REFRESH_WINDOW:
+        return auth_json
+    if not isinstance(refresh_token, str) or not refresh_token:
+        raise AuthError("ChatGPT access token is expired and no refresh token is available")
+
+    payload = json.dumps(
+        {
+            "client_id": CLIENT_ID,
+            "grant_type": "refresh_token",
+            "refresh_token": refresh_token,
         }
-    }
+    ).encode("utf-8")
+    req = urllib.request.Request(
+        os.environ.get("CODEX_REFRESH_TOKEN_URL_OVERRIDE", REFRESH_TOKEN_URL),
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as response:
+            refreshed = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        raise AuthError(f"failed to refresh ChatGPT token: HTTP {exc.code}: {body}") from exc
+    except Exception as exc:
+        raise AuthError(f"failed to refresh ChatGPT token: {exc}") from exc
 
-    if (which codex | is-empty) {
-        print --stderr "codex-commit: codex was not found in PATH"
-        exit 127
-    }
+    if not isinstance(refreshed, dict):
+        raise AuthError("token refresh response was not a JSON object")
+    for key in ("id_token", "access_token", "refresh_token"):
+        value = refreshed.get(key)
+        if isinstance(value, str) and value:
+            tokens[key] = value
+    auth_json["last_refresh"] = dt.datetime.now(dt.UTC).isoformat().replace("+00:00", "Z")
+    write_auth_file(auth_file, auth_json)
+    return auth_json
 
-    let action = if $push {
-        "commit and push the changes"
-    } else {
-        "commit the changes without pushing"
-    }
 
-    let push_instruction = if $push {
+def load_auth() -> CodexAuth:
+    if api_key := os.environ.get("CODEX_API_KEY"):
+        return CodexAuth(
+            kind="CODEX_API_KEY",
+            api_key=api_key.strip(),
+            base_url=OPENAI_BASE_URL,
+            headers={},
+        )
+
+    auth_file = codex_home() / "auth.json"
+    auth_json = read_auth_file(auth_file)
+
+    file_api_key = auth_json.get("OPENAI_API_KEY")
+    if isinstance(file_api_key, str) and file_api_key.strip():
+        return CodexAuth(
+            kind="auth.json API key",
+            api_key=file_api_key.strip(),
+            base_url=OPENAI_BASE_URL,
+            headers={},
+            auth_file=auth_file,
+        )
+
+    if isinstance(auth_json.get("tokens"), dict):
+        auth_json = refresh_chatgpt_tokens(auth_file, auth_json)
+        tokens = auth_json["tokens"]
+        access_token = tokens.get("access_token")
+        if not isinstance(access_token, str) or not access_token:
+            raise AuthError(f"{auth_file} is missing tokens.access_token")
+        id_payload = jwt_payload(tokens.get("id_token") or access_token)
+        auth_claims = id_payload.get("https://api.openai.com/auth")
+        if not isinstance(auth_claims, dict):
+            auth_claims = {}
+        account_id = tokens.get("account_id") or auth_claims.get("chatgpt_account_id")
+        headers: dict[str, str] = {}
+        if isinstance(account_id, str) and account_id:
+            headers["ChatGPT-Account-ID"] = account_id
+        if auth_claims.get("chatgpt_account_is_fedramp") is True:
+            headers["X-OpenAI-Fedramp"] = "true"
+        return CodexAuth(
+            kind="Codex ChatGPT login",
+            api_key=access_token,
+            base_url=CHATGPT_CODEX_BASE_URL,
+            headers=headers,
+            auth_file=auth_file,
+        )
+
+    if api_key := os.environ.get("OPENAI_API_KEY"):
+        return CodexAuth(
+            kind="OPENAI_API_KEY",
+            api_key=api_key.strip(),
+            base_url=OPENAI_BASE_URL,
+            headers={},
+        )
+
+    raise AuthError(
+        "no Codex auth found; run `codex login` or set CODEX_API_KEY/OPENAI_API_KEY"
+    )
+
+
+def build_client(auth: CodexAuth) -> OpenAI:
+    return OpenAI(
+        api_key=auth.api_key,
+        base_url=auth.base_url,
+        default_headers=auth.headers or None,
+        timeout=600,
+        max_retries=0,
+    )
+
+
+def redact(text: str) -> str:
+    if not text:
+        return text
+    for key, value in os.environ.items():
+        if SENSITIVE_ENV_RE.search(key) and len(value) >= 8:
+            text = text.replace(value, f"<redacted:{key}>")
+    text = re.sub(r"sk-[A-Za-z0-9_-]{20,}", "<redacted:openai-key>", text)
+    text = re.sub(r"gh[pousr]_[A-Za-z0-9_]{20,}", "<redacted:github-token>", text)
+    text = re.sub(r"https://[^/\s:@]+:[^@\s]+@", "https://<redacted>@", text)
+    text = re.sub(r"Bearer\s+[A-Za-z0-9._~+/=-]{20,}", "Bearer <redacted>", text)
+    return text
+
+
+def command_env() -> dict[str, str]:
+    env = os.environ.copy()
+    for key in list(env):
+        if SENSITIVE_ENV_RE.search(key):
+            env.pop(key, None)
+    return env
+
+
+def blocked_reason(command: str) -> str | None:
+    checks = [
+        (r"\bcodex\s+exec\b", "this helper must call the model directly, not codex exec"),
+        (r"\bgit\s+reset\s+--hard\b", "git reset --hard would discard user work"),
+        (r"\bgit\s+clean\b", "git clean can delete untracked user work"),
+        (r"\bgit\s+checkout\s+--\s", "git checkout -- can discard user work"),
+        (r"(^|[;&|]\s*)rm\s+", "rm is outside this commit helper's allowed workflow"),
+        (r"(^|[;&|]\s*)(env|printenv|set)\b", "environment dumps may expose secrets"),
+        (r"(\.config/codex/auth\.json|\.codex/auth\.json)", "Codex auth files are sensitive"),
+    ]
+    for pattern, reason in checks:
+        if re.search(pattern, command):
+            return reason
+    return None
+
+
+def truncate_output(text: str, limit: int = MAX_OUTPUT_CHARS) -> str:
+    if len(text) <= limit:
+        return text
+    keep = limit // 2
+    omitted = len(text) - (keep * 2)
+    return f"{text[:keep]}\n...[truncated {omitted} chars]...\n{text[-keep:]}"
+
+
+def run_shell(command: str, timeout_seconds: int, workdir: Path) -> dict[str, Any]:
+    timeout_seconds = max(1, min(int(timeout_seconds), 1200))
+    command = command.strip()
+    if not command:
+        return {"ok": False, "error": "empty command"}
+    if reason := blocked_reason(command):
+        console.print(f"[red]blocked[/red] {command}\n[dim]{reason}[/dim]")
+        return {"ok": False, "blocked": True, "error": reason}
+
+    console.print(Text(f"$ {command}", style="bold cyan"))
+    try:
+        completed = subprocess.run(
+            command,
+            cwd=workdir,
+            env=command_env(),
+            executable="/bin/bash",
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds,
+        )
+        stdout = truncate_output(redact(completed.stdout))
+        stderr = truncate_output(redact(completed.stderr))
+        if completed.returncode == 0:
+            console.print("[green]ok[/green]")
+        else:
+            console.print(f"[red]exit {completed.returncode}[/red]")
+        if completed.returncode != 0 and stderr:
+            console.print(Text(stderr[-1200:], style="dim red"))
+        return {
+            "ok": completed.returncode == 0,
+            "exit_code": completed.returncode,
+            "stdout": stdout,
+            "stderr": stderr,
+        }
+    except subprocess.TimeoutExpired as exc:
+        stdout = truncate_output(redact(exc.stdout or ""))
+        stderr = truncate_output(redact(exc.stderr or ""))
+        console.print(f"[red]timeout after {timeout_seconds}s[/red]")
+        return {
+            "ok": False,
+            "timed_out": True,
+            "exit_code": 124,
+            "stdout": stdout,
+            "stderr": stderr,
+        }
+
+
+TOOLS = [
+    {
+        "type": "function",
+        "name": "run_shell",
+        "description": (
+            "Run a non-interactive shell command in the target repository. "
+            "Use explicit git pathspecs when staging. Do not use interactive commands."
+        ),
+        "strict": True,
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "command": {
+                    "type": "string",
+                    "description": "The bash command to run.",
+                },
+                "timeout_seconds": {
+                    "type": "integer",
+                    "description": "Timeout in seconds; use 120 unless the command needs longer.",
+                },
+            },
+            "required": ["command", "timeout_seconds"],
+            "additionalProperties": False,
+        },
+    }
+]
+
+
+SYSTEM_PROMPT = """\
+You are codex-commit, a focused commit agent running locally for the user.
+
+Your job is to inspect the current git repository, create focused Conventional
+Commits, and optionally push. You have shell access through the run_shell tool.
+
+Hard rules:
+- Do not call `codex`, `codex exec`, or any other agent wrapper.
+- Inspect repository state before staging: branch, upstream, git status --short,
+  staged changes, unstaged changes, untracked files, and enough diff/stat to
+  understand scope.
+- Preserve unrelated user work. Never revert, delete, overwrite, or stage
+  unrelated changes unless the user explicitly instructed it.
+- Split unrelated or independently reviewable changes into atomic commits.
+- Stage deliberately with explicit pathspecs. Avoid `git add .` unless the
+  worktree is clean except for the intended slice.
+- Prefer non-interactive commands. Do not run interactive patch, editor, or
+  pager workflows.
+- Run `git diff --cached --check` before each commit when allowed.
+- Use `git commit -m` or multiple `-m` arguments so no editor opens.
+- Push only when the prompt asks for a push. Before pushing, check branch,
+  upstream, and unpublished commits.
+- Final answer must list each commit hash and subject. If pushing was requested,
+  state whether the push completed.
+
+Conventional Commit message rules:
+- Shape: <type>[optional scope][optional !]: <description>
+- Use feat for features, fix for bug fixes, and clear alternatives such as
+  build, chore, ci, docs, perf, refactor, style, test, or revert.
+- Use a scope when it materially clarifies the affected subsystem.
+- Keep the description concise, lowercase unless a proper noun requires it.
+- Use a body only when the reason or migration context matters.
+"""
+
+
+def build_user_prompt(push: bool, extra: list[str], workdir: Path) -> str:
+    action = "commit and push the changes" if push else "commit the changes without pushing"
+    push_instruction = (
         "After committing, check branch, upstream, and remote state, then push the commits."
-    } else {
-        "Do not push, even if commits succeed."
-    }
+        if push
+        else "Do not push, even if commits succeed."
+    )
+    prompt = f"""\
+Use the conventional-commits workflow to {action}.
 
-    mut prompt = $"Use \$conventional-commits to ($action).
+Target repository directory:
+{workdir}
 
-Inspect repository state before staging, split unrelated changes into atomic Conventional Commits, preserve unrelated user work, stage deliberately with explicit pathspecs, and run git diff --cached --check before each commit when allowed.
+Inspect repository state before staging, split unrelated changes into atomic
+Conventional Commits, preserve unrelated user work, stage deliberately with
+explicit pathspecs, and run git diff --cached --check before each commit when
+allowed.
 
-($push_instruction)"
+{push_instruction}
+"""
+    if extra:
+        prompt += "\nAdditional user instructions: " + " ".join(extra) + "\n"
+    return prompt
 
-    if not ($extra_instructions | is-empty) {
-        let extra_text = ($extra_instructions | str join " ")
-        $prompt = $"($prompt)
 
-Additional user instructions: ($extra_text)"
-    }
+def item_to_dict(item: Any) -> dict[str, Any]:
+    if hasattr(item, "model_dump"):
+        return item.model_dump(exclude_none=True)
+    if isinstance(item, dict):
+        return item
+    raise TypeError(f"unsupported response item: {type(item)!r}")
 
-    mut codex_args = ["-a" on-request exec --model gpt-5.3-codex-spark --sandbox workspace-write]
 
-    if $workdir != "" {
-        $codex_args = ($codex_args | append "--cd" | append $workdir)
-    }
+def history_item_from_output(item: Any) -> dict[str, Any] | None:
+    data = dict(item_to_dict(item))
+    data.pop("id", None)
+    if data.get("type") == "reasoning" and not data.get("encrypted_content"):
+        return None
+    return data
 
-    ^codex ...$codex_args $prompt
-    exit $env.LAST_EXIT_CODE
-}
+
+def output_text(response: Any) -> str:
+    text = getattr(response, "output_text", None)
+    if isinstance(text, str) and text.strip():
+        return text
+    chunks: list[str] = []
+    for item in getattr(response, "output", []) or []:
+        data = item_to_dict(item)
+        if data.get("type") != "message":
+            continue
+        for content in data.get("content") or []:
+            if isinstance(content, dict) and content.get("type") == "output_text":
+                chunks.append(str(content.get("text") or ""))
+    return "".join(chunks).strip()
+
+
+def function_calls(response: Any) -> list[dict[str, Any]]:
+    calls: list[dict[str, Any]] = []
+    for item in getattr(response, "output", []) or []:
+        data = item_to_dict(item)
+        if data.get("type") == "function_call":
+            calls.append(data)
+    return calls
+
+
+def create_response(client: OpenAI, history: list[dict[str, Any]]) -> Any:
+    output: list[dict[str, Any]] = []
+    output_text: list[str] = []
+    with console.status("[bold]codex-spark thinking...", spinner="dots"):
+        stream = client.responses.create(
+            model=MODEL,
+            instructions=SYSTEM_PROMPT,
+            input=history,
+            tools=TOOLS,
+            tool_choice="auto",
+            parallel_tool_calls=False,
+            store=False,
+            stream=True,
+        )
+        for event in stream:
+            data = item_to_dict(event)
+            kind = data.get("type")
+            if kind == "response.output_item.done" and isinstance(data.get("item"), dict):
+                output.append(data["item"])
+            elif kind == "response.output_text.delta":
+                output_text.append(str(data.get("delta") or ""))
+            elif kind in {"response.failed", "response.incomplete"}:
+                raise RuntimeError(redact(json.dumps(data, ensure_ascii=False)))
+            elif kind == "error":
+                raise RuntimeError(redact(json.dumps(data, ensure_ascii=False)))
+    return ModelResponse(output=output, output_text="".join(output_text))
+
+
+def run_agent(push: bool, extra: list[str], workdir: Path) -> int:
+    auth = load_auth()
+    client = build_client(auth)
+    table = Table.grid(padding=(0, 2))
+    table.add_column(style="bold")
+    table.add_column()
+    table.add_row("model", MODEL)
+    table.add_row("auth", auth.kind)
+    table.add_row("workdir", str(workdir))
+    table.add_row("push", "yes" if push else "no")
+    console.print(Panel(table, title="codex-commit", expand=False))
+
+    history: list[dict[str, Any]] = [
+        {
+            "role": "user",
+            "content": [
+                {
+                    "type": "input_text",
+                    "text": build_user_prompt(push, extra, workdir),
+                }
+            ],
+        }
+    ]
+
+    for _step in range(1, MAX_STEPS + 1):
+        response = create_response(client, history)
+        history.extend(
+            item
+            for raw_item in getattr(response, "output", []) or []
+            if (item := history_item_from_output(raw_item)) is not None
+        )
+
+        calls = function_calls(response)
+        if not calls:
+            final = output_text(response)
+            if final:
+                console.print(Panel(Markdown(final), title="result", expand=False))
+            return 0
+
+        for call in calls:
+            name = call.get("name")
+            call_id = call.get("call_id")
+            try:
+                arguments = json.loads(call.get("arguments") or "{}")
+            except json.JSONDecodeError as exc:
+                result = {"ok": False, "error": f"invalid tool arguments: {exc}"}
+            else:
+                if name == "run_shell":
+                    result = run_shell(
+                        str(arguments.get("command") or ""),
+                        int(arguments.get("timeout_seconds") or 120),
+                        workdir,
+                    )
+                else:
+                    result = {"ok": False, "error": f"unknown tool: {name}"}
+            history.append(
+                {
+                    "type": "function_call_output",
+                    "call_id": call_id,
+                    "output": json.dumps(result, ensure_ascii=False),
+                }
+            )
+
+    console.print("[red]codex-commit reached its tool-call limit before finishing[/red]")
+    return 70
+
+
+def main(argv: list[str]) -> int:
+    try:
+        args = parse_args(argv)
+        workdir = Path(args.workdir or os.getcwd()).expanduser()
+        if not workdir.exists() or not workdir.is_dir():
+            raise UsageError(f"{workdir} is not a directory")
+        return run_agent(args.push, args.extra, workdir.resolve())
+    except UsageError as exc:
+        err_console.print(f"[red]codex-commit:[/red] {exc}")
+        return 64
+    except AuthError as exc:
+        err_console.print(f"[red]codex-commit auth error:[/red] {redact(str(exc))}")
+        return 77
+    except KeyboardInterrupt:
+        err_console.print("\n[yellow]interrupted[/yellow]")
+        return 130
+    except Exception as exc:
+        err_console.print(f"[red]codex-commit failed:[/red] {redact(str(exc))}")
+        return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main(sys.argv[1:]))
