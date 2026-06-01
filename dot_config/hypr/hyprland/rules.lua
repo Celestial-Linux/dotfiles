@@ -18,6 +18,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "xdg-desktop-portal-gtk",
+	match = { class = "xdg-desktop-portal-gtk" },
+	float = false,
+})
+
+hl.window_rule({
 	name = "wezterm-window-rule",
 	match = { class = "org.wezfurlong.wezterm" },
 	opacity = "1",
