@@ -11,19 +11,22 @@ from __future__ import annotations
 import argparse
 import base64
 import datetime as dt
+import email.utils
 import json
 import os
+import random
 import re
 import subprocess
 import sys
 import textwrap
+import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from openai import OpenAI
+from openai import APIConnectionError, APIStatusError, APITimeoutError, OpenAI
 from rich.console import Console
 from rich.markdown import Markdown
 from rich.panel import Panel
@@ -39,6 +42,11 @@ CLIENT_ID = "app_EMoamEEZ73f0CkXaXp7hrann"
 TOKEN_REFRESH_WINDOW = dt.timedelta(minutes=5)
 MAX_STEPS = 48
 MAX_OUTPUT_CHARS = 24000
+MAX_MODEL_RETRIES = 6
+INITIAL_RETRY_DELAY_SECONDS = 1.0
+MAX_RETRY_DELAY_SECONDS = 60.0
+MAX_RETRY_AFTER_SECONDS = 300.0
+RETRYABLE_STATUS_CODES = {408, 409, 429, 500, 502, 503, 504}
 SENSITIVE_ENV_RE = re.compile(r"(TOKEN|KEY|SECRET|PASSWORD|CREDENTIAL|AUTH)", re.I)
 SENSITIVE_ENV_ALLOWLIST = {"SSH_AUTH_SOCK", "SSH_AGENT_PID"}
 
@@ -52,6 +60,12 @@ class UsageError(Exception):
 
 class AuthError(Exception):
     pass
+
+
+class RetryableModelError(Exception):
+    def __init__(self, message: str, retry_after: float | None = None) -> None:
+        super().__init__(message)
+        self.retry_after = retry_after
 
 
 @dataclass
@@ -470,6 +484,140 @@ def item_to_dict(item: Any) -> dict[str, Any]:
     raise TypeError(f"unsupported response item: {type(item)!r}")
 
 
+def header_value(headers: Any, name: str) -> str | None:
+    if not headers:
+        return None
+    try:
+        value = headers.get(name)
+    except AttributeError:
+        value = None
+    if value is None:
+        try:
+            value = headers.get(name.lower())
+        except AttributeError:
+            value = None
+    if value is None and isinstance(headers, dict):
+        for key, candidate in headers.items():
+            if str(key).lower() == name.lower():
+                value = candidate
+                break
+    return str(value) if value is not None else None
+
+
+def parse_retry_after(value: Any) -> float | None:
+    if value is None:
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return max(0.0, min(float(text), MAX_RETRY_AFTER_SECONDS))
+    except ValueError:
+        pass
+    try:
+        retry_at = email.utils.parsedate_to_datetime(text)
+    except (TypeError, ValueError):
+        return None
+    if retry_at.tzinfo is None:
+        retry_at = retry_at.replace(tzinfo=dt.UTC)
+    seconds = (retry_at - dt.datetime.now(dt.UTC)).total_seconds()
+    return max(0.0, min(seconds, MAX_RETRY_AFTER_SECONDS))
+
+
+def parse_retry_delay_from_text(text: str) -> float | None:
+    patterns = [
+        r"(?:retry|try again)(?:\s+later)?\s+(?:in|after)\s+"
+        r"(?P<value>\d+(?:\.\d+)?)\s*(?P<unit>ms|milliseconds?|s|secs?|seconds?|m|mins?|minutes?)",
+        r"retry[- ]after[:=]\s*(?P<value>\d+(?:\.\d+)?)\s*(?P<unit>ms|milliseconds?|s|secs?|seconds?|m|mins?|minutes?)?",
+    ]
+    for pattern in patterns:
+        match = re.search(pattern, text, re.I)
+        if not match:
+            continue
+        value = float(match.group("value"))
+        unit = (match.groupdict().get("unit") or "s").lower()
+        if unit.startswith("ms"):
+            value /= 1000
+        elif unit.startswith("m") and not unit.startswith("ms"):
+            value *= 60
+        return max(0.0, min(value, MAX_RETRY_AFTER_SECONDS))
+    return None
+
+
+def retryable_message(text: str) -> bool:
+    lowered = text.lower()
+    retryable_fragments = [
+        "server overloaded",
+        "servers are currently overloaded",
+        "try again later",
+        "temporarily unavailable",
+        "rate limit",
+        "service unavailable",
+        "gateway timeout",
+        "timed out",
+        "connection error",
+    ]
+    return any(fragment in lowered for fragment in retryable_fragments)
+
+
+def response_event_headers(data: dict[str, Any]) -> dict[str, Any]:
+    headers: dict[str, Any] = {}
+    for candidate in (data.get("headers"), (data.get("response") or {}).get("headers")):
+        if isinstance(candidate, dict):
+            headers.update(candidate)
+    return headers
+
+
+def response_event_error(data: dict[str, Any]) -> Exception:
+    response = data.get("response") if isinstance(data.get("response"), dict) else {}
+    error = response.get("error") if isinstance(response.get("error"), dict) else {}
+    message = str(error.get("message") or data.get("message") or json.dumps(data))
+    code = str(error.get("code") or error.get("type") or response.get("status") or "")
+    headers = response_event_headers(data)
+    retry_after = (
+        parse_retry_after(header_value(headers, "retry-after"))
+        or parse_retry_delay_from_text(message)
+    )
+    retryable_codes = {
+        "rate_limit_exceeded",
+        "server_error",
+        "server_overloaded",
+        "temporarily_unavailable",
+        "service_unavailable",
+    }
+    if code.lower() in retryable_codes or retryable_message(message):
+        return RetryableModelError(message, retry_after)
+    return RuntimeError(redact(json.dumps(data, ensure_ascii=False)))
+
+
+def retry_after_from_exception(exc: Exception) -> float | None:
+    if isinstance(exc, APIStatusError):
+        retry_after = parse_retry_after(header_value(exc.response.headers, "retry-after"))
+        if retry_after is not None:
+            return retry_after
+    return parse_retry_delay_from_text(str(exc))
+
+
+def retryable_exception(exc: Exception) -> bool:
+    if isinstance(exc, RetryableModelError):
+        return True
+    if isinstance(exc, (APIConnectionError, APITimeoutError)):
+        return True
+    if isinstance(exc, APIStatusError):
+        return exc.status_code in RETRYABLE_STATUS_CODES or retryable_message(str(exc))
+    return retryable_message(str(exc))
+
+
+def retry_delay(attempt: int, retry_after: float | None) -> float:
+    if retry_after is not None:
+        return min(retry_after, MAX_RETRY_AFTER_SECONDS)
+    ceiling = min(
+        MAX_RETRY_DELAY_SECONDS,
+        INITIAL_RETRY_DELAY_SECONDS * (2 ** max(0, attempt - 1)),
+    )
+    return random.uniform(ceiling / 2, ceiling)
+
+
 def history_item_from_output(item: Any) -> dict[str, Any] | None:
     data = dict(item_to_dict(item))
     data.pop("id", None)
@@ -524,10 +672,29 @@ def create_response(client: OpenAI, history: list[dict[str, Any]]) -> Any:
             elif kind == "response.output_text.delta":
                 output_text.append(str(data.get("delta") or ""))
             elif kind in {"response.failed", "response.incomplete"}:
-                raise RuntimeError(redact(json.dumps(data, ensure_ascii=False)))
+                raise response_event_error(data)
             elif kind == "error":
-                raise RuntimeError(redact(json.dumps(data, ensure_ascii=False)))
+                raise response_event_error(data)
     return ModelResponse(output=output, output_text="".join(output_text))
+
+
+def create_response_with_retries(client: OpenAI, history: list[dict[str, Any]]) -> Any:
+    for attempt in range(1, MAX_MODEL_RETRIES + 2):
+        try:
+            return create_response(client, history)
+        except Exception as exc:
+            if attempt > MAX_MODEL_RETRIES or not retryable_exception(exc):
+                raise
+            wait = retry_delay(
+                attempt,
+                getattr(exc, "retry_after", None) or retry_after_from_exception(exc),
+            )
+            console.print(
+                f"[yellow]model request failed; retrying in {wait:.1f}s "
+                f"({attempt}/{MAX_MODEL_RETRIES})[/yellow]\n[dim]{redact(str(exc))}[/dim]"
+            )
+            time.sleep(wait)
+    raise RuntimeError("model request retry loop exited unexpectedly")
 
 
 def run_agent(push: bool, extra: list[str], workdir: Path) -> int:
@@ -555,7 +722,7 @@ def run_agent(push: bool, extra: list[str], workdir: Path) -> int:
     ]
 
     for _step in range(1, MAX_STEPS + 1):
-        response = create_response(client, history)
+        response = create_response_with_retries(client, history)
         history.extend(
             item
             for raw_item in getattr(response, "output", []) or []
