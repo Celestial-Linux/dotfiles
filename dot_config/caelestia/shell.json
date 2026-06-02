@@ -509,7 +509,7 @@
                 "to": "Apple Music"
             }
         ],
-        "showLyrics": true,
+        "showLyrics": false,
         "smartScheme": true,
         "useFahrenheit": false,
         "useFahrenheitPerformance": false,
