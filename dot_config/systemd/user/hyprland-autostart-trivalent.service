@@ -5,9 +5,8 @@ Wants=caelestia-shell.service
 After=caelestia-shell.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 1 silent] uwsm app -- trivalent"
+Type=exec
+ExecStart=/usr/bin/uwsm app -- trivalent
 
 [Install]
 WantedBy=graphical-session.target

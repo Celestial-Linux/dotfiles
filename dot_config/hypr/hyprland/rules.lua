@@ -54,6 +54,18 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "kite-workspace-rule",
+	match = { class = "kite" },
+	workspace = "2",
+})
+
+hl.window_rule({
+	name = "kitty-wtf-workspace-rule",
+	match = { class = "kitty-wtf" },
+	workspace = "2",
+})
+
+hl.window_rule({
 	name = "apple-music-workspace-rule",
 	match = { class = "chrome-blgdilankhbcpipclgpdndahbehalgkh-Default" },
 	workspace = "4",

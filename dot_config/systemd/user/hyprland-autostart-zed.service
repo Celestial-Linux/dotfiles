@@ -5,9 +5,8 @@ Wants=caelestia-shell.service
 After=caelestia-shell.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 3 silent] uwsm app -- zed"
+Type=exec
+ExecStart=/usr/bin/uwsm app -- zed
 
 [Install]
 WantedBy=graphical-session.target

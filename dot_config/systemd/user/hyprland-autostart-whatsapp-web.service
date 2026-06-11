@@ -5,9 +5,8 @@ Wants=caelestia-shell.service
 After=caelestia-shell.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 12 silent] uwsm app -- /usr/lib64/trivalent/trivalent.sh --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm"
+Type=exec
+ExecStart=/usr/bin/uwsm app -- /usr/lib64/trivalent/trivalent.sh --profile-directory=Default --app-id=hnpfjngllnobngcgfapefoaidbinmjnm
 
 [Install]
 WantedBy=graphical-session.target

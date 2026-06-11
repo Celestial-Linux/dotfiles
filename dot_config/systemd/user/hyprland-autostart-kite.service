@@ -5,9 +5,8 @@ Wants=caelestia-shell.service
 After=caelestia-shell.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 2 silent] uwsm app -- kitty kite"
+Type=exec
+ExecStart=/usr/bin/uwsm app -- kitty --class=kite kite
 
 [Install]
 WantedBy=graphical-session.target

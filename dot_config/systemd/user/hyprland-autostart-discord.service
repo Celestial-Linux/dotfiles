@@ -5,9 +5,8 @@ Wants=caelestia-shell.service
 After=caelestia-shell.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
-ExecStart=/usr/bin/hyprctl dispatch exec "[workspace 11 silent] uwsm app -- flatpak run com.discordapp.Discord"
+Type=exec
+ExecStart=/usr/bin/uwsm app -- flatpak run com.discordapp.Discord
 
 [Install]
 WantedBy=graphical-session.target
