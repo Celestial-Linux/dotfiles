@@ -48,6 +48,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "kitty-dashboardy-editor-workspace-rule",
+	match = { class = "dashboardy-editor" },
+	workspace = "2",
+})
+
+hl.window_rule({
 	name = "zed-workspace-rule",
 	match = { class = "dev.zed.Zed" },
 	workspace = "3",
@@ -94,6 +100,14 @@ hl.window_rule({
 	match = { class = "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default" },
 	workspace = "12",
 })
+
+for _, title in ipairs({ "calendar", "clock", "art", "goals", "today" }) do
+	hl.window_rule({
+		name = "dashboardy-" .. title,
+		match = { class = "^$", title = "^" .. title .. "$" },
+		workspace = "5 silent",
+	})
+end
 
 hl.window_rule({
 	name = "fullscreen-rule-1",
