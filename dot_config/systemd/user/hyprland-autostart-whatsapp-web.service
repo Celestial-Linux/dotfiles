@@ -3,6 +3,10 @@ Description=Hyprland autostart: WhatsApp Web
 PartOf=graphical-session.target
 Wants=caelestia-shell.service
 After=caelestia-shell.service
+# Forward into the already-running Trivalent instance instead of racing it for
+# the profile. trivalent.service only reports ready once its singleton is live.
+Wants=hyprland-autostart-trivalent.service
+After=hyprland-autostart-trivalent.service
 
 [Service]
 Type=exec

@@ -7,6 +7,9 @@ After=caelestia-shell.service
 [Service]
 Type=exec
 ExecStart=/usr/bin/uwsm app -- trivalent
+# Don't report "started" until this instance owns the profile and its singleton
+# socket is live, so PWA services ordered After= us forward instead of racing.
+ExecStartPost=%h/.local/bin/trivalent-wait-ready
 
 [Install]
 WantedBy=graphical-session.target

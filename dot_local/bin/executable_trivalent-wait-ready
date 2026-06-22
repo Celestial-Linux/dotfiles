@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+# Block until the main Trivalent instance owns the profile and its singleton
+# socket is live, so that PWA launches (trivalent --app-id=...) forward to it
+# instead of racing to become a second profile owner.
+#
+# Used as ExecStartPost= on the main trivalent.service. PWA services are ordered
+# After= the main service, so by the time they start the profile is safely owned.
+
+set -u
+
+socket="${XDG_CONFIG_HOME:-$HOME/.config}/trivalent/SingletonSocket"
+timeout_s=20
+deadline=$((SECONDS + timeout_s))
+
+# -S follows the symlink and is true only once the target is a real, bound
+# unix socket (i.e. the browser is actually listening for forwarded launches).
+while [[ ! -S "$socket" ]]; do
+  if (( SECONDS >= deadline )); then
+    echo "trivalent-wait-ready: socket not ready after ${timeout_s}s, continuing anyway" >&2
+    exit 0
+  fi
+  sleep 0.1
+done
+
+# Small grace margin: the symlink can appear a beat before the listener is fully
+# accepting connections. Cheap insurance against the tail of the race.
+sleep 0.5
+exit 0
