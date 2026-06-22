@@ -26,7 +26,7 @@
             "scale": 1
         },
         "transparency": {
-            "base": 0.9,
+            "base": 0.95,
             "enabled": true,
             "layers": 0.20249558762458475
         }
@@ -147,8 +147,8 @@
             "activeTrail": false,
             "capitalisation": "preserve",
             "label": "  ",
-            "maxWindowIcons": 4,
-            "occupiedBg": false,
+            "maxWindowIcons": 2,
+            "occupiedBg": true,
             "occupiedLabel": "󰮯",
             "perMonitorWorkspaces": true,
             "showWindows": true,
@@ -509,7 +509,7 @@
                 "to": "Apple Music"
             }
         ],
-        "showLyrics": false,
+        "showLyrics": true,
         "smartScheme": true,
         "useFahrenheit": false,
         "useFahrenheitPerformance": false,
