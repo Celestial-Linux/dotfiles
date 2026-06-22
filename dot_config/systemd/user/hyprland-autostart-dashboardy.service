@@ -1,0 +1,12 @@
+[Unit]
+Description=Hyprland autostart: Dashboardy
+PartOf=graphical-session.target
+Wants=caelestia-shell.service
+After=caelestia-shell.service
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/uwsm app -- dashboardy
+
+[Install]
+WantedBy=graphical-session.target
