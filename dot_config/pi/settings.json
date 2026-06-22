@@ -1,0 +1,15 @@
+{
+  "lastChangelogVersion": "0.79.6",
+  "theme": "light",
+  "defaultProvider": "openrouter",
+  "defaultModel": "z-ai/glm-5.2",
+  "defaultThinkingLevel": "high",
+  "skills": [
+    "~/.claude/skills",
+    "~/.codex/skills"
+  ],
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "transport": "auto"
+}
