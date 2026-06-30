@@ -1,0 +1,14 @@
+[Unit]
+Description=Hyprland autostart: Music Presence
+PartOf=graphical-session.target
+Wants=caelestia-shell.service
+After=caelestia-shell.service
+
+[Service]
+Type=exec
+ExecStart=/usr/bin/uwsm app -- musicpresence
+Restart=on-failure
+RestartSec=2s
+
+[Install]
+WantedBy=graphical-session.target
