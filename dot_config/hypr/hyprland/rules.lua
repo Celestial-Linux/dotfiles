@@ -78,6 +78,12 @@ hl.window_rule({
 })
 
 hl.window_rule({
+	name = "sidra-workspace-rule",
+	match = { class = "sidra" },
+	workspace = "4",
+})
+
+hl.window_rule({
 	name = "discord-workspace-rule",
 	match = { class = "discord" },
 	workspace = "11",
@@ -150,6 +156,17 @@ hl.window_rule({
 	border_color = "rgba(00000000)",
 	pin = true,
 	suppress_event = "activate activatefocus fullscreen maximize",
+	rounding = 0,
+})
+
+hl.window_rule({
+	name = "joya-window-rule-1",
+	match = { class = "^(joya)$" },
+	no_blur = true,
+	border_size = 0,
+	decorate = false,
+	border_color = "rgba(00000000)",
+	pin = true,
 	rounding = 0,
 })
 
