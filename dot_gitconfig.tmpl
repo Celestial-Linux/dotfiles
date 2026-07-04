@@ -30,11 +30,13 @@ autoSetupRemote = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 
+{{- if and (hasKey . "signingkey") .signingkey }}
 [commit]
 	gpgsign = true
 
 [tag]
 	gpgSign = true
+{{- end }}
 
 [pull]
         rebase = true
