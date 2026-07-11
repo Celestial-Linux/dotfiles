@@ -920,7 +920,7 @@ $env.LS_COLORS = (catppuccin_mocha_ls_colors)
 def --env switch_theme [] {
     const dark_theme = 1
     const light_theme = 2
-    let requested_theme = $env.NU_THEME? | default "" | str downcase
+    let requested_theme = $env.NU_THEME? | default "" | str lowercase
 
     if $requested_theme == "dark" {
         $env.NU_THEME = "dark"
