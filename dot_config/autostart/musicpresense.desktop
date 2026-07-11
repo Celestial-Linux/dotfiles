@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=MusicPresence
+Comment=Discord Rich Presence for Music Players
+Exec=%h/.local/share/musicpresence/musicpresence-2.3.2-linux-x86_64/usr/bin/musicpresence
+Icon=applications-multimedia
+Terminal=false
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+StartupNotify=false
+Categories=AudioVideo;Audio;

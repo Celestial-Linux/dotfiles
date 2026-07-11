@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Dashboardy
+Exec=/usr/bin/uwsm app -- dashboardy
+Terminal=false
+X-GNOME-Autostart-enabled=true

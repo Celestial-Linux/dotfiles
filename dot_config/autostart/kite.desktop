@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Kite
+Exec=/usr/bin/uwsm app -- kitty --class=kite kite
+Terminal=false
+X-GNOME-Autostart-enabled=true
