@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Discord
-Exec=/usr/bin/uwsm app -- flatpak run com.discordapp.Discord
-Terminal=false
-X-GNOME-Autostart-enabled=true
