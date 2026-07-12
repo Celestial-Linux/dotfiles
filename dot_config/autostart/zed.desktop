@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Zed
-Exec=/usr/bin/uwsm app -- zed
-Terminal=false
-X-GNOME-Autostart-enabled=true
