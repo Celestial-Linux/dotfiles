@@ -1,13 +1,19 @@
 {
-  "model": "opus",
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "model": "claude-opus-5",
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true
   },
-  "permissions": {
-    "defaultMode": "auto"
-  },
   "skipDangerousModePermissionPrompt": true,
-  "theme": "auto"
+  "theme": "auto",
+  "remoteControlAtStartup": true
 }
