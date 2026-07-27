@@ -3,7 +3,7 @@ repository = "rclone:b2:celestelove-backups"
 
 [[backup.snapshots]]
 sources = ["/home/celeste"]
-globs = ["!/home/celeste/Downloads/*"]
+globs = ["!/home/celeste/Downloads/*", "!/home/celeste/Shared/", "!/var/home/celeste/Downloads/", "!/var/home/celeste/Shared"]
 
 [backup]
 git-ignore = true
