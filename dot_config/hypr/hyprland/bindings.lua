@@ -90,10 +90,10 @@ end
 
 hl.bind(main_mod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(main_mod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
-hl.bind(main_mod .. " + mouse_down", hl.dsp.focus({ workspace = "r-1" }))
-hl.bind(main_mod .. " + mouse_up", hl.dsp.focus({ workspace = "r+1" }))
-hl.bind(main_mod .. " + SHIFT + mouse_down", hl.dsp.focus({ monitor = "-1" }))
-hl.bind(main_mod .. " + SHIFT + mouse_up", hl.dsp.focus({ monitor = "+1" }))
+hl.bind(main_mod .. " + mouse_down", hl.dsp.focus({ workspace = "r+1" }))
+hl.bind(main_mod .. " + mouse_up", hl.dsp.focus({ workspace = "r-1" }))
+hl.bind(main_mod .. " + SHIFT + mouse_down", hl.dsp.focus({ monitor = "+1" }))
+hl.bind(main_mod .. " + SHIFT + mouse_up", hl.dsp.focus({ monitor = "-1" }))
 hl.bind(main_mod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(main_mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
