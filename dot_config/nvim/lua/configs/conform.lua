@@ -1,8 +1,23 @@
 local options = {
   formatters_by_ft = {
     lua = { "stylua" },
+    json = { "deno_fmt" },
+    jsonc = { "deno_fmt" },
     -- css = { "prettier" },
     -- html = { "prettier" },
+  },
+
+  formatters = {
+    -- deno fmt defaults to 2 spaces; follow the buffer's indent instead
+    deno_fmt = {
+      append_args = function(_, ctx)
+        return {
+          "--indent-width",
+          tostring(ctx.shiftwidth),
+          "--use-tabs=" .. tostring(not vim.bo[ctx.buf].expandtab),
+        }
+      end,
+    },
   },
 
   format_on_save = {
