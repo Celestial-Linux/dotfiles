@@ -1,0 +1,31 @@
+[Desktop Entry]
+Name=Sidra
+Exec=/opt/Sidra/sidra %U
+Terminal=false
+Type=Application
+Icon=sidra
+StartupWMClass=Sidra
+Actions=PlayPause;Next;Previous;Stop;
+MimeType=x-scheme-handler/itms;
+Comment=An elegant Apple Music desktop client for Linux, macOS and Windows. No frippery, just quality. A better class of Cider 🍎
+Categories=Audio;
+
+[Desktop Action PlayPause]
+Name=Play-Pause
+Name[de]=Abspielen-Pausieren
+Exec=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.sidra /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause
+
+[Desktop Action Next]
+Name=Next
+Name[de]=Nächstes
+Exec=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.sidra /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next
+
+[Desktop Action Previous]
+Name=Previous
+Name[de]=Vorheriges
+Exec=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.sidra /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous
+
+[Desktop Action Stop]
+Name=Stop
+Name[de]=Stop
+Exec=dbus-send --print-reply --dest=org.mpris.MediaPlayer2.sidra /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop
