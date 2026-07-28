@@ -6,14 +6,170 @@
             }
         },
         "font": {
-            "family": {
-                "clock": "Rubik",
-                "material": "Material Symbols Rounded",
-                "mono": "BerkeleyMono Nerd Font",
-                "sans": "Atkinson Hyperlegible"
+            "body": {
+                "family": "Atkinson Hyperlegible Next",
+                "large": {
+                    "italic": false,
+                    "size": 14,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 400
+                },
+                "medium": {
+                    "italic": false,
+                    "size": 10,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 400
+                },
+                "small": {
+                    "italic": false,
+                    "size": 12,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 400
+                }
             },
-            "size": {
-                "scale": 0.860594892026578
+            "clock": "Rubik",
+            "headline": {
+                "family": "Atkinson Hyperlegible Next",
+                "large": {
+                    "italic": false,
+                    "size": 32,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                },
+                "medium": {
+                    "italic": false,
+                    "size": 28,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                },
+                "small": {
+                    "italic": false,
+                    "size": 24,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                }
+            },
+            "icon": {
+                "extraLarge": {
+                    "italic": false,
+                    "size": 36,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                },
+                "family": "Material Symbols Rounded",
+                "large": {
+                    "italic": false,
+                    "size": 24,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                },
+                "medium": {
+                    "italic": false,
+                    "size": 18,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                },
+                "small": {
+                    "italic": false,
+                    "size": 15,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                }
+            },
+            "label": {
+                "family": "Atkinson Hyperlegible Next",
+                "large": {
+                    "italic": false,
+                    "size": 14,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                },
+                "medium": {
+                    "italic": false,
+                    "size": 12,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                },
+                "small": {
+                    "italic": false,
+                    "size": 11,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 400
+                }
+            },
+            "mono": {
+                "family": "BerkeleyMono Nerd Font",
+                "large": {
+                    "italic": false,
+                    "size": 16,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                },
+                "medium": {
+                    "italic": false,
+                    "size": 14,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                },
+                "small": {
+                    "italic": false,
+                    "size": 12,
+                    "vaxes": {
+                    },
+                    "weight": 400
+                }
+            },
+            "scale": 0.860594892026578,
+            "title": {
+                "family": "Atkinson Hyperlegible Next",
+                "large": {
+                    "italic": false,
+                    "size": 22,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                },
+                "medium": {
+                    "italic": false,
+                    "size": 16,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                },
+                "small": {
+                    "italic": false,
+                    "size": 14,
+                    "vaxes": {
+                        "ROND": 25
+                    },
+                    "weight": 500
+                }
             }
         },
         "padding": {
@@ -509,7 +665,6 @@
                 "to": "Apple Music"
             }
         ],
-        "showLyrics": true,
         "smartScheme": true,
         "useFahrenheit": false,
         "useFahrenheitPerformance": false,
