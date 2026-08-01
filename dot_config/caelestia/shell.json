@@ -434,13 +434,6 @@
                     "idleAction": "hl.dsp.dpms({ action = 'off' })",
                     "returnAction": "hl.dsp.dpms({ action = 'on' })",
                     "timeout": 300
-                },
-                {
-                    "idleAction": [
-                        "systemctl",
-                        "suspend-then-hibernate"
-                    ],
-                    "timeout": 600
                 }
             ]
         },
