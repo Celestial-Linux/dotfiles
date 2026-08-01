@@ -1,7 +1,7 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
-model = "gpt-5.5"
-model_reasoning_effort = "xhigh"
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"
 approvals_reviewer = "guardian_subagent"
 
 
@@ -47,10 +47,7 @@ theme = "ansi"
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
-
-[mcp_servers.godot]
-command = "bunx"
-args = ["@coding-solo/godot-mcp"]
+"gpt-5.6-sol" = 4
 
 [mcp_servers.github]
 url = "https://api.githubcopilot.com/mcp/"
@@ -61,4 +58,13 @@ command = "nu"
 args = ["/var/home/celeste/.local/bin/pterodactyl-mcp.nu"]
 
 [projects."/var/home/celeste/.local/share/chezmoi"]
+trust_level = "trusted"
+
+[projects."/tmp"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/CelesteLove/JobSeeking"]
+trust_level = "trusted"
+
+[projects."/var/home/celeste/Documents/Development/Eufonia/ShaderEntities"]
 trust_level = "trusted"
