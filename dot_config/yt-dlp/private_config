@@ -1,0 +1,2 @@
+# Load cookies from Firefox, including the Flatpak Firefox profile.
+--cookies-from-browser firefox
