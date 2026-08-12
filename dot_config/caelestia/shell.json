@@ -264,8 +264,7 @@
                 "id": "power"
             }
         ],
-        "excludedScreens": [
-        ],
+        "excludedScreens": [],
         "persistent": true,
         "popouts": {
             "activeWindow": true,
@@ -278,23 +277,11 @@
             "workspaces": true
         },
         "showOnHover": true,
-        "status": {
-            "showAudio": true,
-            "showBattery": false,
-            "showBluetooth": true,
-            "showKbLayout": true,
-            "showLockStatus": true,
-            "showMicrophone": true,
-            "showNetwork": true,
-            "showWifi": true
-        },
         "tray": {
             "background": true,
             "compact": true,
-            "hiddenIcons": [
-            ],
-            "iconSubs": [
-            ],
+            "hiddenIcons": [],
+            "iconSubs": [],
             "recolour": false
         },
         "workspaces": {
@@ -603,10 +590,8 @@
         "dragThreshold": 50,
         "enableDangerousActions": false,
         "enabled": true,
-        "favouriteApps": [
-        ],
-        "hiddenApps": [
-        ],
+        "favouriteApps": [],
+        "hiddenApps": [],
         "maxShown": 7,
         "maxWallpapers": 9,
         "showOnHover": false,
@@ -749,7 +734,8 @@
             "enabled": true,
             "provider": [
                 "mullvad"
-            ]
+            ],
+            "selectedProvider": ""
         }
     }
 }
