@@ -1,13 +1,17 @@
 local M = {}
 
 function M.setup()
-  local jdtls = require "jdtls"
-  local jdtls_dap = require "jdtls.dap"
   local jdtls_setup = require "jdtls.setup"
   local home = os.getenv "HOME"
 
   local root_markers = { ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }
   local root_dir = jdtls_setup.find_root(root_markers)
+  if not root_dir or not require("configs.workspace_trust").ensure(root_dir, "jdtls") then
+    return
+  end
+
+  local jdtls = require "jdtls"
+  local jdtls_dap = require "jdtls.dap"
 
   local project_name = vim.fn.fnamemodify(root_dir, ":p:h:t")
   local workspace_dir = home .. "/.cache/jdtls/workspace" .. project_name

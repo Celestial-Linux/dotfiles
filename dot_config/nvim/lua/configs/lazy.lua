@@ -1,6 +1,13 @@
 return {
   defaults = { lazy = true },
-  install = { colorscheme = { "nvchad" } },
+  local_spec = false,
+  install = {
+    missing = false,
+    colorscheme = { "nvchad" },
+  },
+  pkg = { enabled = false },
+  rocks = { enabled = false },
+  checker = { enabled = false },
 
   ui = {
     icons = {
