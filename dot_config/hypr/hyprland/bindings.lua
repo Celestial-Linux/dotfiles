@@ -8,6 +8,7 @@ local screenshot_monitor = "hyprshot -m output"
 local screenshot_region = "hyprshot -m region"
 local runfetch = "kitty --class floating -- /var/home/celeste/.local/bin/fetch"
 local emoji_picker = "flatpak run it.mijorus.smile"
+local lock = "caelestia shell lock lock"
 local exit = "uwsm stop"
 local restart_caelestia_shell = "systemctl --user restart caelestia-shell.service"
 
@@ -70,6 +71,7 @@ hl.bind(main_mod .. " + Tab", hl.dsp.layout("cyclenext"))
 hl.bind(main_mod .. " + SHIFT + Tab", hl.dsp.layout("cycleprev"))
 hl.bind(main_mod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }))
 hl.bind(main_mod .. " + period", hl.dsp.exec_cmd(emoji_picker))
+hl.bind(main_mod .. " + L", hl.dsp.exec_cmd(lock))
 hl.bind(main_mod .. " + SHIFT + O", turn_off_screens, { locked = true })
 hl.bind(main_mod .. " + SHIFT + R", hl.dsp.exec_cmd(restart_caelestia_shell))
 hl.bind(main_mod .. " + SHIFT + Z", hl.dsp.global("caelestia:screenshotFreeze"))
