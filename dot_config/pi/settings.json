@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.79.6",
+  "lastChangelogVersion": "0.84.2",
   "theme": "light",
-  "defaultProvider": "openrouter",
-  "defaultModel": "z-ai/glm-5.2",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "glm-5.3",
   "defaultThinkingLevel": "high",
   "skills": [
     "~/.claude/skills",
@@ -11,5 +11,8 @@
   "terminal": {
     "showTerminalProgress": true
   },
-  "transport": "auto"
+  "transport": "auto",
+  "packages": [
+    "npm:pi-mcp-adapter"
+  ]
 }

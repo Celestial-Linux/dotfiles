@@ -99,6 +99,7 @@ $env.PATH = ($env.PATH | uniq)
 # Command aliases and functions
 alias nv = flatpak run io.neovim.nvim
 alias codex = with-bws-secrets codex
+alias pi = with-bws-secrets pi
 def --wrapped wtf [
 	...args # Arguments to pass to wtfutil.
 ] {

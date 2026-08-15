@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "kagi": {
+      "url": "https://mcp.kagi.com/mcp",
+      "auth": "bearer",
+      "bearerTokenEnv": "KAGI_API_KEY"
+    }
+  }
+}
