@@ -32,79 +32,85 @@ hl.window_rule({
 hl.window_rule({
 	name = "easyeffects-window-rule",
 	match = { class = "com.github.wwmm.easyeffects" },
-	workspace = "special:magic",
+	workspace = "special:magic silent",
 })
 
 hl.window_rule({
 	name = "boatswain-window-rule",
 	match = { class = "com.feaneron.Boatswain" },
-	workspace = "special:magic",
+	workspace = "special:magic silent",
 })
 
 hl.window_rule({
 	name = "trivalent-workspace-rule",
 	match = { class = "trivalent" },
-	workspace = "1",
+	workspace = "1 silent",
 })
 
 hl.window_rule({
 	name = "kitty-dashboardy-editor-workspace-rule",
 	match = { class = "dashboardy-editor" },
-	workspace = "2",
+	workspace = "2 silent",
 })
 
 hl.window_rule({
 	name = "zed-workspace-rule",
 	match = { class = "dev.zed.Zed" },
-	workspace = "3",
+	workspace = "3 silent",
 })
 
 hl.window_rule({
 	name = "kite-workspace-rule",
 	match = { class = "kite" },
-	workspace = "2",
+	workspace = "2 silent",
 })
 
 hl.window_rule({
 	name = "kitty-wtf-workspace-rule",
 	match = { class = "kitty-wtf" },
-	workspace = "2",
+	workspace = "2 silent",
 })
 
 hl.window_rule({
 	name = "apple-music-workspace-rule",
 	match = { class = "chrome-blgdilankhbcpipclgpdndahbehalgkh-Default" },
-	workspace = "4",
+	workspace = "4 silent",
 })
 
 hl.window_rule({
 	name = "sidra-workspace-rule",
 	match = { class = "sidra" },
-	workspace = "4",
+	workspace = "4 silent",
 })
 
 hl.window_rule({
 	name = "discord-workspace-rule",
 	match = { class = "discord" },
-	workspace = "11",
+	workspace = "11 silent",
 })
 
 hl.window_rule({
 	name = "webcord-window-rule",
 	match = { class = "WebCord" },
-	workspace = "11",
+	workspace = "11 silent",
 })
 
 hl.window_rule({
 	name = "vesktop-window-rule",
 	match = { class = "vesktop" },
-	workspace = "11",
+	workspace = "11 silent",
 })
 
 hl.window_rule({
 	name = "whatsapp-workspace-rule",
 	match = { class = "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default" },
-	workspace = "12",
+	workspace = "12 silent",
+})
+
+hl.window_rule({
+	name = "signal-workspace-rule",
+	match = { class = "org.signal.Signal" },
+	workspace = "13 silent",
 })
 
 for _, title in ipairs({ "calendar", "clock", "art", "goals", "today" }) do
