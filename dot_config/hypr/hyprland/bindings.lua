@@ -1,6 +1,8 @@
 local terminal = "kitty"
 local file_manager = "kitty yazi"
 local menu = "caelestia shell drawers toggle launcher"
+local view_notifications = "caelestia shell drawers toggle sidebar"
+local clear_notifications = "caelestia shell notifs clear"
 local browser = "trivalent"
 local color_picker = "hyprpicker --autocopy"
 local screenshot_window = "hyprshot -m window"
@@ -64,6 +66,8 @@ hl.bind(main_mod .. " + M", hl.dsp.exec_cmd(exit))
 hl.bind(main_mod .. " + E", uwsm_app(file_manager))
 hl.bind(main_mod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(main_mod .. " + Space", uwsm_app(menu))
+hl.bind(main_mod .. " + N", hl.dsp.exec_cmd(view_notifications))
+hl.bind(main_mod .. " + SHIFT + N", hl.dsp.exec_cmd(clear_notifications))
 hl.bind(main_mod .. " + P", hl.dsp.window.pseudo())
 hl.bind(main_mod .. " + J", handle_layout_action)
 hl.bind(main_mod .. " + SHIFT + J", handle_reverse_layout_action)
