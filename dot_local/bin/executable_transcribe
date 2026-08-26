@@ -1,0 +1,57 @@
+#!/bin/nu
+def main [
+    path: string,
+    --model: string = "gemini-3.7-flash",
+] {
+    let mime_type = (^file --brief --mime-type $path | str trim)
+    let audio = (open $path | into binary | encode base64)
+    let prompt = """
+Transcribe this audio faithfully.
+Return only the transcript, with timestamps in [HH:MM:SS] format when possible.
+Preserve speaker turns and label distinct speakers as Speaker A, Speaker B, etc.
+Do not summarize or add commentary.
+"""
+
+    let url = $"https://aiplatform.googleapis.com/v1/publishers/google/models/($model):generateContent"
+    let body = {
+        contents: [{
+            role: "user"
+            parts: [
+                { inlineData: { mimeType: $mime_type, data: $audio } }
+                { text: $prompt }
+            ]
+        }]
+        generationConfig: {
+            audioTimestamp: true
+            temperature: 0.0
+        }
+    }
+
+    let raw = (
+        http post
+            --content-type 'application/json'
+            --headers { 'x-goog-api-key': $env.VERTEX_AI_API_KEY }
+            --full
+            --allow-errors
+            $url
+            $body
+    )
+
+    if $raw.status >= 400 {
+        print --stderr $"HTTP ($raw.status)"
+        print --stderr ($raw.body | to json)
+        exit 1
+    }
+
+    let text = (
+        $raw.body.candidates.0.content.parts
+        | where text? != null
+        | get text
+        | str join "\n"
+    )
+
+    {
+        text: $text
+        usage: $raw.body.usageMetadata
+    } | select text usage
+}
