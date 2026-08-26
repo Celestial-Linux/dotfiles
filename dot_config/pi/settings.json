@@ -1,8 +1,8 @@
 {
   "lastChangelogVersion": "0.84.2",
   "theme": "light",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "glm-5.3",
+  "defaultProvider": "runpod",
+  "defaultModel": "deepseek-v4-flash-0731",
   "defaultThinkingLevel": "high",
   "skills": [
     "~/.claude/skills",
@@ -13,6 +13,7 @@
   },
   "transport": "auto",
   "packages": [
-    "npm:pi-mcp-adapter"
+    "npm:pi-mcp-adapter",
+    "npm:pi-invisible-continue"
   ]
 }
