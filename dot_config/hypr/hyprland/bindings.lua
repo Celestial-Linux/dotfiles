@@ -88,6 +88,10 @@ hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(main_mod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(main_mod .. " + down", hl.dsp.focus({ direction = "down" }))
+hl.bind(main_mod .. " + SHIFT + left", hl.dsp.window.move({ direction = "left" }))
+hl.bind(main_mod .. " + SHIFT + right", hl.dsp.window.move({ direction = "right" }))
+hl.bind(main_mod .. " + SHIFT + up", hl.dsp.window.move({ direction = "up" }))
+hl.bind(main_mod .. " + SHIFT + down", hl.dsp.window.move({ direction = "down" }))
 
 for _, key in ipairs({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" }) do
 	hl.bind(main_mod .. " + " .. key, hl.dsp.focus({ workspace = "r~" .. key, on_current_monitor = true }))
