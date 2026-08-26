@@ -264,7 +264,8 @@
                 "id": "power"
             }
         ],
-        "excludedScreens": [],
+        "excludedScreens": [
+        ],
         "persistent": true,
         "popouts": {
             "activeWindow": true,
@@ -280,8 +281,10 @@
         "tray": {
             "background": true,
             "compact": true,
-            "hiddenIcons": [],
-            "iconSubs": [],
+            "hiddenIcons": [
+            ],
+            "iconSubs": [
+            ],
             "recolour": false
         },
         "workspaces": {
@@ -590,8 +593,10 @@
         "dragThreshold": 50,
         "enableDangerousActions": false,
         "enabled": true,
-        "favouriteApps": [],
-        "hiddenApps": [],
+        "favouriteApps": [
+        ],
+        "hiddenApps": [
+        ],
         "maxShown": 7,
         "maxWallpapers": 9,
         "showOnHover": false,
