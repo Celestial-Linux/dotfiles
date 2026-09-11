@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.84.2",
+  "lastChangelogVersion": "0.84.3",
   "theme": "light",
-  "defaultProvider": "runpod",
-  "defaultModel": "deepseek-v4-flash-0731",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "muse-spark-1.2-contributor",
   "defaultThinkingLevel": "high",
   "skills": [
     "~/.claude/skills",
