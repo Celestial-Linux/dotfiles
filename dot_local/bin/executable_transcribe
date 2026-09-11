@@ -1,7 +1,7 @@
 #!/bin/nu
 def main [
     path: string,
-    --model: string = "gemini-3.7-flash",
+    --model: string = "gemini-3.5-transcribe",
 ] {
     let mime_type = (^file --brief --mime-type $path | str trim)
     let audio = (open $path | into binary | encode base64)
@@ -12,25 +12,25 @@ Preserve speaker turns and label distinct speakers as Speaker A, Speaker B, etc.
 Do not summarize or add commentary.
 """
 
-    let url = $"https://aiplatform.googleapis.com/v1/publishers/google/models/($model):generateContent"
+    let api_key = if ("GEMINI_API_KEY" in $env) {
+        $env.GEMINI_API_KEY
+    } else {
+        $env.VERTEX_AI_API_KEY
+    }
+    let url = "https://generativelanguage.googleapis.com/v1beta/interactions"
     let body = {
-        contents: [{
-            role: "user"
-            parts: [
-                { inlineData: { mimeType: $mime_type, data: $audio } }
-                { text: $prompt }
-            ]
-        }]
-        generationConfig: {
-            audioTimestamp: true
-            temperature: 0.0
-        }
+        model: $model
+        input: [
+            { type: "audio", data: $audio, mime_type: $mime_type }
+            { type: "text", text: $prompt }
+        ]
+        store: false
     }
 
     let raw = (
         http post
             --content-type 'application/json'
-            --headers { 'x-goog-api-key': $env.VERTEX_AI_API_KEY }
+            --headers { 'x-goog-api-key': $api_key }
             --full
             --allow-errors
             $url
@@ -44,14 +44,15 @@ Do not summarize or add commentary.
     }
 
     let text = (
-        $raw.body.candidates.0.content.parts
-        | where text? != null
-        | get text
+        $raw.body.steps
+        | where type == "model_output"
+        | each {|step| $step.content | where type == "text" | get text }
+        | flatten
         | str join "\n"
     )
 
     {
         text: $text
-        usage: $raw.body.usageMetadata
+        usage: $raw.body.usage
     } | select text usage
 }
