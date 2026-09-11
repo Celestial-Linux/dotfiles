@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Linux Wallpaper Engine
+Comment=Start the animated desktop wallpaper
+Exec=/usr/bin/uwsm app -- /var/home/celeste/.local/bin/linux-wallpaperengine --screen-root DP-4 --screen-root HDMI-A-2 "/var/home/celeste/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/wallpaper_engine/projects/myprojects/pastel_lilac_wal1"
+Terminal=false
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
