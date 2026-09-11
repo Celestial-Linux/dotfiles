@@ -85,7 +85,22 @@ $env.NU_LIB_DIRS = [
 $env.NU_PLUGIN_DIRS = [
     ($nu.default-config-dir | path join 'plugins') # add <nushell-config-dir>/plugins
 ]
-$env.CARGO_HOME = ($env.HOME | path join ".cargo")
+$env.CARGO_HOME = ($env.HOME | path join ".local" "share" "cargo")
+$env.RUSTUP_HOME = ($env.HOME | path join ".local" "share" "rustup")
+$env.CLAUDE_CONFIG_DIR = ($env.HOME | path join ".config" "claude")
+$env.DENO_DIR = ($env.HOME | path join ".cache" "deno")
+$env.DENO_INSTALL_ROOT = ($env.HOME | path join ".local" "share" "deno")
+$env.GNUPGHOME = ($env.HOME | path join ".local" "share" "gnupg")
+$env.GRADLE_USER_HOME = ($env.HOME | path join ".local" "share" "gradle")
+$env.MAVEN_OPTS = $"-Dmaven.repo.local=($env.HOME)/.local/share/maven/repository"
+$env.MAVEN_ARGS = $"--settings ($env.HOME)/.config/maven/settings.xml"
+$env.NPM_CONFIG_USERCONFIG = ($env.HOME | path join ".config" "npm" "npmrc")
+$env.GTK2_RC_FILES = ($env.HOME | path join ".config" "gtk-2.0" "gtkrc")
+$env.__GL_SHADER_DISK_CACHE_PATH = ($env.HOME | path join ".cache" "nv")
+$env.TUF_ROOT = ($env.HOME | path join ".local" "share" "sigstore" "root")
+$env.PYTHON_HISTORY = ($env.HOME | path join ".local" "state" "python" "history")
+$env.SQLITE_HISTORY = ($env.HOME | path join ".local" "state" "sqlite_history")
+$env.HISTFILE = ($env.HOME | path join ".local" "state" "bash" "history")
 
 use std "path add"
 path add ($env.CARGO_HOME | path join "bin")
@@ -94,6 +109,7 @@ path add "/home/linuxbrew/.linuxbrew/bin"
 path add "/home/linuxbrew/.linuxbrew/opt/rustup/bin"
 path add ($env.HOME | path join ".local" "share" "go" "bin")
 path add ($env.HOME | path join ".cache" ".bun" "bin")
+path add ($env.HOME | path join ".local" "share" "deno" "bin")
 $env.PATH = ($env.PATH | uniq)
 
 # Command aliases and functions
