@@ -1,8 +1,9 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
-model = "gpt-5.6-luna"
-model_reasoning_effort = "max"
+model = "gpt-6-astra"
+model_reasoning_effort = "xhigh"
 approvals_reviewer = "guardian_subagent"
+service_tier = "default"
 
 [features]
 js_repl = true
@@ -23,6 +24,7 @@ status_line_use_colors = true
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 "gpt-5.6-sol" = 4
+gpt-6-astra = 2
 
 [mcp_servers.github]
 url = "https://api.githubcopilot.com/mcp/"
@@ -39,5 +41,110 @@ url = "https://mcp.figma.com/mcp"
 command = "uv"
 args = ["run", "eufonia-client-tools-mcp"]
 
+[mcp_servers.node_repl]
+args = []
+command = "/var/home/linuxbrew/.linuxbrew/Caskroom/chatgpt-linux/26.903.61454/usr/lib/chatgpt/resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/var/home/linuxbrew/.linuxbrew/Caskroom/chatgpt-linux/26.903.61454/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/var/home/linuxbrew/.linuxbrew/Caskroom/chatgpt-linux/26.903.61454/usr/lib/chatgpt/resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/home/celeste/.config/codex:/var/home/linuxbrew/.linuxbrew/Caskroom/chatgpt-linux/26.903.61454/usr/lib/chatgpt/resources/cua_node/lib/node_modules"
+CODEX_HOME = "/home/celeste/.config/codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.903.61454"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/home/celeste/.config/codex/plugins/cache/openai-bundled/browser/26.903.61454/scripts/browser-service.mjs"}'
+CODEX_CLI_PATH = "/var/home/linuxbrew/.linuxbrew/Caskroom/chatgpt-linux/26.903.61454/usr/lib/chatgpt/resources/codex"
+
 [notice]
 hide_rate_limit_model_nudge = true
+
+[desktop]
+followUpQueueMode = "steer"
+conversationDetailMode = "STEPS_PROSE"
+ambient-suggestions-enabled = true
+git-branch-prefix = "feat/"
+git-pull-request-merge-method = "squash"
+git-create-pull-request-as-draft = false
+git-commit-instructions = "Use the conventional commits skill."
+git-pr-instructions = "Use the conventional commits skill."
+composerPlainTextMode = true
+show-context-window-usage = true
+hotkey-window-projectless-default-enabled = true
+toys-confetti-enabled = true
+appearanceLightCodeThemeId = "everforest"
+appearanceDarkCodeThemeId = "everforest"
+selected-avatar-id = "seedy"
+
+[desktop.open-in-target-preferences]
+global = "zed"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#93b259"
+accentSource = "custom"
+contrast = 45
+ink = "#5c6a72"
+opaqueWindows = false
+surface = "#fdf6e3"
+
+[desktop.appearanceLightChromeTheme.fonts]
+
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#8da101"
+diffRemoved = "#f85552"
+skill = "#df69ba"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#a7c080"
+accentSource = "custom"
+contrast = 60
+ink = "#d3c6aa"
+opaqueWindows = false
+surface = "#2d353b"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#a7c080"
+diffRemoved = "#e67e80"
+skill = "#d699b6"
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/var/home/celeste/.config/codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+source_type = "local"
+source = "/var/home/celeste/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
