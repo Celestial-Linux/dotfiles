@@ -175,6 +175,7 @@ def "from env" []: string -> record {
 }
 
 $env.CODEX_HOME = ($env.HOME | path join ".config" "codex")
+$env.JABBA_HOME = ($env.HOME | path join ".local" "share" "jabba")
 $env.SSH_AUTH_SOCK = $env.XDG_RUNTIME_DIR | path join "gcr" "ssh"
 $env.GOPATH = ($env.HOME | path join ".local" "share" "go")
 $env.PI_CODING_AGENT_DIR = ($env.XDG_CONFIG_HOME | path join "pi")
