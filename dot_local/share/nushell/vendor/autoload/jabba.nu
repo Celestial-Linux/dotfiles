@@ -36,7 +36,7 @@ export def --wrapped --env jabba [...params: string] {
         "jabba"
     }
 
-    let fd3 = (mktemp -t jabba-fd3.XXXXXX.env)
+    let fd3 = (mktemp -t jabba-fd3.XXXXXX)
     let res = (do {
         with-env { JABBA_SHELL_INTEGRATION: "ON" } {
             ^$jabba_bin ...$params --fd3 $fd3
@@ -49,7 +49,7 @@ export def --wrapped --env jabba [...params: string] {
 
     if ($fd3 | path exists) {
         if ((ls $fd3 | get -o 0.size? | default 0B) > 0B) {
-            let lines = (open $fd3 | lines | each { str trim } | where { is-not-empty })
+            let lines = (open --raw $fd3 | lines | each { str trim } | where { is-not-empty })
             for line in $lines {
                 if ($line | str starts-with "export ") {
                     let m = ($line | parse --regex "^export (?P<name>[^=]+)=\"(?P<value>.*)\"$")
