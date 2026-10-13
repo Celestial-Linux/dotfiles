@@ -1,0 +1,7 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* autoMode.environment holds private context and only works from user settings, so keep the local copy out of the repo */ -}}
+{{- $current := dict -}}
+{{- if .chezmoi.stdin }}{{ $current = fromJson .chezmoi.stdin }}{{ end -}}
+{{- $managed := include ".chezmoitemplates/claude-settings.json" | fromJson -}}
+{{- if hasKey $current "autoMode" }}{{ $_ := set $managed "autoMode" $current.autoMode }}{{ end -}}
+{{ toPrettyJson $managed }}
