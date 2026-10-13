@@ -1,8 +1,8 @@
 {
-  "lastChangelogVersion": "0.84.3",
+  "lastChangelogVersion": "0.85.1",
   "theme": "light",
-  "defaultProvider": "opencode-go",
-  "defaultModel": "muse-spark-1.2-contributor",
+  "defaultProvider": "openrouter",
+  "defaultModel": "meta/muse-spark-1.3-contributor",
   "defaultThinkingLevel": "high",
   "skills": [
     "~/.claude/skills",
