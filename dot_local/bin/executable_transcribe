@@ -3,6 +3,13 @@ def main [
     path: string,
     --model: string = "gemini-3.5-transcribe",
 ] {
+    let api_key = ($env.GEMINI_API_KEY? | default "" | str trim)
+    if ($api_key | is-empty) {
+        print --stderr "GEMINI_API_KEY is not set. Create a separate Gemini API key at https://aistudio.google.com/api-keys and set GEMINI_API_KEY in your shell."
+        print --stderr "This script uses the Gemini Interactions API; VERTEX_AI_API_KEY is not a fallback for this endpoint."
+        exit 1
+    }
+
     let mime_type = (^file --brief --mime-type $path | str trim)
     let audio = (open $path | into binary | encode base64)
     let prompt = """
@@ -12,11 +19,6 @@ Preserve speaker turns and label distinct speakers as Speaker A, Speaker B, etc.
 Do not summarize or add commentary.
 """
 
-    let api_key = if ("GEMINI_API_KEY" in $env) {
-        $env.GEMINI_API_KEY
-    } else {
-        $env.VERTEX_AI_API_KEY
-    }
     let url = "https://generativelanguage.googleapis.com/v1beta/interactions"
     let body = {
         model: $model
@@ -39,7 +41,11 @@ Do not summarize or add commentary.
 
     if $raw.status >= 400 {
         print --stderr $"HTTP ($raw.status)"
-        print --stderr ($raw.body | to json)
+        let error_body = ($raw.body | to json)
+        print --stderr $error_body
+        if ($error_body | str contains "API_KEY_SERVICE_BLOCKED") {
+            print --stderr "GEMINI_API_KEY cannot access generativelanguage.googleapis.com. Use a separate Gemini API key from Google AI Studio, restricted to the Gemini API."
+        }
         exit 1
     }
 
