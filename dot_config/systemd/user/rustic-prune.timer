@@ -1,0 +1,10 @@
+[Unit]
+Description=Prune Rustic backups daily
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+Unit=rustic-prune.service
+
+[Install]
+WantedBy=timers.target

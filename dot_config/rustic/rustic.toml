@@ -1,6 +1,9 @@
 [repository]
 repository = "rclone:b2:celestelove-backups"
 
+[forget]
+keep-within = "1mo"
+
 [[backup.snapshots]]
 sources = ["/home/celeste"]
 globs = ["!/home/celeste/Downloads/*", "!/home/celeste/Shared/", "!/var/home/celeste/Downloads/", "!/var/home/celeste/Shared"]

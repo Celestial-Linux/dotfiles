@@ -1,0 +1,9 @@
+[Unit]
+Description=Prune Rustic backups
+
+[Service]
+Type=exec
+WorkingDirectory=%h
+Environment=PATH=/home/linuxbrew/.linuxbrew/bin:/var/home/celeste/.cargo/bin:/usr/local/bin:/usr/bin:/bin
+ExecCondition=/usr/bin/sh -c 'if /usr/bin/pgrep -x rustic >/dev/null; then echo "rustic is already running; skipping prune"; exit 1; fi'
+ExecStart=/var/home/celeste/.local/bin/with-bws-secret 8a47a459-510d-4abb-b15a-b4500053ba6e cef5743f-f4be-40ef-acee-b450005a5606 -- rustic forget --prune
