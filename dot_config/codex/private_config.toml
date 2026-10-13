@@ -1,7 +1,7 @@
 sandbox_mode = "read-only"
 approval_policy = "on-request"
-model = "gpt-6-astra"
-model_reasoning_effort = "xhigh"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "max"
 approvals_reviewer = "guardian_subagent"
 service_tier = "default"
 
@@ -20,11 +20,13 @@ status_line = [
     "five-hour-limit",
 ]
 status_line_use_colors = true
+screen_reader_detection_done = true
 
 [tui.model_availability_nux]
 "gpt-5.5" = 4
 "gpt-5.6-sol" = 4
-gpt-6-astra = 2
+gpt-6-astra = 4
+"gpt-6.1-sol" = 3
 
 [mcp_servers.github]
 url = "https://api.githubcopilot.com/mcp/"
@@ -66,7 +68,7 @@ hide_rate_limit_model_nudge = true
 
 [desktop]
 followUpQueueMode = "steer"
-conversationDetailMode = "STEPS_PROSE"
+conversationDetailMode = "STEPS_COMMANDS"
 ambient-suggestions-enabled = true
 git-branch-prefix = "feat/"
 git-pull-request-merge-method = "squash"
@@ -148,3 +150,4 @@ enabled = true
 
 [plugins."template-creator@openai-primary-runtime"]
 enabled = true
+
