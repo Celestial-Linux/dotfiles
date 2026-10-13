@@ -9,9 +9,9 @@ hl.monitor({
 hl.monitor({
 	output = "desc:Acer Technologies K202HQL T0CAA0028519",
 	mode = "preferred",
-	position = "auto-left",
+	position = "auto-right",
 	scale = "1",
-	transform = 3,
+	transform = 1,
 })
 
 hl.monitor({
