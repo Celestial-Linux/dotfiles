@@ -291,68 +291,95 @@
             "activeIndicator": true,
             "activeLabel": "󰮯",
             "activeTrail": false,
-            "capitalisation": "preserve",
+            "capitalisation": "Preserve",
             "label": "  ",
             "maxWindowIcons": 2,
             "occupiedBg": true,
             "occupiedLabel": "󰮯",
+            "perMonitor": true,
             "perMonitorWorkspaces": true,
             "showWindows": true,
             "showWindowsOnSpecialWorkspaces": true,
             "shown": 5,
             "specialWorkspaceIcons": [
                 {
+                    "flags": "",
                     "icon": "web",
-                    "name": "browser"
+                    "name": "browser",
+                    "regex": ""
                 },
                 {
+                    "flags": "",
                     "icon": "terminal",
-                    "name": "terminal"
+                    "name": "terminal",
+                    "regex": ""
                 },
                 {
+                    "flags": "",
                     "icon": "code",
-                    "name": "code"
+                    "name": "code",
+                    "regex": ""
                 },
                 {
+                    "flags": "",
                     "icon": "music_note",
-                    "name": "music"
+                    "name": "music",
+                    "regex": ""
                 },
                 {
+                    "flags": "",
                     "icon": "sports_esports",
-                    "name": "game"
+                    "name": "game",
+                    "regex": ""
                 },
                 {
+                    "flags": "",
                     "icon": "forum",
-                    "name": "discord"
+                    "name": "discord",
+                    "regex": ""
                 },
                 {
+                    "flags": "",
                     "icon": "chat",
-                    "name": "whatsapp"
+                    "name": "whatsapp",
+                    "regex": ""
                 }
             ],
             "windowIcons": [
                 {
+                    "flags": "",
                     "icon": "code",
+                    "name": "",
                     "regex": "zed"
                 },
                 {
+                    "flags": "",
                     "icon": "globe",
+                    "name": "",
                     "regex": "helium"
                 },
                 {
+                    "flags": "",
                     "icon": "sports_esports",
+                    "name": "",
                     "regex": "steam(_app_(default|[0-9]+))?"
                 },
                 {
+                    "flags": "",
                     "icon": "music_note_2",
+                    "name": "",
                     "regex": "chrome-blgdilankhbcpipclgpdndahbehalgkh-Default"
                 },
                 {
+                    "flags": "",
                     "icon": "chat",
+                    "name": "",
                     "regex": "chrome-hnpfjngllnobngcgfapefoaidbinmjnm-Default"
                 },
                 {
+                    "flags": "",
                     "icon": "terminal",
+                    "name": "",
                     "regex": "kitty"
                 }
             ]
@@ -396,12 +423,14 @@
             "criticalLevel": 3,
             "warnLevels": [
                 {
+                    "critical": false,
                     "icon": "battery_android_frame_2",
                     "level": 20,
                     "message": "You might want to plug in a charger",
                     "title": "Low battery"
                 },
                 {
+                    "critical": false,
                     "icon": "battery_android_frame_1",
                     "level": 10,
                     "message": "You should probably plug in a charger <b>now</b>",
@@ -421,7 +450,11 @@
             "lockBeforeSleep": true,
             "timeouts": [
                 {
+                    "enabled": true,
                     "idleAction": "hl.dsp.dpms({ action = 'off' })",
+                    "inhibitWhenAudio": false,
+                    "inhibitWhenCharging": false,
+                    "respectInhibitors": true,
                     "returnAction": "hl.dsp.dpms({ action = 'on' })",
                     "timeout": 300
                 }
@@ -602,7 +635,7 @@
         "showOnHover": false,
         "specialPrefix": "@",
         "useFuzzy": {
-            "actions": false,
+            "actions": true,
             "apps": false,
             "schemes": true,
             "variants": true,
@@ -736,11 +769,20 @@
             "vpnChanged": true
         },
         "vpn": {
-            "enabled": true,
+            "enabled": false,
             "provider": [
-                "mullvad"
+                {
+                    "connectCmd": [
+                    ],
+                    "disconnectCmd": [
+                    ],
+                    "displayName": "",
+                    "id": "vpn-muk2ev6n-8u17c",
+                    "interface": "",
+                    "name": ""
+                }
             ],
-            "selectedProvider": ""
+            "selectedProvider": "vpn-muk2ev6n-8u17c"
         }
     }
 }
