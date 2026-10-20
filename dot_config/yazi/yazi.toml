@@ -1,5 +1,7 @@
 [mgr]
 linemode = "size_and_mtime"
+sort_by = "mtime"
+sort_reverse = true
 
 [open]
 prepend_rules = [
