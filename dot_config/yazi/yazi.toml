@@ -20,5 +20,5 @@ edit = [
 	{ run = '$EDITOR "$@"', block = true },
 ]
 open = [
-	{ run = 'xdg-open "$@"', desc = "Open" },
+	{ run = 'xdg-open "$@"', orphan = true, desc = "Open" },
 ]
