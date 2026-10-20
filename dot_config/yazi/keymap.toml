@@ -1,0 +1,4 @@
+[[mgr.prepend_keymap]]
+on   = "O"
+run  = "plugin open-with"
+desc = "Open with an installed application"
