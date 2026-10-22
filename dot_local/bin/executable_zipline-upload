@@ -1,0 +1,47 @@
+#!/usr/bin/env -S nu --stdin
+# Uploads a file (or image data piped on stdin) to Zipline, copies the URL to
+# the clipboard and shows a notification. The API token is read from the keyring:
+#   secret-tool store --label='Zipline API token' service zipline server i.celestelove.dev
+
+const server = "i.celestelove.dev"
+
+def fail [message: string] {
+    ^notify-send --app-name zipline --urgency critical "Zipline upload failed" $message
+    print --stderr $message
+    exit 1
+}
+
+def main [path?: string] {
+    let file = if $path != null {
+        $path | path expand
+    } else {
+        let data = ($in | default 0x[] | into binary)
+        # hyprshot prints nothing when the selection is cancelled.
+        if ($data | is-empty) { exit 0 }
+        let tmp = (^mktemp --tmpdir --suffix .png zipline-XXXXXX | str trim)
+        $data | save --force --raw $tmp
+        $tmp
+    }
+
+    let token = (^secret-tool lookup service zipline server $server | complete)
+    if $token.exit_code != 0 or ($token.stdout | str trim | is-empty) {
+        fail $"No Zipline token in the keyring \(service=zipline server=($server)\)"
+    }
+
+    let mime = (^file --brief --mime-type $file | str trim)
+    let name = ($file | path basename)
+    # The token goes through stdin so it never shows up in the process list.
+    let response = (
+        $"authorization: ($token.stdout | str trim)"
+        | ^curl --silent --show-error --fail-with-body --header @- --form $"file=@($file);type=($mime);filename=($name)" $"https://($server)/api/upload"
+        | complete
+    )
+    if $response.exit_code != 0 {
+        fail ($response.stdout + $response.stderr | str trim)
+    }
+
+    let url = ($response.stdout | from json | get files.0.url)
+    $url | ^wl-copy
+    ^notify-send --app-name zipline --icon $file "Uploaded to Zipline" $"($url) copied to clipboard"
+    $url
+}
