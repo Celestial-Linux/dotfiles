@@ -8,6 +8,8 @@ local color_picker = "hyprpicker --autocopy"
 local screenshot_window = "hyprshot -m window"
 local screenshot_monitor = "hyprshot -m output"
 local screenshot_region = "hyprshot -m region"
+local upload_window = "hyprshot -m window --raw | /var/home/celeste/.local/bin/zipline-upload"
+local upload_region = "hyprshot -m region --raw | /var/home/celeste/.local/bin/zipline-upload"
 local runfetch = "kitty --class floating -- /var/home/celeste/.local/bin/fetch"
 local emoji_picker = "flatpak run it.mijorus.smile"
 local lock = "caelestia shell lock lock"
@@ -83,6 +85,8 @@ hl.bind(main_mod .. " + SHIFT + Z", hl.dsp.global("caelestia:screenshotFreeze"))
 hl.bind(main_mod .. " + Print", hl.dsp.exec_cmd(screenshot_window))
 hl.bind(shift_mod .. " + Print", hl.dsp.exec_cmd(screenshot_monitor))
 hl.bind("Print", hl.dsp.exec_cmd(screenshot_region))
+hl.bind(main_mod .. " + SHIFT + U", hl.dsp.exec_cmd(upload_region))
+hl.bind(main_mod .. " + ALT + U", hl.dsp.exec_cmd(upload_window))
 
 hl.bind(main_mod .. " + left", hl.dsp.focus({ direction = "left" }))
 hl.bind(main_mod .. " + right", hl.dsp.focus({ direction = "right" }))
