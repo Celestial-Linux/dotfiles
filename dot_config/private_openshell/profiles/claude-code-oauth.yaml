@@ -1,0 +1,24 @@
+# Derived from providers/claude-code.yaml (OpenShell v0.1.6).
+# Uses a Claude subscription token from `claude setup-token` instead of an
+# API key, and drops the telemetry endpoints (the image disables them).
+id: claude-code-oauth
+display_name: Claude Code (subscription)
+description: Claude Code CLI authenticated with a long-lived OAuth token
+category: agent
+inference_capable: true
+credentials:
+  - name: oauth_token
+    description: Token from `claude setup-token`
+    env_vars: [CLAUDE_CODE_OAUTH_TOKEN]
+    required: true
+    auth_style: bearer
+    header_name: authorization
+discovery:
+  credentials: [oauth_token]
+endpoints:
+  - host: api.anthropic.com
+    port: 443
+    protocol: rest
+    access: read-write
+    enforcement: enforce
+binaries: [/usr/local/bin/claude]

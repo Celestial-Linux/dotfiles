@@ -1,0 +1,64 @@
+# SPDX-FileCopyrightText: Copyright (c) 2025-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+# Example provider profile. OpenShell does not load it; import it explicitly:
+#   openshell provider profile lint   -f providers/github.yaml
+#   openshell provider profile import -f providers/github.yaml --global
+#
+# Copy and edit this file rather than importing it unchanged. `binaries` is the
+# least-privilege control that decides which processes may reach the endpoints
+# below, so it has to name the paths in *your* image.
+#
+# Client binaries:   gh, git (git's git-remote-https helper matches by ancestry).
+# Reference layout:  gh and git on PATH at /usr/bin or /usr/local/bin
+#                    (Debian/Ubuntu `apt install git gh`, Alpine `apk add git github-cli`).
+# Credential scope:  GITHUB_TOKEN or GH_TOKEN, sent as a bearer authorization
+#                    header to the endpoints below and nowhere else.
+# Endpoint access:   api.github.com REST and GraphQL read-only; github.com
+#                    clone/fetch only. Push (git-receive-pack) stays denied.
+# Smoke test:        openshell sandbox create --provider <name> -- \
+#                      git clone --depth 1 https://github.com/octocat/Hello-World.git /tmp/hw
+
+id: github
+display_name: GitHub
+description: GitHub API and Git operations
+category: source_control
+credentials:
+  - name: api_token
+    description: GitHub token
+    env_vars: [GITHUB_TOKEN, GH_TOKEN]
+    required: true
+    auth_style: bearer
+    header_name: authorization
+discovery:
+  credentials: [api_token]
+endpoints:
+  # api.github.com is the REST API surface. Defaults to read-only —
+  # writes require an explicit policy proposal so the agentic loop +
+  # prover can audit each capability change.
+  - host: api.github.com
+    port: 443
+    protocol: rest
+    access: read-only
+    enforcement: enforce
+  - host: api.github.com
+    port: 443
+    path: /graphql
+    protocol: graphql
+    access: read-only
+    enforcement: enforce
+  # github.com is the git transport (clone / fetch by default). Git smart
+  # HTTP needs POST to */git-upload-pack for clone/fetch, which the
+  # read-only preset (GET/HEAD/OPTIONS) blocks. Spell the rules out so
+  # clone/fetch works while push (git-receive-pack) stays denied — enabling
+  # push requires an explicit policy proposal.
+  - host: github.com
+    port: 443
+    protocol: rest
+    enforcement: enforce
+    rules:
+      - allow: { method: GET, path: "**" }
+      - allow: { method: HEAD, path: "**" }
+      - allow: { method: OPTIONS, path: "**" }
+      - allow: { method: POST, path: "/**/git-upload-pack" }
+binaries: [/usr/bin/gh, /usr/bin/git]

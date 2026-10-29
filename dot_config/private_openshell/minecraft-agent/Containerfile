@@ -1,0 +1,35 @@
+# Sandbox image for Minecraft mod development agents (OpenShell + Podman).
+# Fedora base so the NVIDIA CDI injection (/usr/lib64, glvnd, Vulkan ICD) lands
+# in the paths the loaders already search.
+FROM registry.fedoraproject.org/fedora:44
+
+RUN printf '%s\n' '[adoptium]' 'name=Adoptium' \
+      'baseurl=https://packages.adoptium.net/artifactory/rpm/fedora/$releasever/$basearch' \
+      'enabled=1' 'gpgcheck=1' 'gpgkey=https://packages.adoptium.net/artifactory/api/gpg/key/public' \
+      > /etc/yum.repos.d/adoptium.repo \
+ && dnf -y install --setopt=install_weak_deps=False \
+      temurin-17-jdk temurin-21-jdk temurin-25-jdk \
+      git gh unzip which findutils procps-ng \
+      libglvnd-egl libglvnd-glx libglvnd-opengl vulkan-loader vulkan-tools mesa-demos \
+ && dnf clean all \
+ && git config --system credential.https://github.com.helper '!gh auth git-credential'
+
+# Claude Code native build at the path the claude-code provider profile allows.
+RUN curl -fsSL https://claude.ai/install.sh | bash \
+ && install -m755 "$(readlink -f /root/.local/bin/claude)" /usr/local/bin/claude \
+ && rm -rf /root/.local /root/.claude /root/.claude.json
+
+# Gradle must use the preinstalled JDKs; toolchain auto-download is not allowed
+# by the network policy.
+ENV JAVA_HOME=/usr/lib/jvm/temurin-21-jdk \
+    GRADLE_USER_HOME=/sandbox/.gradle \
+    GRADLE_OPTS="-Dorg.gradle.java.installations.auto-download=false -Dorg.gradle.java.installations.paths=/usr/lib/jvm/temurin-17-jdk,/usr/lib/jvm/temurin-21-jdk,/usr/lib/jvm/temurin-25-jdk" \
+    DISABLE_AUTOUPDATER=1 \
+    DISABLE_TELEMETRY=1 \
+    DISABLE_ERROR_REPORTING=1
+
+COPY --chmod=644 openshell-java.sh /etc/profile.d/openshell-java.sh
+
+RUN useradd -m -u 1000 -d /sandbox sandbox
+USER sandbox
+WORKDIR /sandbox

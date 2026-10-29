@@ -1,0 +1,93 @@
+# Sandbox policy for Minecraft mod development agents.
+# Anthropic and GitHub access come from the attached provider profiles
+# (claude-code-oauth, github); this file only adds what Gradle needs.
+version: 1
+
+filesystem_policy:
+  include_workdir: true
+  read_only:
+    - /bin
+    - /usr
+    - /lib
+    - /proc
+    - /dev/urandom
+    - /etc
+    - /var/log
+  read_write:
+    - /tmp
+    - /dev/null
+    # NVIDIA GPU (headless): CUDA, Vulkan and EGL offscreen.
+    - /dev/nvidiactl
+    - /dev/nvidia0
+    - /dev/nvidia-uvm
+    - /dev/nvidia-modeset
+    - /dev/dri/renderD129
+
+landlock:
+  compatibility: best_effort
+
+network_policies:
+  gradle_distributions:
+    name: gradle_distributions
+    endpoints:
+      - { host: services.gradle.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      # services.gradle.org redirects distributions to GitHub Releases.
+      - host: github.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/gradle/gradle-distributions/releases/download/**" }
+      - { host: release-assets.githubusercontent.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: objects.githubusercontent.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: plugins.gradle.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: plugins-artifacts.gradle.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+    binaries:
+      - { path: /usr/lib/jvm/*/bin/java }
+
+  maven_repositories:
+    name: maven_repositories
+    endpoints:
+      - { host: repo.maven.apache.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: repo1.maven.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: oss.sonatype.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.fabricmc.net, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: meta.fabricmc.net, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.eufonia.studio, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.neoforged.net, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.minecraftforge.net, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.parchmentmc.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.blamejared.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.terraformersmc.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.architectury.dev, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.shedaniel.me, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.wispforest.io, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.nucleoid.xyz, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.ladysnake.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: maven.enginehub.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: repo.papermc.io, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: repo.spongepowered.org, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: jitpack.io, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: dl.cloudsmith.io, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: cursemaven.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - host: api.modrinth.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/maven/**" }
+          - allow: { method: HEAD, path: "/maven/**" }
+    binaries:
+      - { path: /usr/lib/jvm/*/bin/java }
+
+  mojang_assets:
+    name: mojang_assets
+    endpoints:
+      - { host: libraries.minecraft.net, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: piston-meta.mojang.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: piston-data.mojang.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: launchermeta.mojang.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: launcher.mojang.com, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+      - { host: resources.download.minecraft.net, port: 443, protocol: rest, enforcement: enforce, access: read-only }
+    binaries:
+      - { path: /usr/lib/jvm/*/bin/java }

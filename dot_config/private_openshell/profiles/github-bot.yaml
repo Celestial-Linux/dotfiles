@@ -1,0 +1,47 @@
+# Derived from providers/github.yaml (OpenShell v0.1.6) for a dedicated bot
+# account: clone/fetch and push over HTTPS, and open and comment on pull requests. Branch
+# protection is not expressible here (git-receive-pack carries refs in the
+# body), so which repos and branches the bot can write is decided on GitHub.
+id: github-bot
+display_name: GitHub (bot)
+description: GitHub bot account that can push branches, open pull requests and comment on them
+category: source_control
+credentials:
+  - name: api_token
+    description: GitHub token of the bot account
+    env_vars: [GITHUB_TOKEN, GH_TOKEN]
+    required: true
+    auth_style: bearer
+    header_name: authorization
+discovery:
+  credentials: [api_token]
+endpoints:
+  # Read-only, plus forking into the bot account (PRs come from its forks).
+  - host: api.github.com
+    port: 443
+    protocol: rest
+    enforcement: enforce
+    rules:
+      - allow: { method: GET, path: "**" }
+      - allow: { method: HEAD, path: "**" }
+      - allow: { method: OPTIONS, path: "**" }
+      - allow: { method: POST, path: "/repos/*/*/forks" }
+  - host: api.github.com
+    port: 443
+    path: /graphql
+    protocol: graphql
+    enforcement: enforce
+    rules:
+      - allow: { operation_type: query }
+      - allow: { operation_type: mutation, fields: [createPullRequest, addComment, addPullRequestReviewThreadReply] }
+  - host: github.com
+    port: 443
+    protocol: rest
+    enforcement: enforce
+    rules:
+      - allow: { method: GET, path: "**" }
+      - allow: { method: HEAD, path: "**" }
+      - allow: { method: OPTIONS, path: "**" }
+      - allow: { method: POST, path: "/**/git-upload-pack" }
+      - allow: { method: POST, path: "/**/git-receive-pack" }
+binaries: [/usr/bin/gh, /usr/bin/git]
