@@ -57,8 +57,10 @@ Do not summarize or add commentary.
         | str join "\n"
     )
 
-    {
+    let result = {
         text: $text
         usage: $raw.body.usage
-    } | select text usage
+    }
+
+    if (is-terminal --stdout) { $result } else { $result | to json }
 }
